@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,428 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+/*----------------------------*/
+/* GLOBAL STYLES */
+/*----------------------------*/
+
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap'); */
+
+:root {
+	/* font-size: 62.5%; */
+	scroll-behavior: smooth;
+
+	--size-1: 0.2rem;
+	--size-2: 0.4rem;
+	--size-3: 0.6rem;
+	--size-4: 0.8rem;
+	--size-5: 1rem;
+	--size-6: 1.2rem;
+	--size-8: 1.4rem;
+	--size-9: 1.6rem;
+	--size-10: 1.8rem;
+	--size-11: 2rem;
+	--size-12: 2.2rem;
+	--size-13: 2.4rem;
+	--size-14: 2.6rem;
+	--size-15: 2.8rem;
+	--size-16: 3rem;
+	--size-17: 3.2rem;
+	--size-18: 3.4rem;
+
+	--size-19: 3.6rem;
+	--size-20: 3.8rem;
+	--size-21: 4rem;
+	--size-22: 4.2rem;
+	--size-23: 4.4rem;
+	--size-24: 4.6rem;
+	--size-25: 4.8rem;
+	--size-26: 5rem;
+
+	--size-27: 5.2rem;
+	--size-28: 5.4rem;
+	--size-29: 5.6rem;
+	--size-30: 5.8rem;
+
+	--size-31: 6rem;
+	--size-32: 6.2rem;
+
+	--header1: var(--size-23);
+	--header2: var(--size-20);
+	--header3: var(--size-18);
+	--header4: var(--size-16);
+	--header5: var(--size-14);
+	--header6: var(--size-12);
+
+	--color-1-100: hsl(0, 0%, 100%); /* 	#ffffff	rgb(255, 255, 255) */
+	--color-1-100-95: hsl(0, 0%, 100%, 0.95);
+	--color-1-95: hsl(0, 0%, 95%); /* 	#f2f2f2	rgb(242, 242, 242) */
+	--color-1-90: hsl(0, 0%, 90%); /* 	#e6e6e6	rgb(230, 230, 230) */
+	--color-1-85: hsl(0, 0%, 85%); /* 	#d9d9d9	rgb(217, 217, 217) */
+	--color-1-80: hsl(0, 0%, 80%); /* 	#cccccc	rgb(204, 204, 204) */
+	--color-1-75: hsl(0, 0%, 75%); /* 	#bfbfbf	rgb(191, 191, 191) */
+	--color-1-70: hsl(0, 0%, 70%); /* 	#b3b3b3	rgb(179, 179, 179) */
+	--color-1-65: hsl(0, 0%, 65%); /* 	#a6a6a6	rgb(166, 166, 166) */
+	--color-1-60: hsl(0, 0%, 60%); /* 	#999999	rgb(153, 153, 153) */
+	--color-1-55: hsl(0, 0%, 55%); /* 	#8c8c8c	rgb(140, 140, 140) */
+	--color-1-50: hsl(0, 0%, 50%); /* 	#808080	rgb(128, 128, 128) */
+	--color-1-45: hsl(0, 0%, 45%); /* 	#737373	rgb(115, 115, 115) */
+	--color-1-40: hsl(0, 0%, 40%); /* 	#666666	rgb(102, 102, 102) */
+	--color-1-35: hsl(0, 0%, 35%); /* 	#595959	rgb(89, 89, 89) */
+	--color-1-30: hsl(0, 0%, 30%); /* 	#4d4d4d	rgb(77, 77, 77) */
+	--color-1-25: hsl(0, 0%, 25%); /* 	#404040	rgb(64, 64, 64) */
+	--color-1-20: hsl(0, 0%, 20%); /* 	#333333	rgb(51, 51, 51) */
+	--color-1-15: hsl(0, 0%, 15%); /* 	#262626	rgb(38, 38, 38) */
+	--color-1-10: hsl(0, 0%, 10%); /* 	#1a1a1a	rgb(26, 26, 26) */
+	--color-1-5: hsl(0, 0%, 5%); /* 	#0d0d0d	rgb(13, 13, 13) */
+	--color-1-0-95: hsl(0, 0%, 0%, 0.95);
+	--color-1-0: hsl(0, 0%, 0%); /* 	#000000	rgb(0, 0, 0) */
+
+	--current-font-size: var(--size-8);
+
+	--main-bg-color-0: var(--color-1-100);
+	--main-bg-color-0-95: var(--color-1-100-95);
+	--main-bg-color-1: var(--color-1-100);
+	--main-bg-color-2: var(--color-1-90);
+	--main-bg-color-3: var(--color-1-25);
+	--main-bg-color-4: var(--color-1-20);
+	--main-bg-color-5: var(--color-1-15);
+
+	--main-font-color-0: var(--color-1-0);
+	--main-font-color-1: var(--color-1-5);
+	--main-font-color-2: var(--color-1-15);
+	--main-font-color-3: var(--color-1-70);
+	--main-font-color-4: var(--color-1-90);
+	--main-font-color-5: var(--color-1-100);
+
+	--wrapper-box-shadow-length: 1rem;
+	--lazy-load-image-background-height: auto;
+}
+
+body.dark {
+	--main-bg-color-0: var(--color-1-0);
+	--main-bg-color-0-95: var(--color-1-0-95);
+
+	--main-bg-color-1: var(--color-1-5);
+	--main-bg-color-2: var(--color-1-15);
+	--main-bg-color-3: var(--color-1-70);
+	--main-bg-color-4: var(--color-1-90);
+	--main-bg-color-5: var(--color-1-100);
+
+	--main-font-color-0: var(--color-1-100);
+
+	--main-font-color-1: var(--color-1-100);
+	--main-font-color-2: var(--color-1-90);
+	--main-font-color-3: var(--color-1-25);
+	--main-font-color-4: var(--color-1-20);
+	--main-font-color-5: var(--color-1-15);
+
+	--wrapper-box-shadow-length: 0.25rem;
+
+	--main-bg-color-5: var(--color-2-20);
+}
+
+/*.scrollbar*/
+::-webkit-scrollbar {
+	width: 1rem;
+	height: 1rem;
+}
+/*.scrollbar*/
+/* ::-webkit-scrollbar-button {
+	background: var(--main-bg-color-5);
+	width: 1rem;
+	height: 1rem;
+} */
+/*.scrollbar*/
+::-webkit-scrollbar-thumb {
+	background: var(--main-bg-color-5);
+	border-radius: 1rem;
+}
+/*.scrollbar*/
+::-webkit-scrollbar-track {
+	background: var(--main-bg-color-2);
+}
+
+::selection {
+	color: var(--main-bg-color-3);
+	background: var(--main-font-color-4);
+}
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 0;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	max-width: 150rem;
+	margin: auto;
+	/* font-family: sans-serif; */
+	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
+		Helvetica, Arial, 'Lucida Grande', sans-serif;
+	line-height: 1;
+}
+
+#__next {
+	position: relative;
+	min-width: 100%;
+	min-height: 100vh;
+	/* overflow-x: hidden; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+body {
+	background: var(--main-bg-color-1);
+	color: var(--main-font-color-1);
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* main#main */
+.main {
+	max-width: 100%;
+	width: 100%;
+	min-height: 100vh;
+	border-radius: 0.2rem;
+	margin: 1em auto;
+	margin-top: 0;
+}
+
+body,
+button,
+p,
+select,
+input,
+li,
+a {
+	font-size: var(--current-font-size);
+}
+
+h1 {
+	font-size: var(--header1);
+}
+h2 {
+	font-size: var(--header2);
+}
+h3 {
+	font-size: var(--header3);
+}
+h4 {
+	font-size: var(--header4);
+}
+h5 {
+	font-size: var(--header5);
+}
+h6 {
+	font-size: var(--header6);
+}
+
+h1 *,
+h2 *,
+h3 *,
+h4 *,
+h5 *,
+h6 * {
+	font-size: inherit;
+}
+
+p {
+	line-height: 1.25;
+}
+
+a,
+li {
+	text-decoration: none;
+}
+
+li {
+	margin: 1em 0;
+}
+body:not([dir='rtl']) li {
+	margin-left: 1.5em;
+}
+body[dir='rtl'] li {
+	margin-right: 1.5em;
+}
+
+nav ul {
+	list-style: none;
+}
+
+body:not([dir='rtl']) nav li,
+body[dir='rtl'] nav li {
+	margin: 0;
+}
+
+a,
+button {
+	font-size: inherit;
+}
+
+a {
+	vertical-align: baseline;
+	background: transparent;
+}
+
+a,
+a:hover,
+a:link,
+a:active,
+a:focus,
+a:visited,
+strong,
+em,
+span {
+	color: inherit;
+}
+
+button,
+a {
+	cursor: pointer;
+}
+
+button {
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+	user-select: none;
+	/* min-width: 48px;
+	min-height: 24px; */
+}
+
+button:disabled {
+	cursor: not-allowed;
+}
+
+button,
+select,
+svg {
+	color: inherit;
+}
+
+input,
+select {
+	vertical-align: middle;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+	accent-color: var(--main-bg-color-5);
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+blockquote {
+	background-color: var(--main-bg-color-2);
+	padding: 0.1em 0.5em;
+	color: black;
+	position: relative;
+	margin: 1em 0;
+}
+body:not([dir='rtl']) blockquote {
+	padding-left: 1.5em;
+}
+body[dir='rtl'] blockquote {
+	padding-right: 1.5em;
+}
+
+blockquote::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	padding: 0.5em;
+	background-color: var(--main-bg-color-5);
+	height: 100%;
+}
+body:not([dir='rtl']) blockquote::before {
+	left: 0;
+}
+body[dir='rtl'] blockquote::before {
+	right: 0;
+}
+
+code[data-code-inline='true'] {
+	vertical-align: bottom;
+	display: inline-block;
+	background: var(--main-font-color-3);
+	color: var(--main-bg-color-3);
+	padding: 0.05em 0.25em;
+	margin-top: 0.1em;
+	border-radius: 0.25em;
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+@media screen and (max-width: 700px) {
+	:root {
+		/* font-size: 60%; */
+
+		--header1: var(--size-22);
+		--header2: var(--size-20);
+		--header3: var(--size-18);
+		--header4: var(--size-16);
+		--header5: var(--size-14);
+		--header6: var(--size-12);
+
+		/* --current-font-size: var(--size-10); */
+	}
+
+	.main {
+		margin: 0.5em auto;
+		margin-top: 0;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	/* :root {
+		font-size: 55%;
+	} */
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h6 {
+		max-width: 98%;
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
 }
