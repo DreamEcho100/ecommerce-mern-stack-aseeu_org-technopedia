@@ -1,16 +1,19 @@
-// import React from 'react';
+import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { /* Link */ NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 // import { LinkContainer } from 'react-router-bootstrap';
 
 interface Props {}
 
 const Header = (props: Props) => {
+	const navigate = useNavigate();
+
 	return (
 		<header>
 			<Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
 				<Container>
-					<Navbar.Brand href='/'>
+					<Navbar.Brand>
 						<NavLink to='/'>
 							<Navbar.Brand>our shop</Navbar.Brand>
 						</NavLink>
@@ -18,17 +21,29 @@ const Header = (props: Props) => {
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ml-auto'>
-							<NavLink to='/cart'>
-								<Nav.Link>
-									<i className='fas fa-shopping-cart'></i> Cart
-								</Nav.Link>
-							</NavLink>
+							{/* <LinkContainer to='/cart'> */}
+							<Nav.Link
+								href='/cart'
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+									e.preventDefault();
+									navigate('cart');
+								}}
+							>
+								<i className='fas fa-shopping-cart'></i> Cart
+							</Nav.Link>
+							{/* </LinkContainer> */}
 
-							<NavLink to='/signin'>
-								<Nav.Link>
-									<i className='fas fa-user'></i> Sign In
-								</Nav.Link>
-							</NavLink>
+							{/* <LinkContainer to='/signin'> */}
+							<Nav.Link
+								href='/signin'
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+									e.preventDefault();
+									navigate('signin');
+								}}
+							>
+								<i className='fas fa-user'></i> Sign In
+							</Nav.Link>
+							{/* </LinkContainer> */}
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

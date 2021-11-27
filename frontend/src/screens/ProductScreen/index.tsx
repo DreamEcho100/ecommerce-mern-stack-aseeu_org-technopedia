@@ -1,4 +1,5 @@
 // import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Container,
@@ -10,32 +11,57 @@ import {
 	Button,
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Product } from 'src/react-app-env';
 
 import classes from './styles.module.css';
 
 import Rating from 'src/components/UI/V1/Rating';
-import products from 'src/products';
 
 interface Props {
 	// ...
 }
 
+const productDefault: Product = {
+	_id: '',
+	name: '',
+	image: '',
+	description: '',
+	brand: '',
+	category: '',
+	price: 0,
+	countInStock: 0,
+	rating: 0,
+	numReviews: 0,
+};
+
 const ProductScreen = (props: Props) => {
 	const params = useParams();
 
-	const singleProduct = products.find((product) => {
-		return product._id === params.id;
-	});
+	const [product, setProduct] = useState<Product>(productDefault);
+
+	useEffect(() => {
+		const fetchProduct = async () => {
+			await fetch(`${'http://localhost:5000'}/api/v1/products/${params.id}`)
+				.then((response) => response.json())
+				.then((data) => setProduct(data))
+				.catch((error) => {
+					console.error(`Error, ${error.message}`);
+					return productDefault;
+				});
+		};
+
+		fetchProduct();
+	}, [params.id]);
 
 	return (
-		<section className={classes.singleProduct}>
+		<section className={classes.product}>
 			<Link className='btn btn-light my-3' to='/'>
 				Go Back
 			</Link>
 			<Row>
 				<Col md={6}>
 					<Container className='p-0'>
-						<Image src={singleProduct?.image} alt={singleProduct?.name} fluid />
+						<Image src={product?.image} alt={product?.name} fluid />
 					</Container>
 					<Container className='p-0'>
 						<Card>
@@ -46,7 +72,7 @@ const ProductScreen = (props: Props) => {
 											<strong>Price:</strong>
 										</Col>
 										<Col>
-											<strong>${singleProduct?.price}</strong>
+											<strong>${product?.price}</strong>
 										</Col>
 									</Row>
 								</ListGroup.Item>
@@ -59,8 +85,8 @@ const ProductScreen = (props: Props) => {
 										<Col>
 											<strong>
 												{
-													// singleProduct?.countInStock > 0
-													singleProduct?.countInStock === 0
+													// product?.countInStock > 0
+													product?.countInStock === 0
 														? 'In Stock'
 														: 'Out Of Stock'
 												}
@@ -72,11 +98,11 @@ const ProductScreen = (props: Props) => {
 									<Button
 										className='btn-block'
 										type='button'
-										disabled={singleProduct?.countInStock === 0}
+										disabled={product?.countInStock === 0}
 										title={
-											singleProduct?.countInStock === 0
+											product?.countInStock === 0
 												? 'Item is not available'
-												: `Add ${singleProduct?.name} to the cart`
+												: `Add ${product?.name} to the cart`
 										}
 									>
 										Add To Cart
@@ -89,18 +115,16 @@ const ProductScreen = (props: Props) => {
 				<Col md={6}>
 					<ListGroup variant='flush'>
 						<ListGroup.Item>
-							<h3>{singleProduct?.name}</h3>
+							<h3>{product?.name}</h3>
 						</ListGroup.Item>
 						<ListGroup.Item>
 							<Rating
-								value={singleProduct?.rating}
-								text={`${singleProduct?.numReviews} reviews`}
+								value={product?.rating}
+								text={`${product?.numReviews} reviews`}
 							/>
 						</ListGroup.Item>
-						<ListGroup.Item>Price: ${singleProduct?.price}</ListGroup.Item>
-						<ListGroup.Item>
-							Description: {singleProduct?.description}
-						</ListGroup.Item>
+						<ListGroup.Item>Price: ${product?.price}</ListGroup.Item>
+						<ListGroup.Item>Description: {product?.description}</ListGroup.Item>
 					</ListGroup>
 				</Col>
 			</Row>

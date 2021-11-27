@@ -23,6 +23,7 @@
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"colors": "^1.4.0",
+		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
 		"express-async-handler": "^1.2.0",
@@ -30,6 +31,7 @@
 		"mongoose": "^6.0.13"
 	},
 	"devDependencies": {
+		"@types/cors": "^2.8.12",
 		"@types/express": "^4.17.13",
 		"concurrently": "^6.4.0",
 		"ts-node": "^10.4.0",

@@ -2,6 +2,8 @@
 
 ## Useful Links
 
+- [Express cors middleware](https://expressjs.com/en/resources/middleware/cors.html)
+
 - [react-router-v5-to-v6-compatibility](https://codesandbox.io/s/react-router-v5-to-v6-compatibility-tlhb4?file=/src/src/element-wrapper.jsx:26-73)
 
 - [How To Set Up a Node Project With Typescript](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript)
