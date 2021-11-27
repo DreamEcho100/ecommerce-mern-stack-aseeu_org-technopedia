@@ -34,15 +34,17 @@ const ProductScreen = (props: Props) => {
 			</Link>
 			<Row>
 				<Col md={6}>
-					<Container style={{ padding: '0' }}>
+					<Container className='p-0'>
 						<Image src={singleProduct?.image} alt={singleProduct?.name} fluid />
 					</Container>
-					<Container style={{ padding: '0' }}>
+					<Container className='p-0'>
 						<Card>
 							<ListGroup variant='flush'>
 								<ListGroup.Item>
 									<Row>
-										<Col>Price:</Col>
+										<Col>
+											<strong>Price:</strong>
+										</Col>
 										<Col>
 											<strong>${singleProduct?.price}</strong>
 										</Col>
@@ -51,14 +53,18 @@ const ProductScreen = (props: Props) => {
 
 								<ListGroup.Item>
 									<Row>
-										<Col>Status:</Col>
 										<Col>
-											{
-												// singleProduct?.countInStock > 0
-												singleProduct?.countInStock === 0
-													? 'In Stock'
-													: 'Out Of Stock'
-											}
+											<strong>Status:</strong>
+										</Col>
+										<Col>
+											<strong>
+												{
+													// singleProduct?.countInStock > 0
+													singleProduct?.countInStock === 0
+														? 'In Stock'
+														: 'Out Of Stock'
+												}
+											</strong>
 										</Col>
 									</Row>
 								</ListGroup.Item>
@@ -67,6 +73,11 @@ const ProductScreen = (props: Props) => {
 										className='btn-block'
 										type='button'
 										disabled={singleProduct?.countInStock === 0}
+										title={
+											singleProduct?.countInStock === 0
+												? 'Item is not available'
+												: `Add ${singleProduct?.name} to the cart`
+										}
 									>
 										Add To Cart
 									</Button>
