@@ -8,8 +8,9 @@
 		"start-server-dev": "ts-node-dev backend/server.ts",
 		"start-client": "npm start --prefix frontend",
 		"dev": "concurrently \"npm run start-server-dev\" \"npm run start-client\"",
-		"data:import": "tsc backend/seeder.ts --outDir backend/dist && node backend/dist/seeder.js",
-		"data:destroy": "tsc backend/seeder.ts --outDir backend/dist && node backend/dist/seeder.js -d"
+		"build:seederJs": "tsc backend/seeder.ts --outDir backend/dist/seeder",
+		"import:dummy-data": "node backend/dist/seeder/seeder.js",
+		"destroy:dummy-data": "node backend/dist/seeder/seeder.js -d"
 	},
 	"repository": {
 		"type": "git",

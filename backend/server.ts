@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 // import colors from 'colors';
 import { config } from 'dotenv';
@@ -18,8 +18,6 @@ const corsOptions = {
 	// optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-console.log(process.env.MONGODB_CONNECTION_URL);
-
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -28,6 +26,18 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/products', productRoutes);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+	const error = new Error(`Not Found - ${req.originalUrl}`);
+	res.status(404);
+	next(error);
+});
+
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+	const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+	res.status(statusCode);
+	/* if (error instanceof Error) */ res.json(error.message);
+});
 
 app.listen(
 	PORT,

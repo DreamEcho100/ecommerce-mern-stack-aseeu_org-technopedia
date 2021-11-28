@@ -8,7 +8,7 @@ if (
 	typeof process.env.USER_2_PASSWORD !== 'string' ||
 	typeof process.env.USER_3_PASSWORD !== 'string'
 ) {
-	console.log(
+	console.error(
 		`Error: USER_1_PASSWORD, USER_2_PASSWORD, or USER_3_PASSWORD are not valid strings or not stored in the environment variables.`
 	); // .red.underline;
 	process.exit(1);
