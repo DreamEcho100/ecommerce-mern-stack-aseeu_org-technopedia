@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import { listProducts } from 'src/store/actions/productActions';
+import { handleListProducts } from 'src/store/actions';
 import { useTrackedSelector } from 'src/store';
 
 import ProductComponent from 'src/components/UI/V1/Product';
@@ -14,7 +14,7 @@ const HomeScreen = () => {
 	const { loading, error, products } = useTrackedSelector().productList;
 
 	useEffect(() => {
-		dispatch(listProducts());
+		dispatch(handleListProducts());
 	}, [dispatch]);
 
 	return (

@@ -1,26 +1,26 @@
 import {
-	PRODUCT_LIST_FAIL,
-	PRODUCT_LIST_SUCCESS,
-	PRODUCT_LIST_REQUEST,
-} from 'src/constants/productConstants';
+	PRODUCTS_LIST_FAIL,
+	PRODUCTS_LIST_SUCCESS,
+	PRODUCTS_LIST_REQUEST,
+} from 'src/constants/productListConstants';
 import {
-	STORE_PRODUCTS_ACTION_TYPE,
-	STORE_STATE_PRODUCT_LIST,
+	STORE_PRODUCTS_LIST_ACTION_TYPE,
+	STORE_PRODUCTS_LIST_STATE,
 } from 'src/store/ts/types';
 import { Reducer } from 'redux';
 
-const initialState: STORE_STATE_PRODUCT_LIST = {
+const initialState: STORE_PRODUCTS_LIST_STATE = {
 	products: [],
 	loading: false,
 	error: '',
 };
 
-export const productListReducer: Reducer<
-	STORE_STATE_PRODUCT_LIST,
-	STORE_PRODUCTS_ACTION_TYPE
+const productListReducer: Reducer<
+	STORE_PRODUCTS_LIST_STATE,
+	STORE_PRODUCTS_LIST_ACTION_TYPE
 > = (state = initialState, action) => {
 	switch (action.type) {
-		case PRODUCT_LIST_REQUEST: {
+		case PRODUCTS_LIST_REQUEST: {
 			return {
 				...state,
 				products: [],
@@ -29,7 +29,7 @@ export const productListReducer: Reducer<
 			};
 		}
 
-		case PRODUCT_LIST_SUCCESS: {
+		case PRODUCTS_LIST_SUCCESS: {
 			const { products } = action.payload;
 
 			return {
@@ -40,7 +40,7 @@ export const productListReducer: Reducer<
 			};
 		}
 
-		case PRODUCT_LIST_FAIL: {
+		case PRODUCTS_LIST_FAIL: {
 			const { error } = action.payload;
 
 			return {
@@ -55,3 +55,5 @@ export const productListReducer: Reducer<
 			return state;
 	}
 };
+
+export default productListReducer;

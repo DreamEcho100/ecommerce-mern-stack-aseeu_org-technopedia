@@ -1,31 +1,62 @@
-import { Products } from 'src/react-app-env';
+import { Product, Products } from 'src/react-app-env';
 import {
-	PRODUCT_LIST_FAIL,
-	PRODUCT_LIST_SUCCESS,
-	PRODUCT_LIST_REQUEST,
-} from 'src/constants/productConstants';
+	//
+	PRODUCTS_LIST_FAIL,
+	PRODUCTS_LIST_SUCCESS,
+	PRODUCTS_LIST_REQUEST,
+} from 'src/constants/productListConstants';
+import {
+	PRODUCT_DETAILS_REQUEST,
+	PRODUCT_DETAILS_SUCCESS,
+	PRODUCT_DETAILS_FAIL,
+} from 'src/constants/productDetailsConstants';
 
-export type STORE_STATE_PRODUCT_LIST = {
+/* */
+export type STORE_PRODUCTS_LIST_STATE = {
 	products: Products | [];
 	loading: boolean;
 	error: string;
 };
 
-export type STORE_STATE = {
-	productList: STORE_STATE_PRODUCT_LIST;
-};
-
-export type STORE_PRODUCTS_ACTION_TYPE =
-	| { type: typeof PRODUCT_LIST_REQUEST }
+export type STORE_PRODUCTS_LIST_ACTION_TYPE =
+	| { type: typeof PRODUCTS_LIST_REQUEST }
 	| {
-			type: typeof PRODUCT_LIST_SUCCESS;
-			payload: { products: STORE_STATE_PRODUCT_LIST['products'] };
+			type: typeof PRODUCTS_LIST_SUCCESS;
+			payload: { products: STORE_PRODUCTS_LIST_STATE['products'] };
 	  }
 	| {
-			type: typeof PRODUCT_LIST_FAIL;
-			payload: { error: STORE_STATE_PRODUCT_LIST['error'] };
+			type: typeof PRODUCTS_LIST_FAIL;
+			payload: { error: STORE_PRODUCTS_LIST_STATE['error'] };
 	  };
 
-export type STORE_DISPATCH_TYPE =
-	| React.Dispatch<STORE_PRODUCTS_ACTION_TYPE>
-	| ((value: STORE_PRODUCTS_ACTION_TYPE) => void);
+export type STORE_PRODUCTS_LIST_DISPATCH_TYPE =
+	| React.Dispatch<STORE_PRODUCTS_LIST_ACTION_TYPE>
+	| ((value: STORE_PRODUCTS_LIST_ACTION_TYPE) => void);
+
+/* */
+export type STORE_PRODUCT_DETAILS_STATE = {
+	product: Product;
+	loading: boolean;
+	error: string;
+};
+
+export type STORE_PRODUCT_DETAILS_ACTION_TYPE =
+	| { type: typeof PRODUCT_DETAILS_REQUEST }
+	| {
+			type: typeof PRODUCT_DETAILS_SUCCESS;
+			payload: { product: STORE_PRODUCT_DETAILS_STATE['product'] };
+	  }
+	| {
+			type: typeof PRODUCT_DETAILS_FAIL;
+			payload: { error: STORE_PRODUCT_DETAILS_STATE['error'] };
+	  };
+
+export type STORE_PRODUCT_DETAILS_DISPATCH_TYPE =
+	| React.Dispatch<STORE_PRODUCT_DETAILS_ACTION_TYPE>
+	| ((value: STORE_PRODUCT_DETAILS_ACTION_TYPE) => void);
+
+/* */
+export type STORE_STATE = {
+	productList: STORE_PRODUCTS_LIST_STATE;
+	productDetails: STORE_PRODUCT_DETAILS_STATE;
+};

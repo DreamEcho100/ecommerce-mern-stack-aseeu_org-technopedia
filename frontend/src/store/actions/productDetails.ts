@@ -1,0 +1,33 @@
+import {
+	PRODUCT_DETAILS_FAIL,
+	PRODUCT_DETAILS_SUCCESS,
+	PRODUCT_DETAILS_REQUEST,
+} from 'src/constants/productDetailsConstants';
+import { Product } from 'src/react-app-env';
+import { STORE_PRODUCT_DETAILS_DISPATCH_TYPE } from 'src/store/ts/types';
+import { BACK_END_ROOT_URL } from 'src/config';
+
+const listProducts =
+	(id: string) => async (dispatch: STORE_PRODUCT_DETAILS_DISPATCH_TYPE) => {
+		try {
+			dispatch({ type: PRODUCT_DETAILS_REQUEST });
+
+			const product: Product = await fetch(
+				`${BACK_END_ROOT_URL}/api/v1/products/${id}`
+			).then((response) => response.json());
+
+			dispatch({
+				type: PRODUCT_DETAILS_SUCCESS,
+				payload: { product },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: PRODUCT_DETAILS_FAIL,
+					payload: { error: error.message },
+				});
+			}
+		}
+	};
+
+export default listProducts;
