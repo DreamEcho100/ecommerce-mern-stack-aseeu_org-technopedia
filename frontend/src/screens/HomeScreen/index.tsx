@@ -5,6 +5,8 @@ import { listProducts } from 'src/store/actions/productActions';
 import { useTrackedSelector } from 'src/store';
 
 import ProductComponent from 'src/components/UI/V1/Product';
+import Loader from 'src/components/UI/V1/Loader';
+import Message from 'src/components/UI/V1/Message';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
@@ -19,9 +21,9 @@ const HomeScreen = () => {
 		<main>
 			<h1>Latest Products</h1>
 			{loading ? (
-				<h2>Loading...</h2>
+				<Loader />
 			) : error ? (
-				<h3>{error}</h3>
+				<Message variant='danger'>{error}</Message>
 			) : (
 				<Row>
 					{products.map((product, indx) => (
