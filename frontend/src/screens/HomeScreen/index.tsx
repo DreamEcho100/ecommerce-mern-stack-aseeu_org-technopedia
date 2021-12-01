@@ -1,41 +1,36 @@
-// import React from 'react';
-import { useState, useEffect } from 'react';
-import { Products } from 'src/react-app-env';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { listProducts } from 'src/store/actions/productActions';
+import { useTrackedSelector } from 'src/store';
 
 import ProductComponent from 'src/components/UI/V1/Product';
 
 const HomeScreen = () => {
-	const [products, setProducts] = useState<Products | []>([]);
+	const dispatch = useDispatch();
+
+	const { loading, error, products } = useTrackedSelector().productList;
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			const result: Products | [] = await fetch(
-				`${'http://localhost:5000'}/api/v1/products`
-			)
-				.then((response) => response.json())
-				.catch((error) => {
-					console.error(`Error, ${error.message}`);
-					return [];
-				});
-
-			setProducts(result);
-		};
-		fetchProducts();
-	}, []);
+		dispatch(listProducts());
+	}, [dispatch]);
 
 	return (
 		<main>
-			<h1>Latest products</h1>
-			<Row>
-				{products.map((singleProduct) => {
-					return (
-						<Col sm={12} md={6} key={singleProduct._id}>
-							<ProductComponent singleItem={singleProduct} />
+			<h1>Latest Products</h1>
+			{loading ? (
+				<h2>Loading...</h2>
+			) : error ? (
+				<h3>{error}</h3>
+			) : (
+				<Row>
+					{products.map((product, indx) => (
+						<Col key={indx} sm={12} md={6} lg={4} xl={3}>
+							<ProductComponent singleItem={product} />
 						</Col>
-					);
-				})}
-			</Row>
+					))}
+				</Row>
+			)}
 		</main>
 	);
 };

@@ -43,3 +43,5 @@ USER_3_PASSWORD = '';
 - [error TS6059: File is not under 'rootDir' .. 'rootDir' is expected to contain all source files](https://stackoverflow.com/questions/57422458/error-ts6059-file-is-not-under-rootdir-rootdir-is-expected-to-contain-al)
 
 - [How can I get the Typescript compiler to output the compiled js to a different directory?](https://stackoverflow.com/questions/24454371/how-can-i-get-the-typescript-compiler-to-output-the-compiled-js-to-a-different-d)
+
+- [redux reducer type 'never'](https://stackoverflow.com/a/62363589/13961420)

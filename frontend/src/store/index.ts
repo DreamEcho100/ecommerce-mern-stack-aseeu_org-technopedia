@@ -1,30 +1,35 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { createTrackedSelector } from 'react-tracked';
+import { useSelector } from 'react-redux';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { Products } from 'src/react-app-env';
-import { productListReducer } from 'src/reducers/productReducer';
+import { productListReducer } from 'src/store/reducers/productReducer';
 
-const reducer = combineReducers(productListReducer);
-
-export type InitialState = {
-	products: Products;
-	loading: boolean;
-	error: string;
+const reducers = {
+	productList: productListReducer,
 };
 
-const initialState: InitialState = {
-	products: [],
-	loading: false,
-	error: '',
+const rootReducer = combineReducers(reducers);
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+const initialState = {
+	productList: {
+		products: [],
+		loading: false,
+		error: '',
+	},
 };
 
 const middleware = [thunk];
 
 const store = createStore(
-	reducer,
+	rootReducer,
 	initialState,
 	composeWithDevTools(applyMiddleware(...middleware))
 );
+
+export const useTrackedSelector = createTrackedSelector<RootState>(useSelector);
 
 export default store;
