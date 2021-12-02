@@ -2,7 +2,7 @@ import {
 	PRODUCTS_LIST_REQUEST,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_FAIL,
-} from 'src/constants/productListConstants';
+} from 'src/constants/productList';
 import { Products } from 'src/react-app-env';
 import { STORE_PRODUCTS_LIST_DISPATCH_TYPE } from 'src/store/ts/types';
 import { BACK_END_ROOT_URL } from 'src/config';
@@ -26,6 +26,7 @@ const listProducts =
 					type: PRODUCTS_LIST_FAIL,
 					payload: { error: error.message },
 				});
+				console.error(error.message);
 			}
 		}
 	};

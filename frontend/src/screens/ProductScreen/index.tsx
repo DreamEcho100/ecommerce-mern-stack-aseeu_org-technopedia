@@ -1,5 +1,5 @@
 // import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTrackedSelector } from 'src/store';
 import { Link } from 'react-router-dom';
@@ -11,10 +11,11 @@ import {
 	ListGroup,
 	Card,
 	Button,
+	Form,
 } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { Product } from 'src/react-app-env';
+import { useParams, useNavigate } from 'react-router-dom';
 import { handleProductDetails } from 'src/store/actions';
+// import { useHistory } from 'react-router-dom';
 
 import classes from './styles.module.css';
 
@@ -22,31 +23,19 @@ import Rating from 'src/components/UI/V1/Rating';
 import Loader from 'src/components/UI/V1/Loader';
 import Message from 'src/components/UI/V1/Message';
 
-interface Props {
-	// ...
-}
+interface Props {}
 
 const ProductScreen = (props: Props) => {
 	const params = useParams();
-
-	// const [product, setProduct] = useState<Product>(productDefault);
-
-	// useEffect(() => {
-	// 	const fetchProduct = async () => {
-	// 		await fetch(`${'http://localhost:5000'}/api/v1/products/${params.id}`)
-	// 			.then((response) => response.json())
-	// 			.then((data) => setProduct(data))
-	// 			.catch((error) => {
-	// 				console.error(`Error, ${error.message}`);
-	// 				return productDefault;
-	// 			});
-	// 	};
-
-	// 	fetchProduct();
-	// }, [params.id]);
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const { loading, error, product } = useTrackedSelector().productDetails;
+	const [quantity, setQuantity] = useState(1);
+
+	const addToCartHandler = () => {
+		navigate(`/cart/${params.id}/?quantity=${quantity}`);
+	};
 
 	useEffect(() => {
 		if (typeof params.id === 'string')
@@ -92,15 +81,45 @@ const ProductScreen = (props: Props) => {
 													{
 														// product.countInStock > 0
 														product.countInStock === 0
-															? 'In Stock'
-															: 'Out Of Stock'
+														? 'Out Of Stock'
+														: 'In Stock'
 													}
 												</strong>
 											</Col>
 										</Row>
 									</ListGroup.Item>
+									{product.countInStock > 0 && (
+										<ListGroup.Item>
+											<Row>
+												<Col>Quantity</Col>
+												<Col>
+													<Form.Control
+														as='select'
+														value={quantity}
+														onChange={(
+															event: React.ChangeEvent<HTMLInputElement>
+														) => setQuantity(parseInt(event.target.value))}
+													>
+														{
+															// [...new Array(product.countInStock)].keys()
+															// Type 'IterableIterator<number>' is not an array type or a string type.
+															// Use compiler option '--downlevelIteration' to allow iterating of iterators.ts(2569)
+															new Array(product.countInStock)
+																.fill(null)
+																.map((_, index) => (
+																	<option key={index + 1} value={index + 1}>
+																		{index + 1}
+																	</option>
+																))
+														}
+													</Form.Control>
+												</Col>
+											</Row>
+										</ListGroup.Item>
+									)}
 									<ListGroup.Item>
 										<Button
+											onClick={addToCartHandler}
 											className='btn-block'
 											type='button'
 											disabled={product.countInStock === 0}

@@ -12,34 +12,42 @@ import './App.css';
 import MainLayout from './components/Layout/MainLayout/index';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
 
 const AppRoutes = () => {
-	let routes = useRoutes([
+	const routes = useRoutes([
 		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
+		{
+			path: '/cart/:id/*', // /?
+			element: <CartScreen />,
+		},
+		{ path: '/cart', element: <CartScreen /> },
 		// ...
 	]);
 
-	/* <Route path='/welcome' element={<Welcome />} />
-	<Route path='/products' element={<Products />} />
-	<Route path='/products/:productId' element={<ProductDetail />} /> */
+	/*
+	<Routes>
+		<Route path='/welcome' element={<HomeScreen />} />
+		<Route path='/product/:id' element={<ProductScreen />} />
+		<Route path='/cart/:id?' element={<CartScreen />} />
+	</Routes>
+	*/
 
 	return routes;
 };
 
 function App() {
 	return (
-		<div className='App'>
-			<Router>
-				<MainLayout>
-					<main className='py-3'>
-						<Container>
-							<AppRoutes />
-						</Container>
-					</main>
-				</MainLayout>
-			</Router>
-		</div>
+		<Router>
+			<MainLayout>
+				<main className='py-3'>
+					<Container>
+						<AppRoutes />
+					</Container>
+				</main>
+			</MainLayout>
+		</Router>
 	);
 }
 

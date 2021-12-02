@@ -34,6 +34,8 @@ USER_3_PASSWORD = '';
 
 - [“mongoose typescript timestamps” Code Answer](https://www.codegrepper.com/code-examples/typescript/mongoose+typescript+timestamps)
 
+- [Upgrading from v5](https://reactrouter.com/docs/en/v6/upgrading/v5#relative-routes-and-links)
+
 - [How to run ts script with package.json?](https://stackoverflow.com/questions/59468082/how-to-run-ts-script-with-package-json)
 
 - [How to run typescript compiler as a package.json script without grunt or gulp](https://stackoverflow.com/a/57563174/13961420)

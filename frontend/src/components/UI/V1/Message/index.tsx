@@ -2,7 +2,7 @@ import { Alert } from 'react-bootstrap';
 
 interface Props {
 	variant: 'info' | 'danger';
-	children: JSX.Element | string;
+	children: React.ReactNode;
 }
 
 const Message = ({ variant, children }: Props) => {

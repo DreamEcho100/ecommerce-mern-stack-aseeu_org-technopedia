@@ -4,14 +4,18 @@ import {
 	PRODUCTS_LIST_FAIL,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_REQUEST,
-} from 'src/constants/productListConstants';
+} from 'src/constants/productList';
 import {
 	PRODUCT_DETAILS_REQUEST,
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_FAIL,
-} from 'src/constants/productDetailsConstants';
+} from 'src/constants/productDetails';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
+import { Reducer } from 'redux';
 
-/* */
+/* ************************ */
+/****** PRODUCTS LIST ******/
+/* ************************ */
 export type STORE_PRODUCTS_LIST_STATE = {
 	products: Products | [];
 	loading: boolean;
@@ -33,7 +37,14 @@ export type STORE_PRODUCTS_LIST_DISPATCH_TYPE =
 	| React.Dispatch<STORE_PRODUCTS_LIST_ACTION_TYPE>
 	| ((value: STORE_PRODUCTS_LIST_ACTION_TYPE) => void);
 
-/* */
+export type STORE_PRODUCTS_LIST_REDUCER = Reducer<
+	STORE_PRODUCTS_LIST_STATE,
+	STORE_PRODUCTS_LIST_ACTION_TYPE
+>;
+
+/* ************************ */
+/***** PRODUCTS DETAIL *****/
+/* ************************ */
 export type STORE_PRODUCT_DETAILS_STATE = {
 	product: Product;
 	loading: boolean;
@@ -55,8 +66,51 @@ export type STORE_PRODUCT_DETAILS_DISPATCH_TYPE =
 	| React.Dispatch<STORE_PRODUCT_DETAILS_ACTION_TYPE>
 	| ((value: STORE_PRODUCT_DETAILS_ACTION_TYPE) => void);
 
-/* */
+export type STORE_PRODUCT_DETAILS_REDUCER = Reducer<
+	STORE_PRODUCT_DETAILS_STATE,
+	STORE_PRODUCT_DETAILS_ACTION_TYPE
+>;
+
+/* ************************ */
+/***** CART *****/
+/* ************************ */
+export type CART_ITEM_TYPE = {
+	_id: Product['_id'];
+	name: Product['name'];
+	image: Product['image'];
+	price: Product['price'];
+	countInStock: Product['countInStock'];
+	quantity: number;
+};
+
+export type STORE_CART_STATE = {
+	items: CART_ITEM_TYPE[] | [];
+};
+
+export type STORE_CART_ACTION_TYPE =
+	| {
+			type: typeof CART_ADD_ITEM;
+			payload: { item: CART_ITEM_TYPE };
+	  }
+	| {
+			type: typeof CART_REMOVE_ITEM;
+			payload: { _id: CART_ITEM_TYPE['_id'] };
+	  };
+
+export type STORE_CART_DISPATCH_TYPE =
+	| React.Dispatch<STORE_CART_ACTION_TYPE>
+	| ((value: STORE_CART_ACTION_TYPE) => void);
+
+export type STORE_CART_REDUCER = Reducer<
+	STORE_CART_STATE,
+	STORE_CART_ACTION_TYPE
+>;
+
+/* ************************ */
+/******* STORE STATE *******/
+/* ************************ */
 export type STORE_STATE = {
 	productList: STORE_PRODUCTS_LIST_STATE;
 	productDetails: STORE_PRODUCT_DETAILS_STATE;
+	cart: STORE_CART_STATE;
 };

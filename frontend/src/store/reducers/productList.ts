@@ -2,23 +2,14 @@ import {
 	PRODUCTS_LIST_FAIL,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_REQUEST,
-} from 'src/constants/productListConstants';
-import {
-	STORE_PRODUCTS_LIST_ACTION_TYPE,
-	STORE_PRODUCTS_LIST_STATE,
-} from 'src/store/ts/types';
-import { Reducer } from 'redux';
+} from 'src/constants/productList';
+import { STORE_PRODUCTS_LIST_REDUCER } from 'src/store/ts/types';
+import { productListInitialState } from 'src/store/initialState';
 
-const initialState: STORE_PRODUCTS_LIST_STATE = {
-	products: [],
-	loading: false,
-	error: '',
-};
-
-const productListReducer: Reducer<
-	STORE_PRODUCTS_LIST_STATE,
-	STORE_PRODUCTS_LIST_ACTION_TYPE
-> = (state = initialState, action) => {
+const productListReducer: STORE_PRODUCTS_LIST_REDUCER = (
+	state = productListInitialState,
+	action
+) => {
 	switch (action.type) {
 		case PRODUCTS_LIST_REQUEST: {
 			return {
