@@ -5,6 +5,7 @@ import { config } from 'dotenv';
 
 import connectDB from './config/db';
 import productsRoutes from './routes/products';
+import usersRoutes from './routes/usersRoutes';
 
 config();
 connectDB();
@@ -21,11 +22,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
 	res.send('API is running!');
 });
 
 app.use('/products', productsRoutes);
+app.use('/users', usersRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
 	const error = new Error(`Not Found - ${req.originalUrl}`);

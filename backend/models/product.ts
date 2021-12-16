@@ -1,26 +1,28 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Document, Model, model } from 'mongoose';
 
-interface Review {
+interface IReview {
 	name: string;
 	rating: number;
 	comment: string;
 }
 
-interface Product {
+interface IProduct {
 	user: typeof Schema.Types.ObjectId;
 	name: string;
 	image: string;
 	brand: string;
 	category: string;
 	description: string;
-	reviews: Review;
+	reviews: IReview;
 	rating: number;
 	numReviews: number;
 	price: number;
 	countInStock: number;
 }
+interface IProductDocument extends IProduct, Document {}
+interface IProductModel extends Model<IProductDocument> {}
 
-const reviewSchema = new Schema<Review>(
+const reviewSchema = new Schema<IReview>(
 	{
 		name: { type: String, required: true },
 		rating: { type: Number, required: true },
@@ -31,7 +33,7 @@ const reviewSchema = new Schema<Review>(
 	}
 );
 
-const productSchema = new Schema<Product>(
+const productSchema: Schema<IProductDocument> = new Schema<IProduct>(
 	{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -85,6 +87,9 @@ const productSchema = new Schema<Product>(
 	}
 );
 
-const ProductModel = model('Product', productSchema);
+const ProductModel = model<IProductDocument, IProductModel>(
+	'Product',
+	productSchema
+);
 
 export default ProductModel;

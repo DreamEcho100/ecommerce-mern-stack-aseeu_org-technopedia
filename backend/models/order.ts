@@ -1,13 +1,13 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Document, Model, model } from 'mongoose';
 
-type PaymentResult = {
+type TPaymentResult = {
 	id: string;
 	status: string;
 	update_time: string;
 	email_address: string;
 };
 
-type OrderItem = {
+type TOrderItem = {
 	name: String;
 	quantity: Number;
 	image: String;
@@ -15,19 +15,19 @@ type OrderItem = {
 	product: typeof Schema.Types.ObjectId;
 };
 
-type ShippingAddress = {
+type TShippingAddress = {
 	address: string;
 	city: string;
 	postalCode: string;
 	country: string;
 };
 
-interface Order {
+interface IOrder {
 	user: typeof Schema.Types.ObjectId;
-	orderItems: OrderItem[];
-	shippingAddress: ShippingAddress;
+	orderItems: TOrderItem[];
+	shippingAddress: TShippingAddress;
 	paymentMethod: string;
-	paymentResult: PaymentResult;
+	paymentResult: TPaymentResult;
 	category: string;
 	taxPrice: number;
 	shippingPrice: number;
@@ -36,8 +36,10 @@ interface Order {
 	isDelivered: boolean;
 	DeliveredAt?: Date;
 }
+interface IOrderDocument extends IOrder, Document {}
+interface IOrderModel extends Model<IOrderDocument> {}
 
-const orderSchema = new Schema<Order>(
+const orderSchema: Schema<IOrderDocument> = new Schema(
 	{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -109,6 +111,6 @@ const orderSchema = new Schema<Order>(
 	}
 );
 
-const OrderModel = model('Order', orderSchema);
+const OrderModel = model<IOrderDocument, IOrderModel>('Order', orderSchema);
 
 export default OrderModel;
