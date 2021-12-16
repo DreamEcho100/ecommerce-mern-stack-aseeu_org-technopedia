@@ -98,6 +98,5 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
 	"exclude": ["node_modules" /* would be default */, "frontend"],
-	"include": ["backend"],
-	"files": ["./node_modules/@types", "global.d.ts"]
+	"include": ["backend"]
 }
