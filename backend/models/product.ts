@@ -5,6 +5,7 @@ interface IReview {
 	rating: number;
 	comment: string;
 }
+interface IReviewDocument extends IReview, Document {}
 
 interface IProduct {
 	user: typeof Schema.Types.ObjectId;
@@ -22,7 +23,7 @@ interface IProduct {
 interface IProductDocument extends IProduct, Document {}
 interface IProductModel extends Model<IProductDocument> {}
 
-const reviewSchema = new Schema<IReview>(
+const reviewSchema: Schema<IReviewDocument> = new Schema(
 	{
 		name: { type: String, required: true },
 		rating: { type: Number, required: true },
@@ -33,7 +34,7 @@ const reviewSchema = new Schema<IReview>(
 	}
 );
 
-const productSchema: Schema<IProductDocument> = new Schema<IProduct>(
+const productSchema: Schema<IProductDocument> = new Schema(
 	{
 		user: {
 			type: Schema.Types.ObjectId,
