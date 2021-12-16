@@ -5,9 +5,9 @@ import { config } from 'dotenv';
 import users from './data/users';
 import products from './data/products';
 
-import User from './models/userModel';
-import Product from './models/productModel';
-import Order from './models/orderModel';
+import UserModel from './models/user';
+import ProductModel from './models/product';
+import OrderModel from './models/order';
 import connectDB from './config/db';
 
 config();
@@ -16,11 +16,11 @@ connectDB();
 
 const importData = async () => {
 	try {
-		await Order.deleteMany();
-		await Product.deleteMany();
-		await User.deleteMany();
+		await OrderModel.deleteMany();
+		await ProductModel.deleteMany();
+		await UserModel.deleteMany();
 
-		const createdUser = await User.insertMany(users);
+		const createdUser = await UserModel.insertMany(users);
 
 		const adminUser = createdUser[0]._id;
 
@@ -28,7 +28,7 @@ const importData = async () => {
 			return { ...product, user: adminUser };
 		});
 
-		await Product.insertMany(sampleProducts);
+		await ProductModel.insertMany(sampleProducts);
 
 		console.log('Data imported'); // .green
 		process.exit();
@@ -40,9 +40,9 @@ const importData = async () => {
 
 const destroyData = async () => {
 	try {
-		await Order.deleteMany();
-		await Product.deleteMany();
-		await User.deleteMany();
+		await OrderModel.deleteMany();
+		await ProductModel.deleteMany();
+		await UserModel.deleteMany();
 
 		console.log('Data destroyed'); // .red
 		process.exit();

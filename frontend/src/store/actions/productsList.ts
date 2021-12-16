@@ -13,7 +13,7 @@ const listProducts =
 			dispatch({ type: PRODUCTS_LIST_REQUEST });
 
 			const products: Products = await fetch(
-				`${BACK_END_ROOT_URL}/api/v1/products`
+				`${BACK_END_ROOT_URL}/products`
 			).then((response) => response.json());
 
 			dispatch({

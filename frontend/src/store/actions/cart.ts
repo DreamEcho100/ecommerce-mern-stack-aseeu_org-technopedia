@@ -10,7 +10,7 @@ export const addToCart =
 	async (dispatch: STORE_CART_DISPATCH_TYPE, getState: () => RootState) => {
 		try {
 			const data: Product = await fetch(
-				`${BACK_END_ROOT_URL}/api/v1/products/${_id}`
+				`${BACK_END_ROOT_URL}/products/${_id}`
 			).then((response) => response.json());
 
 			dispatch({
