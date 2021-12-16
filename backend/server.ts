@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 
 import connectDB from './config/db';
 import productsRoutes from './routes/products';
-import usersRoutes from './routes/usersRoutes';
+import usersRoutes from './routes/users';
 
 config();
 connectDB();
