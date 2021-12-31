@@ -3,7 +3,7 @@ import {
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_FAIL,
 } from 'src/constants/productList';
-import { Products } from 'src/react-app-env';
+import { TProducts } from 'src/react-app-env';
 import { STORE_PRODUCTS_LIST_DISPATCH_TYPE } from 'src/store/ts/types';
 import { BACK_END_ROOT_URL } from 'src/config';
 
@@ -12,7 +12,7 @@ const listProducts =
 		try {
 			dispatch({ type: PRODUCTS_LIST_REQUEST });
 
-			const products: Products = await fetch(
+			const products: TProducts = await fetch(
 				`${BACK_END_ROOT_URL}/products`
 			).then((response) => response.json());
 

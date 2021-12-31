@@ -2,11 +2,11 @@
 import { /* Link */ NavLink } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 
-import { Product } from 'src/react-app-env';
+import { TProduct } from 'src/react-app-env';
 import Rating from '../Rating';
 
 interface Props {
-	singleItem: Product;
+	singleItem: TProduct;
 }
 
 const ProductComponent = ({ singleItem }: Props) => {

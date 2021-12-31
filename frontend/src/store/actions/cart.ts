@@ -2,14 +2,14 @@ import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
 import { STORE_CART_DISPATCH_TYPE, CART_ITEM_TYPE } from 'src/store/ts/types';
 // import ls from 'src/utils/v1/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
-import { Product } from 'src/react-app-env';
+import { TProduct } from 'src/react-app-env';
 import { RootState } from 'src/store';
 
 export const addToCart =
 	(_id: CART_ITEM_TYPE['_id'], quantity: CART_ITEM_TYPE['quantity']) =>
 	async (dispatch: STORE_CART_DISPATCH_TYPE, getState: () => RootState) => {
 		try {
-			const data: Product = await fetch(
+			const data: TProduct = await fetch(
 				`${BACK_END_ROOT_URL}/products/${_id}`
 			).then((response) => response.json());
 

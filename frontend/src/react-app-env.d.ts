@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 
-export type Product = {
+export type TProduct = {
 	_id: string;
 	name: string;
 	image: string;
@@ -13,4 +13,4 @@ export type Product = {
 	numReviews: number;
 };
 
-export type Products = Product[];
+export type TProducts = TProduct[];

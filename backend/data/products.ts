@@ -1,4 +1,4 @@
-type Product = {
+type TProduct = {
 	name: string;
 	image: string;
 	description: string;
@@ -10,9 +10,9 @@ type Product = {
 	numReviews: number;
 };
 
-type Products = Product[];
+type TProducts = TProduct[];
 
-const products: Products = [
+const products: TProducts = [
 	{
 		name: 'Airpods Wireless Bluetooth Headphones',
 		image: '/images/airpods.jpg',

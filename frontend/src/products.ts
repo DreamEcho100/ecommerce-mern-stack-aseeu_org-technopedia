@@ -1,6 +1,6 @@
-import { Products } from './react-app-env';
+import { TProducts } from './react-app-env';
 
-const products: Products = [
+const products: TProducts = [
 	{
 		_id: '1',
 		name: 'Airpods Wireless Bluetooth Headphones',

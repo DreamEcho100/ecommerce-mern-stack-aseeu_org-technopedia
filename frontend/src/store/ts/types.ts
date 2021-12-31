@@ -1,4 +1,4 @@
-import { Product, Products } from 'src/react-app-env';
+import { TProduct, TProducts } from 'src/react-app-env';
 import {
 	//
 	PRODUCTS_LIST_FAIL,
@@ -17,7 +17,7 @@ import { Reducer } from 'redux';
 /****** PRODUCTS LIST ******/
 /* ************************ */
 export type STORE_PRODUCTS_LIST_STATE = {
-	products: Products | [];
+	products: TProducts | [];
 	loading: boolean;
 	error: string;
 };
@@ -46,7 +46,7 @@ export type STORE_PRODUCTS_LIST_REDUCER = Reducer<
 /***** PRODUCTS DETAIL *****/
 /* ************************ */
 export type STORE_PRODUCT_DETAILS_STATE = {
-	product: Product;
+	product: TProduct;
 	loading: boolean;
 	error: string;
 };
@@ -75,11 +75,11 @@ export type STORE_PRODUCT_DETAILS_REDUCER = Reducer<
 /***** CART *****/
 /* ************************ */
 export type CART_ITEM_TYPE = {
-	_id: Product['_id'];
-	name: Product['name'];
-	image: Product['image'];
-	price: Product['price'];
-	countInStock: Product['countInStock'];
+	_id: TProduct['_id'];
+	name: TProduct['name'];
+	image: TProduct['image'];
+	price: TProduct['price'];
+	countInStock: TProduct['countInStock'];
 	quantity: number;
 };
 
