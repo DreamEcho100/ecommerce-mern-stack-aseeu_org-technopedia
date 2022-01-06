@@ -4,31 +4,30 @@ import {
 	PRODUCTS_LIST_FAIL,
 } from 'src/constants/productList';
 import { TProducts } from 'src/react-app-env';
-import { STORE_PRODUCTS_LIST_DISPATCH_TYPE } from 'src/store/ts/types';
+import { T_STORE_PRODUCTS_LIST_DISPATCH } from 'src/store/ts/types';
 import { BACK_END_ROOT_URL } from 'src/config';
 
-const listProducts =
-	() => async (dispatch: STORE_PRODUCTS_LIST_DISPATCH_TYPE) => {
-		try {
-			dispatch({ type: PRODUCTS_LIST_REQUEST });
+const listProducts = () => async (dispatch: T_STORE_PRODUCTS_LIST_DISPATCH) => {
+	try {
+		dispatch({ type: PRODUCTS_LIST_REQUEST });
 
-			const products: TProducts = await fetch(
-				`${BACK_END_ROOT_URL}/products`
-			).then((response) => response.json());
+		const products: TProducts = await fetch(
+			`${BACK_END_ROOT_URL}/products`
+		).then((response) => response.json());
 
+		dispatch({
+			type: PRODUCTS_LIST_SUCCESS,
+			payload: { products },
+		});
+	} catch (error) {
+		if (error instanceof Error) {
 			dispatch({
-				type: PRODUCTS_LIST_SUCCESS,
-				payload: { products },
+				type: PRODUCTS_LIST_FAIL,
+				payload: { error: error.message },
 			});
-		} catch (error) {
-			if (error instanceof Error) {
-				dispatch({
-					type: PRODUCTS_LIST_FAIL,
-					payload: { error: error.message },
-				});
-				console.error(error.message);
-			}
+			console.error(error.message);
 		}
-	};
+	}
+};
 
 export default listProducts;

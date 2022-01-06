@@ -2,11 +2,11 @@ import {
 	PRODUCTS_LIST_FAIL,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_REQUEST,
-} from 'src/constants/productList';
-import { STORE_PRODUCTS_LIST_REDUCER } from 'src/store/ts/types';
+} from 'src/constants';
+import { T_STORE_PRODUCTS_LIST_REDUCER } from 'src/store/ts/types';
 import { productListInitialState } from 'src/store/initialState';
 
-const productListReducer: STORE_PRODUCTS_LIST_REDUCER = (
+const productListReducer: T_STORE_PRODUCTS_LIST_REDUCER = (
 	state = productListInitialState,
 	action
 ) => {

@@ -16,7 +16,7 @@ import Message from 'src/components/UI/V1/Message';
 import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
 import { useTrackedSelector } from 'src/store';
-import { CART_ITEM_TYPE } from 'src/store/ts/types';
+import { T_STORE_CART } from 'src/store/ts/types';
 
 interface Props {}
 
@@ -38,7 +38,7 @@ const CartScreen = (props: Props) => {
 		}
 	}, [dispatch, productId, quantity]);
 
-	const removeFromCartHandler = (_id: CART_ITEM_TYPE['_id']) => {
+	const removeFromCartHandler = (_id: T_STORE_CART['_id']) => {
 		dispatch(removeFromCart(_id));
 	};
 
@@ -58,7 +58,7 @@ const CartScreen = (props: Props) => {
 
 	const calculatePrice = (items: typeof cartItems) => {
 		// cartItems
-		// 	.reduce((acc: number, item: CART_ITEM_TYPE) => acc + item.quantity * item.price, 0)
+		// 	.reduce((acc: number, item: T_STORE_CART) => acc + item.quantity * item.price, 0)
 		// 	.toFixed(2)
 		let total: number = 0;
 		let i: number = 0;
@@ -129,8 +129,8 @@ const CartScreen = (props: Props) => {
 								Subtotal (
 								{
 									calculateSubtotal(cartItems)
-									// (cartItems as CART_ITEM_TYPE[])
-									// 	.reduce((acc: number | Array<string>, item: number | string | CART_ITEM_TYPE) =>
+									// (cartItems as T_STORE_CART[])
+									// 	.reduce((acc: number | Array<string>, item: number | string | T_STORE_CART) =>
 									// 		parseInt(acc) + parseInt(item.quantity), 0)
 								}
 								) items
@@ -139,7 +139,7 @@ const CartScreen = (props: Props) => {
 							{
 								calculatePrice(cartItems)
 								// cartItems
-								// .reduce((acc: number, item: CART_ITEM_TYPE) => acc + item.quantity * item.price, 0)
+								// .reduce((acc: number, item: T_STORE_CART) => acc + item.quantity * item.price, 0)
 								// .toFixed(2)
 							}
 						</ListGroup.Item>

@@ -1,13 +1,13 @@
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
-import { STORE_CART_DISPATCH_TYPE, CART_ITEM_TYPE } from 'src/store/ts/types';
+import { T_STORE_CART_DISPATCH, T_STORE_CART } from 'src/store/ts/types';
 // import ls from 'src/utils/v1/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { TProduct } from 'src/react-app-env';
 import { RootState } from 'src/store';
 
 export const addToCart =
-	(_id: CART_ITEM_TYPE['_id'], quantity: CART_ITEM_TYPE['quantity']) =>
-	async (dispatch: STORE_CART_DISPATCH_TYPE, getState: () => RootState) => {
+	(_id: T_STORE_CART['_id'], quantity: T_STORE_CART['quantity']) =>
+	async (dispatch: T_STORE_CART_DISPATCH, getState: () => RootState) => {
 		try {
 			const data: TProduct = await fetch(
 				`${BACK_END_ROOT_URL}/products/${_id}`
@@ -40,8 +40,8 @@ export const addToCart =
 	};
 
 export const removeFromCart =
-	(_id: CART_ITEM_TYPE['_id']) =>
-	(dispatch: STORE_CART_DISPATCH_TYPE, getState: () => RootState) => {
+	(_id: T_STORE_CART['_id']) =>
+	(dispatch: T_STORE_CART_DISPATCH, getState: () => RootState) => {
 		dispatch({
 			type: CART_REMOVE_ITEM,
 			payload: { _id },
@@ -51,7 +51,7 @@ export const removeFromCart =
 	};
 
 // export const saveCartItemsToLocalStorage = (
-// 	items: STORE_CART_STATE['items']
+// 	items: T_STORE_CART_STATE['items']
 // ) => {
 // 	ls.set('cartItems', items);
 // };

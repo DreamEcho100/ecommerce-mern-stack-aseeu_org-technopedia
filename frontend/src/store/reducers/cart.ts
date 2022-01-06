@@ -1,8 +1,11 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
-import { STORE_CART_REDUCER } from 'src/store/ts/types';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
+import { T_STORE_CART_REDUCER } from 'src/store/ts/types';
 import { cartInitialState } from 'src/store/initialState';
 
-const cartReducer: STORE_CART_REDUCER = (state = cartInitialState, action) => {
+const cartReducer: T_STORE_CART_REDUCER = (
+	state = cartInitialState,
+	action
+) => {
 	switch (action.type) {
 		case CART_ADD_ITEM: {
 			const { item } = action.payload;
