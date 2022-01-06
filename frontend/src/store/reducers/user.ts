@@ -4,15 +4,16 @@ import {
 	USER_LOGIN_FAIL,
 	USER_LOGOUT,
 } from 'src/constants';
-import { T_USER_REDUCER } from 'src/store/ts/types';
+import { TUserReducer } from 'src/store/ts';
 import { userInitialState } from 'src/store/initialState';
 
-const userReducer: T_USER_REDUCER = (state = userInitialState, action) => {
+const userReducer: TUserReducer = (state = userInitialState, action) => {
 	switch (action.type) {
 		case USER_LOGIN_REQUEST: {
 			return {
 				...state,
 				loading: true,
+				error: ''
 			};
 		}
 
@@ -22,6 +23,7 @@ const userReducer: T_USER_REDUCER = (state = userInitialState, action) => {
 			return {
 				...state,
 				loading: false,
+				error: '',
 				info,
 			};
 		}
@@ -32,6 +34,7 @@ const userReducer: T_USER_REDUCER = (state = userInitialState, action) => {
 			return {
 				...state,
 				loading: false,
+				info: userInitialState.info,
 				error,
 			};
 		}

@@ -1,5 +1,8 @@
 export const setItem = (name: string, value: any): void => {
-	if ((value && typeof value === 'object') || Array.isArray(value))
+	if (
+		typeof value !== 'string'
+		// (value && typeof value === 'object') || Array.isArray(value)
+	)
 		localStorage.setItem(name, JSON.stringify(value));
 	else localStorage.setItem(name, value);
 };
@@ -35,4 +38,4 @@ const ls = {
 	delete: deleteItem,
 };
 
-export default ls;
+export default ls; 

@@ -13,9 +13,11 @@ import MainLayout from './components/Layout/MainLayout/index';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const AppRoutes = () => {
 	const routes = useRoutes([
+		{ path: '/login', element: <LoginScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
 		{

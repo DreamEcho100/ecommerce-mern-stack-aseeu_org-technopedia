@@ -12,7 +12,11 @@ const rootReducer = combineReducers(reducers);
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const middleware = [thunk, logger];
+const middleware = [
+	thunk,
+	// logger
+	logger
+];
 
 const store = createStore(
 	rootReducer,

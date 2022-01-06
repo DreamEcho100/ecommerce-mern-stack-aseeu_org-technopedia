@@ -1,14 +1,14 @@
 import ls from 'src/utils/v1/localStorage';
 import {
-	T_USER_STATE,
-	T_STORE_CART_STATE,
-	T_STORE_PRODUCTS_LIST_STATE,
-	T_STORE_PRODUCT_DETAILS_STATE,
-	STORE_STATE,
-} from '../ts/types';
+	IUserState,
+	ICartState,
+	IStoreProductsListState,
+	IStoreProductDetailsState,
+	IStoreState,
+} from '../ts';
 
-export const userInitialState: T_USER_STATE = {
-	info: ls.get<T_USER_STATE['info']>('userIno', {
+export const userInitialState: IUserState = {
+	info: ls.get<IUserState['info']>('userIno', {
 		_id: '',
 		name: '',
 		email: '',
@@ -19,7 +19,7 @@ export const userInitialState: T_USER_STATE = {
 	error: '',
 };
 
-export const productDetailsInitialState: T_STORE_PRODUCT_DETAILS_STATE = {
+export const productDetailsInitialState: IStoreProductDetailsState = {
 	product: {
 		_id: '',
 		name: '',
@@ -36,17 +36,17 @@ export const productDetailsInitialState: T_STORE_PRODUCT_DETAILS_STATE = {
 	error: '',
 };
 
-export const productListInitialState: T_STORE_PRODUCTS_LIST_STATE = {
+export const productListInitialState: IStoreProductsListState = {
 	products: [],
 	loading: false,
 	error: '',
 };
 
-export const cartInitialState: T_STORE_CART_STATE = {
-	items: ls.get<T_STORE_CART_STATE['items']>('cartItems', []),
+export const cartInitialState: ICartState = {
+	items: ls.get<ICartState['items']>('cartItems', []),
 };
 
-const storeInitialState: STORE_STATE = {
+const storeInitialState: IStoreState = {
 	user: userInitialState,
 	productDetails: productDetailsInitialState,
 	productList: productListInitialState,

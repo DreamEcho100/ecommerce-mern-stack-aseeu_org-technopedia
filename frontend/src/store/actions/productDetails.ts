@@ -2,13 +2,13 @@ import {
 	PRODUCT_DETAILS_FAIL,
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_REQUEST,
-} from 'src/constants/productDetails';
+} from 'src/constants';
 import { TProduct } from 'src/react-app-env';
-import { T_STORE_PRODUCT_DETAILS_DISPATCH } from 'src/store/ts/types';
+import { TStoreProductDetailsDispatch } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 
-const listProducts =
-	(id: string) => async (dispatch: T_STORE_PRODUCT_DETAILS_DISPATCH) => {
+export const handleProductDetails =
+	(id: string) => async (dispatch: TStoreProductDetailsDispatch) => {
 		try {
 			dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
@@ -30,5 +30,3 @@ const listProducts =
 			}
 		}
 	};
-
-export default listProducts;

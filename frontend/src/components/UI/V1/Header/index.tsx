@@ -35,10 +35,10 @@ const Header = (props: Props) => {
 
 							{/* <LinkContainer to='/signin'> */}
 							<Nav.Link
-								href='/signin'
+								href='/login'
 								onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 									e.preventDefault();
-									navigate('signin');
+									navigate('login');
 								}}
 							>
 								<i className='fas fa-user'></i> Sign In

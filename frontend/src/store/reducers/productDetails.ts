@@ -3,10 +3,10 @@ import {
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_FAIL,
 } from 'src/constants';
-import { T_STORE_PRODUCT_DETAILS_REDUCER } from 'src/store/ts/types';
+import { TStoreProductDetailsReducer } from 'src/store/ts';
 import { productDetailsInitialState } from 'src/store/initialState';
 
-const productDetailsReducer: T_STORE_PRODUCT_DETAILS_REDUCER = (
+const productDetailsReducer: TStoreProductDetailsReducer = (
 	state = productDetailsInitialState,
 	action
 ) => {

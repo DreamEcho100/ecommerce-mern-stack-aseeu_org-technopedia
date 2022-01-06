@@ -14,3 +14,11 @@ export type TProduct = {
 };
 
 export type TProducts = TProduct[];
+
+export type TUser = {
+	_id: string;
+	name: string;
+	email: string;
+	password: string;
+	isAdmin: boolean;
+};

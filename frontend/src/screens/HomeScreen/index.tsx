@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import { handleListProducts } from 'src/store/actions';
+import { handleListProducts } from 'src/store/actions/productsList';
 import { useTrackedSelector } from 'src/store';
 
 import ProductComponent from 'src/components/UI/V1/Product';

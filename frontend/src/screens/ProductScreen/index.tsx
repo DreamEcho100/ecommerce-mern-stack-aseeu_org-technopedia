@@ -14,7 +14,7 @@ import {
 	Form,
 } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { handleProductDetails } from 'src/store/actions';
+import { handleProductDetails } from 'src/store/actions/productDetails';
 // import { useHistory } from 'react-router-dom';
 
 import classes from './styles.module.css';
@@ -81,8 +81,8 @@ const ProductScreen = (props: Props) => {
 													{
 														// product.countInStock > 0
 														product.countInStock === 0
-														? 'Out Of Stock'
-														: 'In Stock'
+															? 'Out Of Stock'
+															: 'In Stock'
 													}
 												</strong>
 											</Col>

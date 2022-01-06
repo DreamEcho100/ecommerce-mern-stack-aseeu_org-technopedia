@@ -1,17 +1,19 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
-import { T_STORE_CART_DISPATCH, T_STORE_CART } from 'src/store/ts/types';
-// import ls from 'src/utils/v1/localStorage';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
+import { TCartDispatch, ICart } from 'src/store/ts';
+import ls from 'src/utils/v1/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { TProduct } from 'src/react-app-env';
 import { RootState } from 'src/store';
 
 export const addToCart =
-	(_id: T_STORE_CART['_id'], quantity: T_STORE_CART['quantity']) =>
-	async (dispatch: T_STORE_CART_DISPATCH, getState: () => RootState) => {
+	(_id: ICart['_id'], quantity: ICart['quantity']) =>
+	async (dispatch: TCartDispatch, getState: () => RootState) => {
 		try {
 			const data: TProduct = await fetch(
 				`${BACK_END_ROOT_URL}/products/${_id}`
 			).then((response) => response.json());
+
+			localStorage.setItem('cartItems', JSON.stringify(getState().cart.items));
 
 			dispatch({
 				type: CART_ADD_ITEM,
@@ -26,8 +28,6 @@ export const addToCart =
 					},
 				},
 			});
-
-			localStorage.setItem('cartItems', JSON.stringify(getState().cart.items));
 		} catch (error) {
 			if (error instanceof Error) {
 				// dispatch({
@@ -40,18 +40,18 @@ export const addToCart =
 	};
 
 export const removeFromCart =
-	(_id: T_STORE_CART['_id']) =>
-	(dispatch: T_STORE_CART_DISPATCH, getState: () => RootState) => {
+	(_id: ICart['_id']) =>
+	(dispatch: TCartDispatch, getState: () => RootState) => {
+		ls.set('cartItems', JSON.stringify(getState().cart.items));
+
 		dispatch({
 			type: CART_REMOVE_ITEM,
 			payload: { _id },
 		});
-
-		localStorage.setItem('cartItems', JSON.stringify(getState().cart.items));
 	};
 
 // export const saveCartItemsToLocalStorage = (
-// 	items: T_STORE_CART_STATE['items']
+// 	items: ICartState['items']
 // ) => {
 // 	ls.set('cartItems', items);
 // };
