@@ -52,7 +52,7 @@ export const handleUserLogin =
 export const handleUserLogout =
 	() =>
 	(dispatch: TUserDispatch, getState: () => RootState) => {
-		ls.delete('userInfo');
+		ls.remove('userInfo');
 
 		dispatch({ type: USER_LOGOUT})
 	} 

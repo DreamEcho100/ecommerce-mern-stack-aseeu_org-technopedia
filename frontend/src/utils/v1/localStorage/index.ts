@@ -22,7 +22,7 @@ export const getItem = <R>(name: string, defaultReturn: R): R => {
 export const checkItem = (name: string): boolean =>
 	typeof window !== 'undefined' && !!localStorage.getItem(name);
 
-export const deleteItem = (name: string): boolean => {
+export const removeItem = (name: string): boolean => {
 	if (checkItem(name)) {
 		localStorage.removeItem(name);
 		return true;
@@ -35,7 +35,7 @@ const ls = {
 	set: setItem,
 	get: getItem,
 	check: checkItem,
-	delete: deleteItem,
+	remove: removeItem,
 };
 
 export default ls; 
