@@ -48,3 +48,11 @@ export const handleUserLogin =
 			}
 		}
 	};
+
+export const handleUserLogout =
+	() =>
+	(dispatch: TUserDispatch, getState: () => RootState) => {
+		ls.delete('userInfo');
+
+		dispatch({ type: USER_LOGOUT})
+	} 

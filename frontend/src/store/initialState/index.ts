@@ -8,7 +8,7 @@ import {
 } from '../ts';
 
 export const userInitialState: IUserState = {
-	info: ls.get<IUserState['info']>('userIno', {
+	info: ls.get<IUserState['info']>('userInfo', {
 		_id: '',
 		name: '',
 		email: '',

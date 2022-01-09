@@ -39,7 +39,7 @@ const userReducer: TUserReducer = (state = userInitialState, action) => {
 			};
 		}
 
-		case USER_LOGOUT: {
+		case USER_LOGOUT: { 
 			return userInitialState;
 		}
 
