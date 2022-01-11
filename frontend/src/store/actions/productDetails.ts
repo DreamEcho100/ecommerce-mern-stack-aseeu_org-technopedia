@@ -3,16 +3,16 @@ import {
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_REQUEST,
 } from 'src/constants';
-import { TProduct } from 'src/react-app-env';
-import { TStoreProductDetailsDispatch } from 'src/store/ts';
+import { IProduct } from 'src/react-app-env';
+import { THandleProductDetails } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 
-export const handleProductDetails =
-	(id: string) => async (dispatch: TStoreProductDetailsDispatch) => {
+export const handleProductDetails: THandleProductDetails =
+	(id) => async (dispatch) => {
 		try {
 			dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-			const product: TProduct = await fetch(
+			const product: IProduct = await fetch(
 				`${BACK_END_ROOT_URL}/products/${id}`
 			).then((response) => response.json());
 

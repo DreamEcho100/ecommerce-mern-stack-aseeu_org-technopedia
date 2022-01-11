@@ -4,11 +4,11 @@ import {
 	PRODUCTS_LIST_FAIL,
 } from 'src/constants';
 import { TProducts } from 'src/react-app-env';
-import { TStoreProductsListDispatch } from 'src/store/ts';
+import { THandleListProducts } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 
-export const handleListProducts =
-	() => async (dispatch: TStoreProductsListDispatch) => {
+export const handleListProducts: THandleListProducts =
+	() => async (dispatch) => {
 		try {
 			dispatch({ type: PRODUCTS_LIST_REQUEST });
 

@@ -14,14 +14,13 @@ import FormContainer from 'src/components/UI/V1//FormContainer';
 const LoginScreen = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-
 	const dispatch = useDispatch();
 
 	// const userLogin = useSelector((state) => state.userLogin)
 	const { loading, error, info } = useTrackedSelector().user;
+
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
 
 	const redirect = location.search ? location.search.split('=')[1] : '/';
 
@@ -39,11 +38,10 @@ const LoginScreen = () => {
 	return (
 		<FormContainer>
 			<h1>Sign In</h1>
-			{error && <Message variant='danger'>{error}</Message>}
 			{loading && <Loader />}
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='email'>
-					<Form.Label>Email Address</Form.Label>
+					<Form.Label>Email</Form.Label>
 					<Form.Control
 						type='email'
 						placeholder='Enter email'
@@ -55,7 +53,7 @@ const LoginScreen = () => {
 				</Form.Group>
 
 				<Form.Group controlId='password'>
-					<Form.Label>Password Address</Form.Label>
+					<Form.Label>Password</Form.Label>
 					<Form.Control
 						type='password'
 						placeholder='Enter password'
@@ -66,12 +64,19 @@ const LoginScreen = () => {
 					></Form.Control>
 				</Form.Group>
 
-				<Button className='mt-3' type='submit' variant='primary'>
+				{error && <Message variant='danger'>{error}</Message>}
+
+				<Button
+					disabled={loading}
+					className='my-3'
+					type='submit'
+					variant='primary'
+				>
 					Sign In
 				</Button>
 			</Form>
 
-			<Row className='py-3'>
+			<Row className='my-3'>
 				<Col>
 					New Customer?{' '}
 					<Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>

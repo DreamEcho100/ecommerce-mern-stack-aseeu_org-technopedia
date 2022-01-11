@@ -1,14 +1,14 @@
 import ls from 'src/utils/v1/localStorage';
 import {
-	IUserState,
-	ICartState,
+	IStoreUserState,
+	IStoreCartState,
 	IStoreProductsListState,
 	IStoreProductDetailsState,
 	IStoreState,
 } from '../ts';
 
-export const userInitialState: IUserState = {
-	info: ls.get<IUserState['info']>('userInfo', {
+export const userInitialState: IStoreUserState = {
+	info: ls.get<IStoreUserState['info']>('userInfo', {
 		_id: '',
 		name: '',
 		email: '',
@@ -42,8 +42,8 @@ export const productListInitialState: IStoreProductsListState = {
 	error: '',
 };
 
-export const cartInitialState: ICartState = {
-	items: ls.get<ICartState['items']>('cartItems', []),
+export const cartInitialState: IStoreCartState = {
+	items: ls.get<IStoreCartState['items']>('cartItems', []),
 };
 
 const storeInitialState: IStoreState = {

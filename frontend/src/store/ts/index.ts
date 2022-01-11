@@ -1,23 +1,25 @@
-import { TProduct, TProducts, TUser } from 'src/react-app-env';
-import {
-	//
-	PRODUCTS_LIST_FAIL,
-	PRODUCTS_LIST_SUCCESS,
-	PRODUCTS_LIST_REQUEST,
-} from 'src/constants/productList';
-import {
-	PRODUCT_DETAILS_REQUEST,
-	PRODUCT_DETAILS_SUCCESS,
-	PRODUCT_DETAILS_FAIL,
-} from 'src/constants/productDetails';
+import { Reducer } from 'redux';
+import { ICart, IProduct, TProducts, IUser } from 'src/react-app-env';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
 	USER_LOGIN_FAIL,
+	USER_REGISTER_REQUEST,
+	USER_REGISTER_SUCCESS,
+	USER_REGISTER_FAIL,
 	USER_LOGOUT,
+	//
+	PRODUCTS_LIST_FAIL,
+	PRODUCTS_LIST_SUCCESS,
+	PRODUCTS_LIST_REQUEST,
+	//
+	PRODUCT_DETAILS_REQUEST,
+	PRODUCT_DETAILS_SUCCESS,
+	PRODUCT_DETAILS_FAIL,
+	//
 } from 'src/constants';
-import { Reducer } from 'redux';
+import { TRootState } from 'src/store';
 
 /* ************************ */
 /****** PRODUCTS LIST ******/
@@ -39,20 +41,23 @@ export type TStoreProductsListAction =
 			payload: { error: IStoreProductsListState['error'] };
 	  };
 
-export type TStoreProductsListDispatch =
-	| React.Dispatch<TStoreProductsListAction>
-	| ((value: TStoreProductsListAction) => IStoreProductsListState);
-
 export type TStoreProductsListReducer = Reducer<
 	IStoreProductsListState,
 	TStoreProductsListAction
 >;
 
+type TStoreProductsListDispatch =
+	| React.Dispatch<TStoreProductsListAction>
+	| ((value: TStoreProductsListAction) => IStoreProductsListState);
+export type THandleListProducts = () => (
+	dispatch: TStoreProductsListDispatch
+) => Promise<void>;
+
 /* ************************ */
 /***** PRODUCTS DETAIL *****/
 /* ************************ */
 export interface IStoreProductDetailsState {
-	product: TProduct;
+	product: IProduct;
 	loading: boolean;
 	error: string;
 }
@@ -68,28 +73,23 @@ export type TStoreProductDetailsAction =
 			payload: { error: IStoreProductDetailsState['error'] };
 	  };
 
-export type TStoreProductDetailsDispatch =
-	| React.Dispatch<TStoreProductDetailsAction>
-	| ((value: TStoreProductDetailsAction) => IStoreProductDetailsState);
-
 export type TStoreProductDetailsReducer = Reducer<
 	IStoreProductDetailsState,
 	TStoreProductDetailsAction
 >;
 
+type TStoreProductDetailsDispatch =
+	| React.Dispatch<TStoreProductDetailsAction>
+	| ((value: TStoreProductDetailsAction) => IStoreProductDetailsState);
+export type THandleProductDetails = (
+	id: string
+) => (dispatch: TStoreProductDetailsDispatch) => Promise<void>;
+
 /* ************************ */
 /***** CART *****/
 /* ************************ */
-export interface ICart {
-	_id: TProduct['_id'];
-	name: TProduct['name'];
-	image: TProduct['image'];
-	price: TProduct['price'];
-	countInStock: TProduct['countInStock'];
-	quantity: number;
-}
 
-export interface ICartState {
+export interface IStoreCartState {
 	items: ICart[] | [];
 }
 
@@ -103,50 +103,70 @@ export type TCartAction =
 			payload: { _id: ICart['_id'] };
 	  };
 
-export type TCartDispatch =
-	| React.Dispatch<TCartAction>
-	| ((value: TCartAction) => ICartState);
+export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
 
-export type TCartReducer = Reducer<ICartState, TCartAction>;
+type TCartDispatch =
+	| React.Dispatch<TCartAction>
+	| ((value: TCartAction) => IStoreCartState);
+export type TAddToCart = (
+	_id: ICart['_id'],
+	quantity: ICart['quantity']
+) => (dispatch: TCartDispatch, getState: () => TRootState) => Promise<void>;
+export type TRemoveFromCart = (
+	_id: ICart['_id']
+) => (dispatch: TCartDispatch, getState: () => TRootState) => void;
 
 /* ************************ */
 /***** USER *****/
 /* ************************ */
 
-export interface IUserState {
-	info: TUser;
+export interface IStoreUserState {
+	info: IUser;
 	loading: boolean;
 	error: string;
 }
 
-export type TUserAction =
+export type IUserAction =
 	| {
-			type: typeof USER_LOGIN_REQUEST;
+			type: typeof USER_LOGIN_REQUEST | typeof USER_REGISTER_REQUEST;
 	  }
 	| {
-			type: typeof USER_LOGIN_SUCCESS;
-			payload: { info: TUser };
+			type: typeof USER_LOGIN_SUCCESS | typeof USER_REGISTER_SUCCESS;
+			payload: { info: IUser };
 	  }
 	| {
-			type: typeof USER_LOGIN_FAIL;
+			type: typeof USER_LOGIN_FAIL | typeof USER_REGISTER_FAIL;
 			payload: { error: string };
 	  }
 	| {
 			type: typeof USER_LOGOUT;
 	  };
 
-export type TUserDispatch =
-	| React.Dispatch<TUserAction>
-	| ((value: TUserAction) => IUserState);
+export type IUserReducer = Reducer<IStoreUserState, IUserAction>;
 
-export type TUserReducer = Reducer<IUserState, TUserAction>;
+type IUserDispatch =
+	| React.Dispatch<IUserAction>
+	| ((value: IUserAction) => IStoreUserState);
+export type THandleUserLogin = (
+	email: string,
+	password: string
+) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
+export type THandleUserRegister = (
+	name: string,
+	email: string,
+	password: string
+) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
+export type THandleUserLogout = () => (
+	dispatch: IUserDispatch,
+	getState: () => TRootState
+) => void;
 
 /* ************************ */
 /******* STORE STATE *******/
 /* ************************ */
 export interface IStoreState {
-	user: IUserState;
+	user: IStoreUserState;
 	productList: IStoreProductsListState;
 	productDetails: IStoreProductDetailsState;
-	cart: ICartState;
+	cart: IStoreCartState;
 }

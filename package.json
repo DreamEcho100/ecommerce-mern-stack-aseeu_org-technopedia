@@ -6,8 +6,8 @@
 	"scripts": {
 		"start-server": "ts-node backend/server.ts",
 		"start-server-dev": "ts-node-dev backend/server.ts",
-		"start-client": "npm start --prefix frontend",
-		"dev": "concurrently \"npm run start-server-dev\" \"npm run start-client\"",
+		"start-client-dev": "npm start --prefix frontend",
+		"dev": "concurrently \"npm run start-server-dev\" \"npm run start-client-dev\"",
 		"import:init-data": "ts-node backend/seeder.ts",
 		"destroy:init-data": "ts-node backend/seeder.ts -d"
 	},

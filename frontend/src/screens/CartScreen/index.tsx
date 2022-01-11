@@ -16,7 +16,7 @@ import Message from 'src/components/UI/V1/Message';
 import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
 import { useTrackedSelector } from 'src/store';
-import { ICart } from 'src/store/ts';
+import { ICart } from 'src/react-app-env.d';
 
 interface Props {}
 

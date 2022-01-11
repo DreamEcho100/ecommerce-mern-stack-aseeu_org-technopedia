@@ -10,12 +10,12 @@ import storeInitialState from './initialState';
 
 const rootReducer = combineReducers(reducers);
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type TRootState = ReturnType<typeof rootReducer>;
 
 const middleware = [
 	thunk,
 	// logger
-	logger
+	logger,
 ];
 
 const store = createStore(
@@ -24,6 +24,7 @@ const store = createStore(
 	composeWithDevTools(applyMiddleware(...middleware))
 );
 
-export const useTrackedSelector = createTrackedSelector<RootState>(useSelector);
+export const useTrackedSelector =
+	createTrackedSelector<TRootState>(useSelector);
 
 export default store;

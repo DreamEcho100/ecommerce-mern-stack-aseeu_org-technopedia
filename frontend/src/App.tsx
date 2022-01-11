@@ -10,14 +10,16 @@ import { Container } from 'react-bootstrap';
 import './App.css';
 
 import MainLayout from './components/Layout/MainLayout/index';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
-import LoginScreen from './screens/LoginScreen';
 
 const AppRoutes = () => {
 	const routes = useRoutes([
 		{ path: '/login', element: <LoginScreen /> },
+		{ path: '/register', element: <RegisterScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
 		{

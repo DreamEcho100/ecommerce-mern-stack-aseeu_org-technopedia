@@ -1,8 +1,8 @@
 import React from 'react';
-import { TProduct } from 'src/react-app-env';
+import { IProduct } from 'src/react-app-env';
 
 interface Props {
-	value: TProduct['rating'];
+	value: IProduct['rating'];
 	text: string | number;
 	color: string;
 }

@@ -2,21 +2,29 @@ import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
 	USER_LOGIN_FAIL,
+	USER_REGISTER_REQUEST,
+	USER_REGISTER_SUCCESS,
+	USER_REGISTER_FAIL,
 	USER_LOGOUT,
 } from 'src/constants';
-import { TUserReducer } from 'src/store/ts';
+import { IUserReducer } from 'src/store/ts';
 import { userInitialState } from 'src/store/initialState';
 
-const userReducer: TUserReducer = (state = userInitialState, action) => {
+const userReducer: IUserReducer = (
+	state = Object.freeze(userInitialState),
+	action
+) => {
 	switch (action.type) {
+		case USER_REGISTER_REQUEST:
 		case USER_LOGIN_REQUEST: {
 			return {
 				...state,
 				loading: true,
-				error: ''
+				error: '',
 			};
 		}
 
+		case USER_REGISTER_SUCCESS:
 		case USER_LOGIN_SUCCESS: {
 			const { info } = action.payload;
 
@@ -28,6 +36,7 @@ const userReducer: TUserReducer = (state = userInitialState, action) => {
 			};
 		}
 
+		case USER_REGISTER_FAIL:
 		case USER_LOGIN_FAIL: {
 			const { error } = action.payload;
 
@@ -39,7 +48,7 @@ const userReducer: TUserReducer = (state = userInitialState, action) => {
 			};
 		}
 
-		case USER_LOGOUT: { 
+		case USER_LOGOUT: {
 			return userInitialState;
 		}
 

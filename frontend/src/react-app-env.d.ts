@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 
-export type TProduct = {
+export interface IProduct {
 	_id: string;
 	name: string;
 	image: string;
@@ -11,14 +11,23 @@ export type TProduct = {
 	countInStock: number;
 	rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
 	numReviews: number;
-};
+}
 
-export type TProducts = TProduct[];
+export type TProducts = IProduct[];
 
-export type TUser = {
+export interface IUser {
 	_id: string;
 	name: string;
 	email: string;
 	password: string;
 	isAdmin: boolean;
-};
+}
+
+export interface ICart {
+	_id: IProduct['_id'];
+	name: IProduct['name'];
+	image: IProduct['image'];
+	price: IProduct['price'];
+	countInStock: IProduct['countInStock'];
+	quantity: number;
+}
