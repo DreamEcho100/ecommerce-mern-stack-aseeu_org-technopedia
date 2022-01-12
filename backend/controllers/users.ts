@@ -26,6 +26,8 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 
 const getUserProfile = asyncHandler(
 	async (req: IUserRequest, res: Response) => {
+		if (!req.user || !req.user._id) throw new Error('User not found');
+
 		const user = await UserModel.findById(req.user._id);
 		if (user) {
 			res.json({
@@ -36,7 +38,7 @@ const getUserProfile = asyncHandler(
 			});
 		} else {
 			// res.status(404).send('User not found');
-			res.status(404)
+			res.status(404);
 			throw new Error('User not found');
 		}
 	}
@@ -72,4 +74,34 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-export { authUser, getUserProfile, registerUser };
+const updateUserProfile = asyncHandler(
+	async (req: IUserRequest, res: Response) => {
+		// res.send('successful calling')
+		if (!req.user || !req.user._id) throw new Error('User not found');
+
+		const user = await UserModel.findById(req.user._id);
+
+		if (user) {
+			user.name = req.body.name || user.name;
+			user.email = req.body.email || user.email;
+			if (req.body.password) {
+				user.password = req.body.password;
+			}
+
+			const updatedUser = await user.save();
+
+			res.json({
+				_id: updatedUser._id,
+				name: updatedUser.name,
+				email: updatedUser.email,
+				isAdmin: updatedUser.isAdmin,
+				token: generateToken(updatedUser._id),
+			});
+		} else {
+			res.status(404);
+			throw new Error('User not found');
+		}
+	}
+);
+
+export { authUser, getUserProfile, registerUser, updateUserProfile };
