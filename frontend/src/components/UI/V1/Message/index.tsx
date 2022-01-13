@@ -1,12 +1,28 @@
 import { Alert } from 'react-bootstrap';
 
-interface Props {
+interface IMessageProps {
 	variant: 'info' | 'danger';
+	className?: string;
+}
+
+interface IProps extends IMessageProps {
 	children: React.ReactNode;
 }
 
-const Message = ({ variant, children }: Props) => {
-	return <Alert variant={variant}>{children}</Alert>;
+const Message = ({ variant, className, children }: IProps) => {
+	const messageProps: IMessageProps = (() => {
+		const obj: IMessageProps = {
+			variant,
+		};
+
+		if (className) {
+			obj.className = className;
+		}
+
+		return obj;
+	})();
+
+	return <Alert {...messageProps}>{children}</Alert>;
 };
 
 Message.defaultProps = {

@@ -1,4 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import {
+	// Request,
+	Response,
+	NextFunction,
+} from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 
@@ -11,41 +15,57 @@ interface IJwtPayloadID extends JwtPayload {
 
 const protectMiddleware = asyncHandler(
 	async (req: IUserRequest, res: Response, next: NextFunction) => {
-		let token: string | undefined;
+		// let token: string | undefined;
+		const infoHolder: {
+			token?: string;
+			message?: string;
+			status?: number;
+		} = {};
 
 		if (
 			req.headers.authorization &&
 			req.headers.authorization.startsWith('Bearer')
 		) {
-			try {
-				token = req.headers.authorization.split(' ')[1];
-
-				if (typeof process.env.JWT_SECRET === 'string') {
-					console.log('token', token);
-					console.log('process.env.JWT_SECRET', process.env.JWT_SECRET);
+			if (typeof process.env.JWT_SECRET === 'string') {
+				try {
+					infoHolder.token = req.headers.authorization.split(' ')[1];
 
 					const decoded = jwt.verify(
-						token,
+						infoHolder.token,
 						process.env.JWT_SECRET
 					) as IJwtPayloadID; // :_(
 
-					if (decoded.id)
-						req.user = await User.findById(decoded.id).select('-password');
+					if (decoded.id) {
+						const reqUser = await User.findById(decoded.id).select('-password');
+						if (reqUser?._id) {
+							req.user = reqUser;
+						} else {
+							res.status(404);
+							throw new Error('User Not Found!');
+						}
+					}
+				} catch (error) {
+					if (error instanceof Error) {
+						infoHolder.message = error.message;
+						infoHolder.status = 500;
+					}
 				}
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(`Error: ${error.message}`); // .red.underline;
-					res.status(500);
-					throw new Error(error.message);
-				}
-				//   .json({
-				//   message:
-				//     error instanceof Error ? console.error(`Error: ${error.message}`) : '',
-				// });
+			} else {
+				infoHolder.message =
+					"process.env.JWT_SECRET doesn't exist on the server!";
+				infoHolder.status = 400;
 			}
-		} /*if(!token)*/ else {
-			res.status(401);
-			throw new Error('Not authorized');
+		}
+
+		if (!infoHolder.token) {
+			infoHolder.message = 'Not authorized!';
+			infoHolder.status = 401;
+		}
+
+		if (infoHolder.status) {
+			console.error(infoHolder.message);
+			res.status(infoHolder.status);
+			throw new Error(infoHolder.message);
 		}
 
 		next();

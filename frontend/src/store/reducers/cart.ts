@@ -1,8 +1,11 @@
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
 import { TCartReducer } from 'src/store/ts';
-import { cartInitialState } from 'src/store/initialState';
+import { returnCartInitialState } from 'src/store/initialState';
 
-const cartReducer: TCartReducer = (state = cartInitialState, action) => {
+const cartReducer: TCartReducer = (
+	state = returnCartInitialState(),
+	action
+) => {
 	switch (action.type) {
 		case CART_ADD_ITEM: {
 			const { item } = action.payload;
@@ -35,8 +38,9 @@ const cartReducer: TCartReducer = (state = cartInitialState, action) => {
 			};
 		}
 
-		default:
+		default: {
 			return state;
+		}
 	}
 };
 

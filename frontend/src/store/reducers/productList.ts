@@ -4,10 +4,10 @@ import {
 	PRODUCTS_LIST_REQUEST,
 } from 'src/constants';
 import { TStoreProductsListReducer } from 'src/store/ts';
-import { productListInitialState } from 'src/store/initialState';
+import { returnProductListInitialState } from 'src/store/initialState';
 
 const productListReducer: TStoreProductsListReducer = (
-	state = productListInitialState,
+	state = returnProductListInitialState(),
 	action
 ) => {
 	switch (action.type) {
@@ -42,8 +42,9 @@ const productListReducer: TStoreProductsListReducer = (
 			};
 		}
 
-		default:
+		default: {
 			return state;
+		}
 	}
 };
 

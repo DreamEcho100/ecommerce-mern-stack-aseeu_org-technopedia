@@ -93,8 +93,16 @@ const RegisterScreen = (props: Props) => {
 					></Form.Control>
 				</Form.Group>
 
-				{message && <Message variant='danger'>{message}</Message>}
-				{error && <Message variant='danger'>{error}</Message>}
+				{message && (
+					<Message variant='danger' className='my-3'>
+						{message}
+					</Message>
+				)}
+				{error && (
+					<Message variant='danger' className='my-3'>
+						{error}
+					</Message>
+				)}
 
 				<Button
 					disabled={loading}

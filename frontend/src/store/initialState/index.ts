@@ -7,50 +7,62 @@ import {
 	IStoreState,
 } from '../ts';
 
-export const userInitialState: IStoreUserState = {
+export const returnUserInitialState = (): IStoreUserState => ({
 	info: ls.get<IStoreUserState['info']>('userInfo', {
 		_id: '',
 		name: '',
 		email: '',
 		password: '',
 		isAdmin: false,
+		token: '',
 	}),
 	loading: false,
 	error: '',
-};
-
-export const productDetailsInitialState: IStoreProductDetailsState = {
-	product: {
-		_id: '',
-		name: '',
-		image: '',
-		description: '',
-		brand: '',
-		category: '',
-		price: 0,
-		countInStock: 0,
-		rating: 0,
-		numReviews: 0,
+	actions: {
+		requestUserDetails: {
+			isLoading: false,
+			error: '',
+		},
+		requestUpdateUserProfile: {
+			isLoading: false,
+			error: '',
+		},
 	},
-	loading: false,
-	error: '',
-};
+});
 
-export const productListInitialState: IStoreProductsListState = {
+export const returnProductDetailsInitialState =
+	(): IStoreProductDetailsState => ({
+		product: {
+			_id: '',
+			name: '',
+			image: '',
+			description: '',
+			brand: '',
+			category: '',
+			price: 0,
+			countInStock: 0,
+			rating: 0,
+			numReviews: 0,
+		},
+		loading: false,
+		error: '',
+	});
+
+export const returnProductListInitialState = (): IStoreProductsListState => ({
 	products: [],
 	loading: false,
 	error: '',
-};
+});
 
-export const cartInitialState: IStoreCartState = {
+export const returnCartInitialState = (): IStoreCartState => ({
 	items: ls.get<IStoreCartState['items']>('cartItems', []),
-};
+});
 
 const storeInitialState: IStoreState = {
-	user: userInitialState,
-	productDetails: productDetailsInitialState,
-	productList: productListInitialState,
-	cart: cartInitialState,
+	user: returnUserInitialState(),
+	productDetails: returnProductDetailsInitialState(),
+	productList: returnProductListInitialState(),
+	cart: returnCartInitialState(),
 };
 
 export default storeInitialState;

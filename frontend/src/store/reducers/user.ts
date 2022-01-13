@@ -6,12 +6,19 @@ import {
 	USER_REGISTER_SUCCESS,
 	USER_REGISTER_FAIL,
 	USER_LOGOUT,
+	USER_DETAILS_REQUEST,
+	USER_DETAILS_SUCCESS,
+	USER_DETAILS_FAIL,
+	USER_UPDATE_PROFILE_REQUEST,
+	USER_UPDATE_PROFILE_SUCCESS,
+	USER_UPDATE_PROFILE_FAIL,
+	USER_UPDATE_PROFILE_RESET,
 } from 'src/constants';
 import { IUserReducer } from 'src/store/ts';
-import { userInitialState } from 'src/store/initialState';
+import { returnUserInitialState } from 'src/store/initialState';
 
 const userReducer: IUserReducer = (
-	state = Object.freeze(userInitialState),
+	state = returnUserInitialState(),
 	action
 ) => {
 	switch (action.type) {
@@ -43,17 +50,115 @@ const userReducer: IUserReducer = (
 			return {
 				...state,
 				loading: false,
-				info: userInitialState.info,
+				info: returnUserInitialState().info,
 				error,
 			};
 		}
 
 		case USER_LOGOUT: {
-			return userInitialState;
+			return returnUserInitialState();
 		}
 
-		default:
+		case USER_DETAILS_REQUEST: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requestUserDetails: {
+						...state.actions.requestUserDetails,
+						error: '',
+						isLoading: true,
+					},
+				},
+			};
+		}
+		case USER_DETAILS_SUCCESS: {
+			const { info } = action.payload;
+
+			return {
+				...state,
+				info: {
+					...state.info,
+					...info,
+				},
+				actions: {
+					...state.actions,
+					requestUserDetails: {
+						error: '',
+						isLoading: false,
+					},
+				},
+			};
+		}
+		case USER_DETAILS_FAIL: {
+			const { error } = action.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requestUserDetails: {
+						...state.actions.requestUserDetails,
+						error,
+						isLoading: false,
+					},
+				},
+			};
+		}
+
+		case USER_UPDATE_PROFILE_REQUEST: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requestUpdateUserProfile: {
+						...state.actions.requestUpdateUserProfile,
+						error: '',
+						isLoading: true,
+					},
+				},
+			};
+		}
+		case USER_UPDATE_PROFILE_SUCCESS: {
+			const { info } = action.payload;
+
+			return {
+				...state,
+				info: {
+					...state.info,
+					...info,
+				},
+				actions: {
+					...state.actions,
+					requestUpdateUserProfile: {
+						error: '',
+						isLoading: false,
+					},
+				},
+			};
+		}
+		case USER_UPDATE_PROFILE_FAIL: {
+			const { error } = action.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requestUpdateUserProfile: {
+						...state.actions.requestUpdateUserProfile,
+						error,
+						isLoading: false,
+					},
+				},
+			};
+		}
+		case USER_UPDATE_PROFILE_RESET: {
 			return state;
+		}
+
+		default: {
+			return state;
+		}
 	}
 };
 

@@ -4,10 +4,10 @@ import {
 	PRODUCT_DETAILS_FAIL,
 } from 'src/constants';
 import { TStoreProductDetailsReducer } from 'src/store/ts';
-import { productDetailsInitialState } from 'src/store/initialState';
+import { returnProductDetailsInitialState } from 'src/store/initialState';
 
 const productDetailsReducer: TStoreProductDetailsReducer = (
-	state = productDetailsInitialState,
+	state = returnProductDetailsInitialState(),
 	action
 ) => {
 	switch (action.type) {
@@ -25,14 +25,15 @@ const productDetailsReducer: TStoreProductDetailsReducer = (
 			const { error } = action.payload;
 			return {
 				...state,
-				product: productDetailsInitialState.product,
+				product: returnProductDetailsInitialState().product,
 				loading: false,
 				error,
 			};
 		}
 
-		default:
+		default: {
 			return state;
+		}
 	}
 };
 

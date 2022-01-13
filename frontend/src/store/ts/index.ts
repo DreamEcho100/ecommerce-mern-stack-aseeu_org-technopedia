@@ -9,6 +9,13 @@ import {
 	USER_REGISTER_SUCCESS,
 	USER_REGISTER_FAIL,
 	USER_LOGOUT,
+	USER_DETAILS_REQUEST,
+	USER_DETAILS_SUCCESS,
+	USER_DETAILS_FAIL,
+	USER_UPDATE_PROFILE_REQUEST,
+	USER_UPDATE_PROFILE_SUCCESS,
+	USER_UPDATE_PROFILE_FAIL,
+	USER_UPDATE_PROFILE_RESET,
 	//
 	PRODUCTS_LIST_FAIL,
 	PRODUCTS_LIST_SUCCESS,
@@ -124,22 +131,46 @@ export interface IStoreUserState {
 	info: IUser;
 	loading: boolean;
 	error: string;
+	actions: {
+		requestUserDetails: {
+			isLoading: boolean;
+			error: string;
+		};
+		requestUpdateUserProfile: {
+			isLoading: boolean;
+			error: string;
+		};
+	};
 }
 
 export type IUserAction =
 	| {
-			type: typeof USER_LOGIN_REQUEST | typeof USER_REGISTER_REQUEST;
+			type:
+				| typeof USER_LOGIN_REQUEST
+				| typeof USER_REGISTER_REQUEST
+				| typeof USER_LOGOUT
+				| typeof USER_DETAILS_REQUEST
+				| typeof USER_UPDATE_PROFILE_REQUEST;
 	  }
 	| {
-			type: typeof USER_LOGIN_SUCCESS | typeof USER_REGISTER_SUCCESS;
+			type:
+				| typeof USER_LOGIN_SUCCESS
+				| typeof USER_REGISTER_SUCCESS
+				| typeof USER_DETAILS_SUCCESS
+				| typeof USER_UPDATE_PROFILE_SUCCESS;
 			payload: { info: IUser };
 	  }
 	| {
-			type: typeof USER_LOGIN_FAIL | typeof USER_REGISTER_FAIL;
+			type:
+				| typeof USER_LOGIN_FAIL
+				| typeof USER_REGISTER_FAIL
+				| typeof USER_DETAILS_FAIL
+				| typeof USER_UPDATE_PROFILE_FAIL;
 			payload: { error: string };
 	  }
 	| {
-			type: typeof USER_LOGOUT;
+			type: typeof USER_UPDATE_PROFILE_RESET;
+			payload: {};
 	  };
 
 export type IUserReducer = Reducer<IStoreUserState, IUserAction>;
@@ -156,10 +187,12 @@ export type THandleUserRegister = (
 	email: string,
 	password: string
 ) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
-export type THandleUserLogout = () => (
-	dispatch: IUserDispatch,
-	getState: () => TRootState
-) => void;
+export type THandleUserLogout = () => (dispatch: IUserDispatch) => void;
+export type THandleGetUserDetails = () => // _id: IUser['_id']
+(dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
+export type THandleUpdateUserProfile = (
+	user: IUser
+) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
 
 /* ************************ */
 /******* STORE STATE *******/

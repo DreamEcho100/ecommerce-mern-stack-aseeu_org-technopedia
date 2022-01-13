@@ -64,7 +64,11 @@ const LoginScreen = () => {
 					></Form.Control>
 				</Form.Group>
 
-				{error && <Message variant='danger'>{error}</Message>}
+				{error && (
+					<Message variant='danger' className='my-3'>
+						{error}
+					</Message>
+				)}
 
 				<Button
 					disabled={loading}
