@@ -30,7 +30,7 @@ const ProductScreen = (props: Props) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { loading, error, product } = useTrackedSelector().productDetails;
+	const { isLoading, error, product } = useTrackedSelector().productDetails;
 	const [quantity, setQuantity] = useState(1);
 
 	const addToCartHandler = () => {
@@ -47,7 +47,7 @@ const ProductScreen = (props: Props) => {
 			<Link className='btn btn-light my-3' to='/'>
 				Go Back
 			</Link>
-			{loading ? (
+			{isLoading ? (
 				<Loader />
 			) : error ? (
 				<Message variant='danger'>{error}</Message>

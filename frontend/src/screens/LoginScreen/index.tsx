@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useTrackedSelector } from 'src/store';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { IUser } from 'src/react-app-env';
 import { handleUserLogin } from 'src/store/actions/user';
 
 import Message from 'src/components/UI/V1//Message';
@@ -17,10 +18,10 @@ const LoginScreen = () => {
 	const dispatch = useDispatch();
 
 	// const userLogin = useSelector((state) => state.userLogin)
-	const { loading, error, info } = useTrackedSelector().user;
+	const { isLoading, error, info } = useTrackedSelector().user;
 
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	const [email, setEmail] = useState<IUser['email']>('');
+	const [password, setPassword] = useState<IUser['password']>('');
 
 	const redirect = location.search ? location.search.split('=')[1] : '/';
 
@@ -30,15 +31,15 @@ const LoginScreen = () => {
 		}
 	}, [navigate, info, redirect]);
 
-	const submitHandler = (e: React.FormEvent) => {
+	const submitHandler = (event: React.FormEvent) => {
 		dispatch(handleUserLogin(email, password));
-		e.preventDefault();
+		event.preventDefault();
 	};
 
 	return (
 		<FormContainer>
 			<h1>Sign In</h1>
-			{loading && <Loader />}
+			{isLoading && <Loader />}
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='email'>
 					<Form.Label>Email</Form.Label>
@@ -46,8 +47,8 @@ const LoginScreen = () => {
 						type='email'
 						placeholder='Enter email'
 						value={email}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-							setEmail(e.target.value);
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							setEmail(event.target.value);
 						}}
 					></Form.Control>
 				</Form.Group>
@@ -58,8 +59,8 @@ const LoginScreen = () => {
 						type='password'
 						placeholder='Enter password'
 						value={password}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-							setPassword(e.target.value);
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							setPassword(event.target.value);
 						}}
 					></Form.Control>
 				</Form.Group>
@@ -71,7 +72,7 @@ const LoginScreen = () => {
 				)}
 
 				<Button
-					disabled={loading}
+					disabled={isLoading}
 					className='my-3'
 					type='submit'
 					variant='primary'

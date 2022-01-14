@@ -16,16 +16,18 @@ export const returnUserInitialState = (): IStoreUserState => ({
 		isAdmin: false,
 		token: '',
 	}),
-	loading: false,
+	isLoading: false,
 	error: '',
 	actions: {
 		requestUserDetails: {
 			isLoading: false,
 			error: '',
+			success: false,
 		},
 		requestUpdateUserProfile: {
 			isLoading: false,
 			error: '',
+			success: false,
 		},
 	},
 });
@@ -44,13 +46,13 @@ export const returnProductDetailsInitialState =
 			rating: 0,
 			numReviews: 0,
 		},
-		loading: false,
+		isLoading: false,
 		error: '',
 	});
 
 export const returnProductListInitialState = (): IStoreProductsListState => ({
 	products: [],
-	loading: false,
+	isLoading: false,
 	error: '',
 });
 

@@ -33,7 +33,7 @@ import { TRootState } from 'src/store';
 /* ************************ */
 export interface IStoreProductsListState {
 	products: TProducts | [];
-	loading: boolean;
+	isLoading: boolean;
 	error: string;
 }
 
@@ -65,7 +65,7 @@ export type THandleListProducts = () => (
 /* ************************ */
 export interface IStoreProductDetailsState {
 	product: IProduct;
-	loading: boolean;
+	isLoading: boolean;
 	error: string;
 }
 
@@ -129,16 +129,18 @@ export type TRemoveFromCart = (
 
 export interface IStoreUserState {
 	info: IUser;
-	loading: boolean;
+	isLoading: boolean;
 	error: string;
 	actions: {
 		requestUserDetails: {
 			isLoading: boolean;
 			error: string;
+			success: boolean;
 		};
 		requestUpdateUserProfile: {
 			isLoading: boolean;
 			error: string;
+			success: boolean;
 		};
 	};
 }
@@ -188,11 +190,15 @@ export type THandleUserRegister = (
 	password: string
 ) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
 export type THandleUserLogout = () => (dispatch: IUserDispatch) => void;
-export type THandleGetUserDetails = () => // _id: IUser['_id']
-(dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
-export type THandleUpdateUserProfile = (
-	user: IUser
+export type TGetUserDetails = (
+	_id: IUser['_id']
 ) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
+export type TUpdateUserProfile = (userUpdatedInfo: {
+	_id?: IUser['_id'];
+	name?: IUser['name'];
+	email?: IUser['email'];
+	password?: IUser['password'];
+}) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
 
 /* ************************ */
 /******* STORE STATE *******/

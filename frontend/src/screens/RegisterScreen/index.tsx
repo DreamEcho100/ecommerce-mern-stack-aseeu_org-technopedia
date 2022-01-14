@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+
+import { IUser } from 'src/react-app-env';
+import { handleUserRegister } from 'src/store/actions/user';
 import { useTrackedSelector } from 'src/store';
+
 import Message from 'src/components/UI/V1/Message';
 import Loader from 'src/components/UI/V1/Loader';
 import FormContainer from 'src/components/UI/V1/FormContainer';
-import { handleUserRegister } from 'src/store/actions/user';
 
 interface Props {}
 
@@ -16,18 +19,18 @@ const RegisterScreen = (props: Props) => {
 	const location = useLocation();
 
 	// const userLogin = useSelector((state) => state.userLogin)
-	const { loading, error, info } = useTrackedSelector().user;
+	const { isLoading, error, info } = useTrackedSelector().user;
 
-	const [name, setName] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-	const [confirmPassword, setConfirmPassword] = useState<string>('');
+	const [name, setName] = useState<IUser['name']>('');
+	const [email, setEmail] = useState<IUser['email']>('');
+	const [password, setPassword] = useState<IUser['password']>('');
+	const [confirmPassword, setConfirmPassword] = useState<IUser['password']>('');
 	const [message, setMessage] = useState<string | null>(null);
 
 	const redirect = location.search ? location.search.split('=')[1] : '/';
 
 	useEffect(() => {
-		if (info?._id?.length !== 0) {
+		if (info._id) {
 			navigate(redirect);
 		}
 	}, [navigate, info, redirect]);
@@ -44,7 +47,7 @@ const RegisterScreen = (props: Props) => {
 	return (
 		<FormContainer>
 			<h1>Sign Up</h1>
-			{loading && <Loader />}
+			{isLoading && <Loader />}
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='Name'>
 					<Form.Label>name</Form.Label>
@@ -52,8 +55,8 @@ const RegisterScreen = (props: Props) => {
 						type='name'
 						placeholder='Enter name'
 						value={name}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setName(e.target.value)
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setName(event.target.value)
 						}
 					></Form.Control>
 				</Form.Group>
@@ -64,8 +67,8 @@ const RegisterScreen = (props: Props) => {
 						type='email'
 						placeholder='Enter email'
 						value={email}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setEmail(e.target.value)
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setEmail(event.target.value)
 						}
 					></Form.Control>
 				</Form.Group>
@@ -76,8 +79,8 @@ const RegisterScreen = (props: Props) => {
 						type='password'
 						placeholder='Enter password'
 						value={password}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setPassword(e.target.value)
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setPassword(event.target.value)
 						}
 					></Form.Control>
 				</Form.Group>
@@ -87,8 +90,8 @@ const RegisterScreen = (props: Props) => {
 						type='password'
 						placeholder='Confirm password'
 						value={confirmPassword}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setConfirmPassword(e.target.value)
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setConfirmPassword(event.target.value)
 						}
 					></Form.Control>
 				</Form.Group>
@@ -105,7 +108,7 @@ const RegisterScreen = (props: Props) => {
 				)}
 
 				<Button
-					disabled={loading}
+					disabled={isLoading}
 					className='my-3'
 					type='submit'
 					variant='primary'

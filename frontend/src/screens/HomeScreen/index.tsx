@@ -11,7 +11,7 @@ import Message from 'src/components/UI/V1/Message';
 const HomeScreen = () => {
 	const dispatch = useDispatch();
 
-	const { loading, error, products } = useTrackedSelector().productList;
+	const { isLoading, error, products } = useTrackedSelector().productList;
 
 	useEffect(() => {
 		dispatch(handleListProducts());
@@ -20,7 +20,7 @@ const HomeScreen = () => {
 	return (
 		<main>
 			<h1 className='text-center'>Latest Products</h1>
-			{loading ? (
+			{isLoading ? (
 				<Loader />
 			) : error ? (
 				<Message variant='danger'>{error}</Message>

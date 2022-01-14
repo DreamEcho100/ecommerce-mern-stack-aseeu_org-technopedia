@@ -1,7 +1,7 @@
 import { Alert } from 'react-bootstrap';
 
 interface IMessageProps {
-	variant: 'info' | 'danger';
+	variant: 'success' | 'info' | 'danger';
 	className?: string;
 }
 

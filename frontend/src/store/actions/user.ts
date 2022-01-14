@@ -19,8 +19,8 @@ import {
 	THandleUserLogin,
 	THandleUserLogout,
 	THandleUserRegister,
-	THandleGetUserDetails,
-	THandleUpdateUserProfile,
+	TGetUserDetails,
+	TUpdateUserProfile,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 
@@ -101,36 +101,32 @@ export const handleUserLogout: THandleUserLogout = () => (dispatch) => {
 	dispatch({ type: USER_LOGOUT });
 };
 
-export const handleGetUserDetails: THandleGetUserDetails =
-	() =>
-	// _id
-	async (dispatch, getState) => {
+export const getUserDetails: TGetUserDetails =
+	(_id) => async (dispatch, getState) => {
 		try {
 			dispatch({ type: USER_DETAILS_REQUEST });
 
 			const {
-				user: {
-					info: { token },
-				},
+				user: { info },
 			} = getState();
 
-			const userInfo: IUser = await fetch(
-				`${BACK_END_ROOT_URL}/users/profile`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			).then((response) => response.json());
+			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/users/${_id}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${info.token}`,
+				},
+			}).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
 				throw new Error(
 					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
 				);
 
-			ls.set('userInfo', userInfo);
+			ls.set('userInfo', {
+				...info,
+				...userInfo,
+			});
 
 			dispatch({
 				type: USER_DETAILS_SUCCESS,
@@ -147,17 +143,15 @@ export const handleGetUserDetails: THandleGetUserDetails =
 		}
 	};
 
-export const handleUpdateUserProfile: THandleUpdateUserProfile =
-	(user) =>
+export const updateUserProfile: TUpdateUserProfile =
+	(userUpdatedInfo) =>
 	// _id
 	async (dispatch, getState) => {
 		try {
 			dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
 
 			const {
-				user: {
-					info: { token },
-				},
+				user: { info },
 			} = getState();
 
 			const userInfo: IUser = await fetch(
@@ -166,17 +160,23 @@ export const handleUpdateUserProfile: THandleUpdateUserProfile =
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token}`,
+						Authorization: `Bearer ${info.token}`,
 					},
+					body: JSON.stringify(userUpdatedInfo),
 				}
 			).then((response) => response.json());
+
+			// delete userUpdatedInfo.password;
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
 				throw new Error(
 					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
 				);
 
-			ls.set('userInfo', userInfo);
+			ls.set('userInfo', {
+				...info,
+				...userInfo,
+			});
 
 			dispatch({
 				type: USER_UPDATE_PROFILE_SUCCESS,

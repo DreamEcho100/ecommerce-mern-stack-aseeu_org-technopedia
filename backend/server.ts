@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
 	origin: process.env.FRONT_END_ROOT_URL,
-	methods: 'GET', // PUT,PATCH,POST,DELETE,HEAD,
+	methods: 'GET,POST,PUT', // PUT,PATCH,POST,DELETE,HEAD,
 	// optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 

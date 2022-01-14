@@ -16,7 +16,7 @@ const Header = (props: Props) => {
 
 	const logoutHandler = () => {
 		dispatch(handleUserLogout());
-	}
+	};
 
 	return (
 		<header>
@@ -33,8 +33,8 @@ const Header = (props: Props) => {
 							{/* <LinkContainer to='/cart'> */}
 							<Nav.Link
 								href='/cart'
-								onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-									e.preventDefault();
+								onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+									event.preventDefault();
 									navigate('cart');
 								}}
 							>
@@ -43,23 +43,25 @@ const Header = (props: Props) => {
 							{/* </LinkContainer> */}
 
 							{info?._id?.length !== 0 ? (
-								<NavDropdown title= {info.name} id='username'>
-											<NavDropdown.Item
-												href='/profile'
-												onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-													e.preventDefault();
-													navigate('profile');
-												}}
-											>
-												Profile
-											</NavDropdown.Item>
-										<NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+								<NavDropdown title={info.name} id='username'>
+									<NavDropdown.Item
+										href='/profile'
+										onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+											event.preventDefault();
+											navigate('profile');
+										}}
+									>
+										Profile
+									</NavDropdown.Item>
+									<NavDropdown.Item onClick={logoutHandler}>
+										Logout
+									</NavDropdown.Item>
 								</NavDropdown>
 							) : (
 								<Nav.Link
 									href='/login'
-									onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-										e.preventDefault();
+									onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+										event.preventDefault();
 										navigate('login');
 									}}
 								>

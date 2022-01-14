@@ -17,17 +17,15 @@ import {
 import { IUserReducer } from 'src/store/ts';
 import { returnUserInitialState } from 'src/store/initialState';
 
-const userReducer: IUserReducer = (
-	state = returnUserInitialState(),
-	action
-) => {
+const userInit = returnUserInitialState;
+
+const userReducer: IUserReducer = (state = userInit(), action) => {
 	switch (action.type) {
 		case USER_REGISTER_REQUEST:
 		case USER_LOGIN_REQUEST: {
 			return {
-				...state,
-				loading: true,
-				error: '',
+				...userInit(),
+				isLoading: true,
 			};
 		}
 
@@ -36,9 +34,7 @@ const userReducer: IUserReducer = (
 			const { info } = action.payload;
 
 			return {
-				...state,
-				loading: false,
-				error: '',
+				...userInit(),
 				info,
 			};
 		}
@@ -48,15 +44,16 @@ const userReducer: IUserReducer = (
 			const { error } = action.payload;
 
 			return {
-				...state,
-				loading: false,
-				info: returnUserInitialState().info,
+				// ...state,
+				// isLoading: false,
+				// info: userInit().info,
+				...userInit(),
 				error,
 			};
 		}
 
 		case USER_LOGOUT: {
-			return returnUserInitialState();
+			return userInit();
 		}
 
 		case USER_DETAILS_REQUEST: {
@@ -65,8 +62,7 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUserDetails: {
-						...state.actions.requestUserDetails,
-						error: '',
+						...userInit().actions.requestUserDetails,
 						isLoading: true,
 					},
 				},
@@ -84,8 +80,8 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUserDetails: {
-						error: '',
-						isLoading: false,
+						...userInit().actions.requestUserDetails,
+						success: true,
 					},
 				},
 			};
@@ -98,9 +94,8 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUserDetails: {
-						...state.actions.requestUserDetails,
+						...userInit().actions.requestUserDetails,
 						error,
-						isLoading: false,
 					},
 				},
 			};
@@ -112,8 +107,7 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUpdateUserProfile: {
-						...state.actions.requestUpdateUserProfile,
-						error: '',
+						...userInit().actions.requestUpdateUserProfile,
 						isLoading: true,
 					},
 				},
@@ -131,8 +125,8 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUpdateUserProfile: {
-						error: '',
-						isLoading: false,
+						...userInit().actions.requestUpdateUserProfile,
+						success: true,
 					},
 				},
 			};
@@ -145,9 +139,8 @@ const userReducer: IUserReducer = (
 				actions: {
 					...state.actions,
 					requestUpdateUserProfile: {
-						...state.actions.requestUpdateUserProfile,
+						...userInit().actions.requestUpdateUserProfile,
 						error,
-						isLoading: false,
 					},
 				},
 			};

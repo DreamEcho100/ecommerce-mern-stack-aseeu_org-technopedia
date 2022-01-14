@@ -12,13 +12,13 @@ const productDetailsReducer: TStoreProductDetailsReducer = (
 ) => {
 	switch (action.type) {
 		case PRODUCT_DETAILS_REQUEST: {
-			return { ...state, loading: true, error: '' };
+			return { ...state, isLoading: true, error: '' };
 		}
 
 		case PRODUCT_DETAILS_SUCCESS: {
 			const { product } = action.payload;
 
-			return { ...state, product, loading: false, error: '' };
+			return { ...state, product, isLoading: false, error: '' };
 		}
 
 		case PRODUCT_DETAILS_FAIL: {
@@ -26,7 +26,7 @@ const productDetailsReducer: TStoreProductDetailsReducer = (
 			return {
 				...state,
 				product: returnProductDetailsInitialState().product,
-				loading: false,
+				isLoading: false,
 				error,
 			};
 		}

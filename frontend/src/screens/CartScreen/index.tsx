@@ -93,8 +93,10 @@ const CartScreen = (props: Props) => {
 										<Form.Control
 											as='select'
 											value={item.quantity}
-											onChange={(e) =>
-												dispatch(addToCart(item._id, Number(e.target.value)))
+											onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+												dispatch(
+													addToCart(item._id, Number(event.target.value))
+												)
 											}
 										>
 											{new Array(item.countInStock)
