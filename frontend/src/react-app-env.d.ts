@@ -39,3 +39,5 @@ export interface IShippingAddress {
 	postalCode: string;
 	country: string;
 }
+
+export type TPaymentMethod = 'PayPal' | 'Stripe';

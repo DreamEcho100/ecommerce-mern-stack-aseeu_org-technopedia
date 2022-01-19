@@ -1,5 +1,11 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
 import {
+	CART_ADD_ITEM,
+	CART_REMOVE_ITEM,
+	CART_SAVE_SHIPPING_ADDRESS,
+	CART_SAVE_PAYMENT_METHOD,
+} from 'src/constants';
+import {
+	ISavePaymentMethod,
 	TAddToCart,
 	TRemoveFromCart,
 	TSaveShippingAddress,
@@ -7,7 +13,6 @@ import {
 import ls from 'src/utils/v1/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IProduct } from 'src/react-app-env';
-import { CART_SAVE_SHIPPING_ADDRESS } from 'src/constants/cart';
 
 export const addToCart: TAddToCart =
 	(_id, quantity) => async (dispatch, getState) => {
@@ -69,4 +74,14 @@ export const saveShippingAddress: TSaveShippingAddress =
 			'cartShippingAddress',
 			JSON.stringify(shippingAddress)
 		);
+	};
+
+export const savePaymentMethod: ISavePaymentMethod =
+	(paymentMethod) => (dispatch) => {
+		dispatch({
+			type: CART_SAVE_PAYMENT_METHOD,
+			payload: { paymentMethod },
+		});
+
+		localStorage.setItem('cartPaymentMethod', JSON.stringify(paymentMethod));
 	};

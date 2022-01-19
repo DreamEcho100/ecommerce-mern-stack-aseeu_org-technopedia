@@ -5,12 +5,8 @@ import {
 	TProducts,
 	IUser,
 	IShippingAddress,
+	TPaymentMethod,
 } from 'src/react-app-env';
-import {
-	CART_ADD_ITEM,
-	CART_REMOVE_ITEM,
-	CART_SAVE_SHIPPING_ADDRESS,
-} from 'src/constants/cart';
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
@@ -35,6 +31,10 @@ import {
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_FAIL,
 	//
+	CART_ADD_ITEM,
+	CART_REMOVE_ITEM,
+	CART_SAVE_SHIPPING_ADDRESS,
+	CART_SAVE_PAYMENT_METHOD,
 } from 'src/constants';
 import { TRootState } from 'src/store';
 
@@ -109,6 +109,7 @@ export type THandleProductDetails = (
 export interface IStoreCartState {
 	items: ICartItems[] | [];
 	shippingAddress: IShippingAddress;
+	paymentMethod: TPaymentMethod;
 }
 
 export type TCartAction =
@@ -123,6 +124,10 @@ export type TCartAction =
 	| {
 			type: typeof CART_SAVE_SHIPPING_ADDRESS;
 			payload: { shippingAddress: IShippingAddress };
+	  }
+	| {
+			type: typeof CART_SAVE_PAYMENT_METHOD;
+			payload: { paymentMethod: TPaymentMethod };
 	  };
 
 export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
@@ -139,6 +144,10 @@ export type TRemoveFromCart = (
 ) => (dispatch: TCartDispatch, getState: () => TRootState) => void;
 export type TSaveShippingAddress = (
 	shippingAddress: IShippingAddress
+) => (dispatch: TCartDispatch) => void;
+
+export type ISavePaymentMethod = (
+	paymentMethod: TPaymentMethod
 ) => (dispatch: TCartDispatch) => void;
 
 /* ************************ */

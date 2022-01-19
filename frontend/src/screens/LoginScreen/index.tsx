@@ -32,8 +32,8 @@ const LoginScreen = (): JSX.Element => {
 	}, [navigate, info, redirect]);
 
 	const submitHandler = (event: FormEvent) => {
-		dispatch(handleUserLogin(email, password));
 		event.preventDefault();
+		dispatch(handleUserLogin(email, password));
 	};
 
 	return (

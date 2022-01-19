@@ -67,6 +67,10 @@ export const returnCartInitialState = (): IStoreCartState => ({
 			country: '',
 		}
 	),
+	paymentMethod: ls.get<IStoreCartState['paymentMethod']>(
+		'cartPaymentMethod',
+		'PayPal'
+	),
 });
 
 const storeInitialState: IStoreState = {

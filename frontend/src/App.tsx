@@ -13,6 +13,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
@@ -23,6 +24,7 @@ const AppRoutes = () => {
 		{ path: '/register', element: <RegisterScreen /> },
 		{ path: '/profile', element: <ProfileScreen /> },
 		{ path: '/shipping', element: <ShippingScreen /> },
+		{ path: '/payment', element: <PaymentScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
 		{
