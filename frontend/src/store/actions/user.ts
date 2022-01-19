@@ -29,13 +29,16 @@ export const handleUserLogin: THandleUserLogin =
 		try {
 			dispatch({ type: USER_LOGIN_REQUEST });
 
-			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/users/login`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-			}).then((response) => response.json());
+			const userInfo: IUser = await fetch(
+				`${BACK_END_ROOT_URL}/api/users/login`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ email, password }),
+				}
+			).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
 				throw new Error(
@@ -64,7 +67,7 @@ export const handleUserRegister: THandleUserRegister =
 		try {
 			dispatch({ type: USER_REGISTER_REQUEST });
 
-			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/users`, {
+			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/api/users`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -110,13 +113,16 @@ export const getUserDetails: TGetUserDetails =
 				user: { info },
 			} = getState();
 
-			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/users/${_id}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${info.token}`,
-				},
-			}).then((response) => response.json());
+			const userInfo: IUser = await fetch(
+				`${BACK_END_ROOT_URL}/api/users/${_id}`,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
 				throw new Error(
@@ -155,7 +161,7 @@ export const updateUserProfile: TUpdateUserProfile =
 			} = getState();
 
 			const userInfo: IUser = await fetch(
-				`${BACK_END_ROOT_URL}/users/profile`,
+				`${BACK_END_ROOT_URL}/api/users/profile`,
 				{
 					method: 'PUT',
 					headers: {

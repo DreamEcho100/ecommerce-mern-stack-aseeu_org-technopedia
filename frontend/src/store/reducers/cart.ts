@@ -3,9 +3,13 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_PAYMENT_METHOD,
 	CART_SAVE_SHIPPING_ADDRESS,
+	// ORDER_CART_ITEMS_REQUEST,
+	// ORDER_CART_ITEMS_SUCCESS,
+	// ORDER_CART_ITEMS_FAIL,
 } from 'src/constants';
 import { TCartReducer } from 'src/store/ts';
 import { returnCartInitialState } from 'src/store/initialState';
+import { handleCartItemsCalcs } from 'src/utils/v1/core/cart';
 
 const cartReducer: TCartReducer = (
 	state = returnCartInitialState(),
@@ -19,27 +23,32 @@ const cartReducer: TCartReducer = (
 				(cartItem) => cartItem._id === item._id
 			);
 
-			if (existItem) {
-				return {
-					...state,
-					items: state.items.map((cartItem) =>
+			const items = existItem
+				? state.items.map((cartItem) =>
 						cartItem._id === existItem._id ? item : cartItem
-					),
-				};
-			} else {
-				return {
-					...state,
-					items: [...state.items, item],
-				};
-			}
+				  )
+				: [...state.items, item];
+
+			const cartItemsCalcs = handleCartItemsCalcs(items);
+
+			return {
+				...state,
+				items,
+				...cartItemsCalcs,
+			};
 		}
 
 		case CART_REMOVE_ITEM: {
 			const { _id } = action.payload;
 
+			const items = state.items.filter((cartItem) => cartItem._id !== _id);
+
+			const cartItemsCalcs = handleCartItemsCalcs(items);
+
 			return {
 				...state,
-				items: state.items.filter((cartItem) => cartItem._id !== _id),
+				items,
+				...cartItemsCalcs,
 			};
 		}
 

@@ -31,7 +31,7 @@ const RegisterScreen = (props: Props): JSX.Element => {
 
 	useEffect(() => {
 		if (info._id) {
-			navigate(redirect);
+			navigate(redirect, { replace: true });
 		}
 	}, [navigate, info, redirect]);
 

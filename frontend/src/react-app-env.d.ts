@@ -24,7 +24,7 @@ export interface IUser {
 	token: string;
 }
 
-export interface ICartItems {
+export interface ICartItem {
 	_id: IProduct['_id'];
 	name: IProduct['name'];
 	image: IProduct['image'];
@@ -41,3 +41,13 @@ export interface IShippingAddress {
 }
 
 export type TPaymentMethod = 'PayPal' | 'Stripe';
+
+export interface IOrder {
+	items: ICartItem[];
+	shippingAddress: IShippingAddress;
+	paymentMethod: TPaymentMethod;
+	itemsPrice: string;
+	shippingPrice: string;
+	taxPrice: string;
+	totalPrice: string;
+}

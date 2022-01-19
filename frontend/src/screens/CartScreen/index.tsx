@@ -16,7 +16,8 @@ import Message from 'src/components/UI/V1/Message';
 import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
 import { useMainStoreSelector } from 'src/store';
-import { ICartItems } from 'src/react-app-env.d';
+import { ICartItem } from 'src/react-app-env.d';
+import { addDecimals } from 'src/utils/v1/core/cart';
 
 interface Props {}
 
@@ -38,12 +39,12 @@ const CartScreen = (props: Props): JSX.Element => {
 		}
 	}, [dispatch, productId, quantity]);
 
-	const removeFromCartHandler = (_id: ICartItems['_id']) => {
+	const removeFromCartHandler = (_id: ICartItem['_id']) => {
 		dispatch(removeFromCart(_id));
 	};
 
 	const checkoutHandler = () => {
-		navigate('/login/?redirect=shipping');
+		navigate('/login/?redirect=shipping', { replace: true });
 	};
 
 	const calculateSubtotal = (items: typeof cartItems) => {
@@ -53,12 +54,12 @@ const CartScreen = (props: Props): JSX.Element => {
 			total += items[i].quantity;
 		}
 
-		return total;
+		return addDecimals(total);
 	};
 
 	const calculatePrice = (items: typeof cartItems) => {
 		// cartItems
-		// 	.reduce((acc: number, item: ICartItems) => acc + item.quantity * item.price, 0)
+		// 	.reduce((acc: number, item: ICartItem) => acc + item.quantity * item.price, 0)
 		// 	.toFixed(2)
 		let total: number = 0;
 		let i: number = 0;
@@ -66,7 +67,7 @@ const CartScreen = (props: Props): JSX.Element => {
 			total += items[i].quantity * items[i].price;
 		}
 
-		return total;
+		return addDecimals(total);
 	};
 
 	return (
@@ -131,8 +132,8 @@ const CartScreen = (props: Props): JSX.Element => {
 								Subtotal (
 								{
 									calculateSubtotal(cartItems)
-									// (cartItems as ICartItems[])
-									// 	.reduce((acc: number | Array<string>, item: number | string | ICartItems) =>
+									// (cartItems as ICartItem[])
+									// 	.reduce((acc: number | Array<string>, item: number | string | ICartItem) =>
 									// 		parseInt(acc) + parseInt(item.quantity), 0)
 								}
 								) items
@@ -141,7 +142,7 @@ const CartScreen = (props: Props): JSX.Element => {
 							{
 								calculatePrice(cartItems)
 								// cartItems
-								// .reduce((acc: number, item: ICartItems) => acc + item.quantity * item.price, 0)
+								// .reduce((acc: number, item: ICartItem) => acc + item.quantity * item.price, 0)
 								// .toFixed(2)
 							}
 						</ListGroup.Item>

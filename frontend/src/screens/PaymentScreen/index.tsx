@@ -1,15 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import FormContainer from 'src/components/UI/V1/FormContainer';
-import CheckoutSteps from 'src/components/UI/V1/CheckoutSteps';
 
 import { savePaymentMethod } from 'src/store/actions/cart';
 import { useMainStoreSelector } from 'src/store';
 import { useNavigate } from 'react-router';
 import { TPaymentMethod } from 'src/react-app-env';
+
+import FormContainer from 'src/components/UI/V1/FormContainer';
+import CheckoutSteps from 'src/components/UI/V1/CheckoutSteps';
+
 const PaymentScreen = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	// const cart = useSelector((state) => state.cart)
 	// const { shippingAddress } = cart
@@ -17,19 +20,17 @@ const PaymentScreen = () => {
 	const { shippingAddress } = cart;
 
 	if (!shippingAddress.address) {
-		navigate('/shipping');
+		navigate('/shipping', { replace: true });
 	}
 
 	const [paymentMethod, setPaymentMethod] = useState<TPaymentMethod>(
 		cart.paymentMethod
 	);
 
-	const dispatch = useDispatch();
-
 	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
-		navigate('/placeholder');
+		navigate('/placeOrder', { replace: true });
 	};
 
 	return (

@@ -28,7 +28,7 @@ const ShippingScreen = (props: Props): JSX.Element => {
 	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
 		dispatch(saveShippingAddress({ address, city, postalCode, country }));
-		navigate('/payment');
+		navigate('/payment', { replace: true });
 	};
 
 	return (

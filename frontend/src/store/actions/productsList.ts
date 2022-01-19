@@ -13,7 +13,7 @@ export const handleListProducts: THandleListProducts =
 			dispatch({ type: PRODUCTS_LIST_REQUEST });
 
 			const products: TProducts = await fetch(
-				`${BACK_END_ROOT_URL}/products`
+				`${BACK_END_ROOT_URL}/api/products`
 			).then((response) => response.json());
 
 			dispatch({

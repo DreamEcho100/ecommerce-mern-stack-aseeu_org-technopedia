@@ -13,7 +13,12 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: IProps) => {
 		<Nav className='justify-content-center'>
 			<Nav.Item>
 				{step1 ? (
-					<CustomLinkContainer to='/login'>Sign In</CustomLinkContainer>
+					<CustomLinkContainer
+						to='/login'
+						navigateExtraProps={{ replace: true }}
+					>
+						Sign In
+					</CustomLinkContainer>
 				) : (
 					<Nav.Link disabled> Sign In</Nav.Link>
 				)}
@@ -21,7 +26,12 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: IProps) => {
 
 			<Nav.Item>
 				{step2 ? (
-					<CustomLinkContainer to='/shipping'>Shippin</CustomLinkContainer>
+					<CustomLinkContainer
+						to='/shipping'
+						navigateExtraProps={{ replace: true }}
+					>
+						Shipping
+					</CustomLinkContainer>
 				) : (
 					<Nav.Link disabled> Shipping</Nav.Link>
 				)}
@@ -29,7 +39,12 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: IProps) => {
 
 			<Nav.Item>
 				{step3 ? (
-					<CustomLinkContainer to='/payment'>Payment</CustomLinkContainer>
+					<CustomLinkContainer
+						to='/payment'
+						navigateExtraProps={{ replace: true }}
+					>
+						Payment
+					</CustomLinkContainer>
 				) : (
 					<Nav.Link disabled> Payment </Nav.Link>
 				)}
@@ -37,7 +52,12 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: IProps) => {
 
 			<Nav.Item>
 				{step4 ? (
-					<CustomLinkContainer to='/placeOrder'>Place orde</CustomLinkContainer>
+					<CustomLinkContainer
+						to='/placeOrder'
+						navigateExtraProps={{ replace: true }}
+					>
+						Place orde
+					</CustomLinkContainer>
 				) : (
 					<Nav.Link disabled> Place order</Nav.Link>
 				)}

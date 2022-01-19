@@ -26,11 +26,13 @@ interface IOrder {
 	user: typeof Schema.Types.ObjectId;
 	orderItems: TOrderItem[];
 	shippingAddress: TShippingAddress;
+	itemsPrice: string;
 	paymentMethod: string;
 	paymentResult: TPaymentResult;
 	category: string;
 	taxPrice: number;
 	shippingPrice: number;
+	totalPrice: string;
 	isPaid: boolean;
 	paidAt?: Date;
 	isDelivered: boolean;
@@ -65,6 +67,9 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 			postalCode: { type: String, required: true },
 			country: { type: String, required: true },
 		},
+		itemsPrice: {
+			type: String,
+		},
 		paymentMethod: {
 			type: String,
 			required: true,
@@ -88,6 +93,9 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 			type: Number,
 			required: true,
 			default: 0.0,
+		},
+		totalPrice: {
+			type: String,
 		},
 		isPaid: {
 			type: Boolean,

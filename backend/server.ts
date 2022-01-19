@@ -26,8 +26,8 @@ app.get('/', (req: Request, res: Response) => {
 	res.send('API is running!');
 });
 
-app.use('/products', productsRoutes);
-app.use('/users', usersRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/users', usersRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
 	const error = new Error(`Not Found - ${req.originalUrl}`);

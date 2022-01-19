@@ -29,7 +29,7 @@ const ProfileScreen = (props: Props): JSX.Element => {
 
 	useEffect(() => {
 		if (!info._id) {
-			navigate('/login');
+			navigate('/login', { replace: true });
 		} else {
 			if (!info.name) {
 				dispatch(getUserDetails('profile'));

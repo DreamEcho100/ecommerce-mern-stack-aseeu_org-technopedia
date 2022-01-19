@@ -18,7 +18,7 @@ export const addToCart: TAddToCart =
 	(_id, quantity) => async (dispatch, getState) => {
 		try {
 			const data: IProduct = await fetch(
-				`${BACK_END_ROOT_URL}/products/${_id}`
+				`${BACK_END_ROOT_URL}/api/products/${_id}`
 			).then((response) => response.json());
 
 			localStorage.setItem('cartItems', JSON.stringify(getState().cart.items));
