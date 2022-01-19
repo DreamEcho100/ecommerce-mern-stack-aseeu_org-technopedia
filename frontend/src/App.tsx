@@ -1,4 +1,3 @@
-// import React from 'react';
 import {
 	BrowserRouter as Router,
 	// Route,
@@ -13,6 +12,7 @@ import MainLayout from './components/Layout/MainLayout/index';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import ShippingScreen from './screens/ShippingScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
@@ -22,6 +22,7 @@ const AppRoutes = () => {
 		{ path: '/login', element: <LoginScreen /> },
 		{ path: '/register', element: <RegisterScreen /> },
 		{ path: '/profile', element: <ProfileScreen /> },
+		{ path: '/shipping', element: <ShippingScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
 		{
@@ -43,7 +44,7 @@ const AppRoutes = () => {
 	return routes;
 };
 
-function App() {
+const App = (): JSX.Element => {
 	return (
 		<Router>
 			<MainLayout>
@@ -55,6 +56,6 @@ function App() {
 			</MainLayout>
 		</Router>
 	);
-}
+};
 
 export default App;

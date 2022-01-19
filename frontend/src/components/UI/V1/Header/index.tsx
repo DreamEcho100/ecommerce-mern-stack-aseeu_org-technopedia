@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { /* Link */ NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -8,11 +8,11 @@ import { handleUserLogout } from 'src/store/actions/user';
 
 interface Props {}
 
-const Header = (props: Props) => {
+const Header = (props: Props): JSX.Element => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { info } = useTrackedSelector().user;
+	const { info } = useMainStoreSelector().user;
 
 	const logoutHandler = () => {
 		dispatch(handleUserLogout());

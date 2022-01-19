@@ -1,6 +1,16 @@
 import { Reducer } from 'redux';
-import { ICart, IProduct, TProducts, IUser } from 'src/react-app-env';
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants/cart';
+import {
+	ICartItems,
+	IProduct,
+	TProducts,
+	IUser,
+	IShippingAddress,
+} from 'src/react-app-env';
+import {
+	CART_ADD_ITEM,
+	CART_REMOVE_ITEM,
+	CART_SAVE_SHIPPING_ADDRESS,
+} from 'src/constants/cart';
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
@@ -97,17 +107,22 @@ export type THandleProductDetails = (
 /* ************************ */
 
 export interface IStoreCartState {
-	items: ICart[] | [];
+	items: ICartItems[] | [];
+	shippingAddress: IShippingAddress;
 }
 
 export type TCartAction =
 	| {
 			type: typeof CART_ADD_ITEM;
-			payload: { item: ICart };
+			payload: { item: ICartItems };
 	  }
 	| {
 			type: typeof CART_REMOVE_ITEM;
-			payload: { _id: ICart['_id'] };
+			payload: { _id: ICartItems['_id'] };
+	  }
+	| {
+			type: typeof CART_SAVE_SHIPPING_ADDRESS;
+			payload: { shippingAddress: IShippingAddress };
 	  };
 
 export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
@@ -116,12 +131,15 @@ type TCartDispatch =
 	| React.Dispatch<TCartAction>
 	| ((value: TCartAction) => IStoreCartState);
 export type TAddToCart = (
-	_id: ICart['_id'],
-	quantity: ICart['quantity']
+	_id: ICartItems['_id'],
+	quantity: ICartItems['quantity']
 ) => (dispatch: TCartDispatch, getState: () => TRootState) => Promise<void>;
 export type TRemoveFromCart = (
-	_id: ICart['_id']
+	_id: ICartItems['_id']
 ) => (dispatch: TCartDispatch, getState: () => TRootState) => void;
+export type TSaveShippingAddress = (
+	shippingAddress: IShippingAddress
+) => (dispatch: TCartDispatch) => void;
 
 /* ************************ */
 /***** USER *****/

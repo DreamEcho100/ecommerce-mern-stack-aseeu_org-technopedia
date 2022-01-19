@@ -9,7 +9,7 @@ interface Props {
 	singleItem: IProduct;
 }
 
-const ProductComponent = ({ singleItem }: Props) => {
+const ProductComponent = ({ singleItem }: Props): JSX.Element => {
 	return (
 		<div>
 			<Card className='my-3 p-3 rounded'>

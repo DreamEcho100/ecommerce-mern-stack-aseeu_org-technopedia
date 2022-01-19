@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { IUser } from 'src/react-app-env';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 import { getUserDetails, updateUserProfile } from 'src/store/actions/user';
 
 import Message from 'src/components/UI/V1/Message';
@@ -12,14 +12,14 @@ import Loader from 'src/components/UI/V1/Loader';
 
 interface Props {}
 
-const ProfileScreen = (props: Props) => {
+const ProfileScreen = (props: Props): JSX.Element => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const {
 		info,
 		actions: { requestUpdateUserProfile, requestUserDetails },
-	} = useTrackedSelector().user;
+	} = useMainStoreSelector().user;
 
 	const [name, setName] = useState<IUser['name']>('');
 	const [email, setEmail] = useState<IUser['email']>('');
@@ -40,7 +40,7 @@ const ProfileScreen = (props: Props) => {
 		}
 	}, [dispatch, navigate, info]);
 
-	const submitHandler = (event: React.FormEvent) => {
+	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
 
 		setMessage('');
@@ -64,7 +64,7 @@ const ProfileScreen = (props: Props) => {
 							type='name'
 							placeholder='Enter name'
 							value={name}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setName(event.target.value)
 							}
 						></Form.Control>
@@ -76,7 +76,7 @@ const ProfileScreen = (props: Props) => {
 							type='email'
 							placeholder='Enter email'
 							value={email}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setEmail(event.target.value)
 							}
 						></Form.Control>
@@ -88,7 +88,7 @@ const ProfileScreen = (props: Props) => {
 							type='password'
 							placeholder='Enter password'
 							value={password}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setPassword(event.target.value)
 							}
 						></Form.Control>
@@ -100,7 +100,7 @@ const ProfileScreen = (props: Props) => {
 							type='password'
 							placeholder='Confirm password'
 							value={confirmPassword}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							onChange={(event: ChangeEvent<HTMLInputElement>) =>
 								setConfirmPassword(event.target.value)
 							}
 						></Form.Control>

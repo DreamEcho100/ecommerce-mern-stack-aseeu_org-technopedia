@@ -24,11 +24,18 @@ export interface IUser {
 	token: string;
 }
 
-export interface ICart {
+export interface ICartItems {
 	_id: IProduct['_id'];
 	name: IProduct['name'];
 	image: IProduct['image'];
 	price: IProduct['price'];
 	countInStock: IProduct['countInStock'];
 	quantity: number;
+}
+
+export interface IShippingAddress {
+	address: string;
+	city: string;
+	postalCode: string;
+	country: string;
 }

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { IUser } from 'src/react-app-env';
@@ -12,13 +12,13 @@ import Message from 'src/components/UI/V1//Message';
 import Loader from 'src/components/UI/V1//Loader';
 import FormContainer from 'src/components/UI/V1//FormContainer';
 
-const LoginScreen = () => {
+const LoginScreen = (): JSX.Element => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const dispatch = useDispatch();
 
 	// const userLogin = useSelector((state) => state.userLogin)
-	const { isLoading, error, info } = useTrackedSelector().user;
+	const { isLoading, error, info } = useMainStoreSelector().user;
 
 	const [email, setEmail] = useState<IUser['email']>('');
 	const [password, setPassword] = useState<IUser['password']>('');
@@ -31,7 +31,7 @@ const LoginScreen = () => {
 		}
 	}, [navigate, info, redirect]);
 
-	const submitHandler = (event: React.FormEvent) => {
+	const submitHandler = (event: FormEvent) => {
 		dispatch(handleUserLogin(email, password));
 		event.preventDefault();
 	};
@@ -47,7 +47,7 @@ const LoginScreen = () => {
 						type='email'
 						placeholder='Enter email'
 						value={email}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						onChange={(event: ChangeEvent<HTMLInputElement>) => {
 							setEmail(event.target.value);
 						}}
 					></Form.Control>
@@ -59,7 +59,7 @@ const LoginScreen = () => {
 						type='password'
 						placeholder='Enter password'
 						value={password}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						onChange={(event: ChangeEvent<HTMLInputElement>) => {
 							setPassword(event.target.value);
 						}}
 					></Form.Control>

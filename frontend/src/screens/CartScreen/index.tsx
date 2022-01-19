@@ -15,17 +15,17 @@ import {
 import Message from 'src/components/UI/V1/Message';
 import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
-import { useTrackedSelector } from 'src/store';
-import { ICart } from 'src/react-app-env.d';
+import { useMainStoreSelector } from 'src/store';
+import { ICartItems } from 'src/react-app-env.d';
 
 interface Props {}
 
-const CartScreen = (props: Props) => {
+const CartScreen = (props: Props): JSX.Element => {
 	const params = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const cartItems = useTrackedSelector().cart.items;
+	const cartItems = useMainStoreSelector().cart.items;
 
 	const productId = params.id;
 	const quantity = window?.location?.search
@@ -38,7 +38,7 @@ const CartScreen = (props: Props) => {
 		}
 	}, [dispatch, productId, quantity]);
 
-	const removeFromCartHandler = (_id: ICart['_id']) => {
+	const removeFromCartHandler = (_id: ICartItems['_id']) => {
 		dispatch(removeFromCart(_id));
 	};
 
@@ -58,7 +58,7 @@ const CartScreen = (props: Props) => {
 
 	const calculatePrice = (items: typeof cartItems) => {
 		// cartItems
-		// 	.reduce((acc: number, item: ICart) => acc + item.quantity * item.price, 0)
+		// 	.reduce((acc: number, item: ICartItems) => acc + item.quantity * item.price, 0)
 		// 	.toFixed(2)
 		let total: number = 0;
 		let i: number = 0;
@@ -131,8 +131,8 @@ const CartScreen = (props: Props) => {
 								Subtotal (
 								{
 									calculateSubtotal(cartItems)
-									// (cartItems as ICart[])
-									// 	.reduce((acc: number | Array<string>, item: number | string | ICart) =>
+									// (cartItems as ICartItems[])
+									// 	.reduce((acc: number | Array<string>, item: number | string | ICartItems) =>
 									// 		parseInt(acc) + parseInt(item.quantity), 0)
 								}
 								) items
@@ -141,7 +141,7 @@ const CartScreen = (props: Props) => {
 							{
 								calculatePrice(cartItems)
 								// cartItems
-								// .reduce((acc: number, item: ICart) => acc + item.quantity * item.price, 0)
+								// .reduce((acc: number, item: ICartItems) => acc + item.quantity * item.price, 0)
 								// .toFixed(2)
 							}
 						</ListGroup.Item>

@@ -2,7 +2,7 @@ import { Spinner } from 'react-bootstrap';
 
 interface Props {}
 
-const Loader = (props: Props) => {
+const Loader = (props: Props): JSX.Element => {
 	return (
 		<Spinner
 			animation='border'

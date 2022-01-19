@@ -1,7 +1,7 @@
 // import React from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 import { Link } from 'react-router-dom';
 import {
 	Container,
@@ -25,12 +25,12 @@ import Message from 'src/components/UI/V1/Message';
 
 interface Props {}
 
-const ProductScreen = (props: Props) => {
+const ProductScreen = (props: Props): JSX.Element => {
 	const params = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { isLoading, error, product } = useTrackedSelector().productDetails;
+	const { isLoading, error, product } = useMainStoreSelector().productDetails;
 	const [quantity, setQuantity] = useState(1);
 
 	const addToCartHandler = () => {
@@ -96,9 +96,9 @@ const ProductScreen = (props: Props) => {
 													<Form.Control
 														as='select'
 														value={quantity}
-														onChange={(
-															event: React.ChangeEvent<HTMLInputElement>
-														) => setQuantity(parseInt(event.target.value))}
+														onChange={(event: ChangeEvent<HTMLInputElement>) =>
+															setQuantity(parseInt(event.target.value))
+														}
 													>
 														{
 															// [...new Array(product.countInStock)].keys()

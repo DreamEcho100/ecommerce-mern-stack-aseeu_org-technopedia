@@ -9,7 +9,7 @@ interface IProps extends IMessageProps {
 	children: React.ReactNode;
 }
 
-const Message = ({ variant, className, children }: IProps) => {
+const Message = ({ variant, className, children }: IProps): JSX.Element => {
 	const messageProps: IMessageProps = (() => {
 		const obj: IMessageProps = {
 			variant,

@@ -7,7 +7,7 @@ interface Props {
 	color: string;
 }
 
-const Rating = ({ value, text, color }: Props) => {
+const Rating = ({ value, text, color }: Props): JSX.Element => {
 	return (
 		<div>
 			<span>{value}</span>

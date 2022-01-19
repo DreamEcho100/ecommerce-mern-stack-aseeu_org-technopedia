@@ -1,9 +1,8 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 interface Props {}
 
-const Footer = (props: Props) => {
+const Footer = (props: Props): JSX.Element => {
 	return (
 		<footer>
 			<Container>

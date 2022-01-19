@@ -1,4 +1,8 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
+import {
+	CART_ADD_ITEM,
+	CART_REMOVE_ITEM,
+	CART_SAVE_SHIPPING_ADDRESS,
+} from 'src/constants';
 import { TCartReducer } from 'src/store/ts';
 import { returnCartInitialState } from 'src/store/initialState';
 
@@ -35,6 +39,15 @@ const cartReducer: TCartReducer = (
 			return {
 				...state,
 				items: state.items.filter((cartItem) => cartItem._id !== _id),
+			};
+		}
+
+		case CART_SAVE_SHIPPING_ADDRESS: {
+			const { shippingAddress } = action.payload;
+
+			return {
+				...state,
+				shippingAddress,
 			};
 		}
 

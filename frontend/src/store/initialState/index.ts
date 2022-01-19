@@ -58,6 +58,15 @@ export const returnProductListInitialState = (): IStoreProductsListState => ({
 
 export const returnCartInitialState = (): IStoreCartState => ({
 	items: ls.get<IStoreCartState['items']>('cartItems', []),
+	shippingAddress: ls.get<IStoreCartState['shippingAddress']>(
+		'cartShippingAddress',
+		{
+			address: '',
+			city: '',
+			postalCode: '',
+			country: '',
+		}
+	),
 });
 
 const storeInitialState: IStoreState = {

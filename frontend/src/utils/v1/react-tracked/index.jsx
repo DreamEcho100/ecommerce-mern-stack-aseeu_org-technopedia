@@ -39,7 +39,7 @@ const isSSR =
 	/ServerSideRendering|^Deno\//.test(window.navigator.userAgent);
 const useIsomorphicLayoutEffect = isSSR ? useEffect : useLayoutEffect;
 const createTrackedSelector = (useSelector) => {
-	const useTrackedSelector = () => {
+	const useMainStoreSelector = () => {
 		const [, forceUpdate] = useReducer((c) => c + 1, 0);
 		const affected = new WeakMap();
 		const lastAffected = useRef();
@@ -89,17 +89,17 @@ const createTrackedSelector = (useSelector) => {
 		return createProxy(state, affected, proxyCache);
 	};
 
-	return useTrackedSelector;
+	return useMainStoreSelector;
 };
 
 const useTrackedState = (StateContext) => {
-	const useTrackedSelector = useMemo(() => {
+	const useMainStoreSelector = useMemo(() => {
 		const useSelector = (selector) =>
 			useContextSelector(StateContext, selector);
 
 		return createTrackedSelector(useSelector);
 	}, [StateContext]);
-	return useTrackedSelector();
+	return useMainStoreSelector();
 };
 
 const useSelector = (StateContext, selector) => {

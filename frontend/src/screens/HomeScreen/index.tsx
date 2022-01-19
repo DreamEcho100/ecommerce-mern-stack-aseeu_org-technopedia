@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { handleListProducts } from 'src/store/actions/productsList';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 
 import ProductComponent from 'src/components/UI/V1/Product';
 import Loader from 'src/components/UI/V1/Loader';
 import Message from 'src/components/UI/V1/Message';
 
-const HomeScreen = () => {
+const HomeScreen = (): JSX.Element => {
 	const dispatch = useDispatch();
 
-	const { isLoading, error, products } = useTrackedSelector().productList;
+	const { isLoading, error, products } = useMainStoreSelector().productList;
 
 	useEffect(() => {
 		dispatch(handleListProducts());

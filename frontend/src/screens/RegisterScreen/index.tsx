@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
 import { IUser } from 'src/react-app-env';
 import { handleUserRegister } from 'src/store/actions/user';
-import { useTrackedSelector } from 'src/store';
+import { useMainStoreSelector } from 'src/store';
 
 import Message from 'src/components/UI/V1/Message';
 import Loader from 'src/components/UI/V1/Loader';
@@ -13,13 +13,13 @@ import FormContainer from 'src/components/UI/V1/FormContainer';
 
 interface Props {}
 
-const RegisterScreen = (props: Props) => {
+const RegisterScreen = (props: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	// const userLogin = useSelector((state) => state.userLogin)
-	const { isLoading, error, info } = useTrackedSelector().user;
+	const { isLoading, error, info } = useMainStoreSelector().user;
 
 	const [name, setName] = useState<IUser['name']>('');
 	const [email, setEmail] = useState<IUser['email']>('');
@@ -35,7 +35,7 @@ const RegisterScreen = (props: Props) => {
 		}
 	}, [navigate, info, redirect]);
 
-	const submitHandler = (event: React.FormEvent) => {
+	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
 		if (password !== confirmPassword) {
 			setMessage('passwords do not match');
@@ -55,7 +55,7 @@ const RegisterScreen = (props: Props) => {
 						type='name'
 						placeholder='Enter name'
 						value={name}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setName(event.target.value)
 						}
 					></Form.Control>
@@ -67,7 +67,7 @@ const RegisterScreen = (props: Props) => {
 						type='email'
 						placeholder='Enter email'
 						value={email}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setEmail(event.target.value)
 						}
 					></Form.Control>
@@ -79,7 +79,7 @@ const RegisterScreen = (props: Props) => {
 						type='password'
 						placeholder='Enter password'
 						value={password}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setPassword(event.target.value)
 						}
 					></Form.Control>
@@ -90,7 +90,7 @@ const RegisterScreen = (props: Props) => {
 						type='password'
 						placeholder='Confirm password'
 						value={confirmPassword}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						onChange={(event: ChangeEvent<HTMLInputElement>) =>
 							setConfirmPassword(event.target.value)
 						}
 					></Form.Control>

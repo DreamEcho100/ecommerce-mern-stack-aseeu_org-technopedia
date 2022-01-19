@@ -24,7 +24,7 @@ const store = createStore(
 	composeWithDevTools(applyMiddleware(...middleware))
 );
 
-export const useTrackedSelector =
+export const useMainStoreSelector =
 	createTrackedSelector<TRootState>(useSelector);
 
 export default store;

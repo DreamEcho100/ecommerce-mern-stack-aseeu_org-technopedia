@@ -1,8 +1,13 @@
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from 'src/constants';
-import { TAddToCart, TRemoveFromCart } from 'src/store/ts';
+import {
+	TAddToCart,
+	TRemoveFromCart,
+	TSaveShippingAddress,
+} from 'src/store/ts';
 import ls from 'src/utils/v1/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IProduct } from 'src/react-app-env';
+import { CART_SAVE_SHIPPING_ADDRESS } from 'src/constants/cart';
 
 export const addToCart: TAddToCart =
 	(_id, quantity) => async (dispatch, getState) => {
@@ -52,3 +57,16 @@ export const removeFromCart: TRemoveFromCart =
 // ) => {
 // 	ls.set('cartItems', items);
 // };
+
+export const saveShippingAddress: TSaveShippingAddress =
+	(shippingAddress) => (dispatch) => {
+		dispatch({
+			type: CART_SAVE_SHIPPING_ADDRESS,
+			payload: { shippingAddress },
+		});
+
+		localStorage.setItem(
+			'cartShippingAddress',
+			JSON.stringify(shippingAddress)
+		);
+	};
