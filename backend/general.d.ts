@@ -1,25 +1,17 @@
-import {
-	Request,
-	// Response,
-	// NextFunction
-} from 'express';
-
-// export interface IUserRequest extends Request {
-// 	user: {
-// 		_id: string;
-// 	};
-// }
+import { Request } from 'express';
 
 declare global {
 	namespace Express {
 		interface Request {
-			user: User; //or other type you would like to use
-		}
-
-		export interface IUserRequest extends Request {
 			user: {
 				_id: string;
-			};
+			}; //or other type you would like to use
 		}
 	}
+}
+
+export interface CustomRequest extends Request {
+	user: {
+		_id: string;
+	}; //or other type you would like to use
 }

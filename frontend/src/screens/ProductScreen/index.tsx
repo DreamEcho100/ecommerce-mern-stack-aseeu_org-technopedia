@@ -34,7 +34,7 @@ const ProductScreen = (props: Props): JSX.Element => {
 	const [quantity, setQuantity] = useState(1);
 
 	const addToCartHandler = () => {
-		navigate(`/cart/${params.id}/?quantity=${quantity}`, { replace: true });
+		navigate(`/cart/${params.id}/?quantity=${quantity}`);
 	};
 
 	useEffect(() => {

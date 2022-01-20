@@ -21,7 +21,10 @@ export const addToCart: TAddToCart =
 				`${BACK_END_ROOT_URL}/api/products/${_id}`
 			).then((response) => response.json());
 
-			localStorage.setItem('cartItems', JSON.stringify(getState().cart.items));
+			localStorage.setItem(
+				'cartItems',
+				JSON.stringify(getState().cart.items || [])
+			);
 
 			dispatch({
 				type: CART_ADD_ITEM,
@@ -49,7 +52,7 @@ export const addToCart: TAddToCart =
 
 export const removeFromCart: TRemoveFromCart =
 	(_id) => (dispatch, getState) => {
-		ls.set('cartItems', JSON.stringify(getState().cart.items));
+		ls.set('cartItems', JSON.stringify(getState().cart.items || []));
 
 		dispatch({
 			type: CART_REMOVE_ITEM,

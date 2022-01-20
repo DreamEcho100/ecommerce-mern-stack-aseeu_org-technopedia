@@ -30,13 +30,13 @@ const Header = (props: Props): JSX.Element => {
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ml-auto'>
-							<CustomLinkContainer to='/cart' navigateExtraProps={{ replace: true }}>
+							<CustomLinkContainer to='/cart'>
 								<i className='fas fa-shopping-cart'></i> Cart
 							</CustomLinkContainer>
 
-							{info?._id?.length !== 0 ? (
+							{info?._id && info._id?.length !== 0 ? (
 								<NavDropdown title={info.name} id='username'>
-									<CustomLinkContainer to='/profile' navigateExtraProps={{ replace: true }}>
+									<CustomLinkContainer to='/profile'>
 										Profile
 									</CustomLinkContainer>
 									<NavDropdown.Item onClick={logoutHandler}>
@@ -44,7 +44,7 @@ const Header = (props: Props): JSX.Element => {
 									</NavDropdown.Item>
 								</NavDropdown>
 							) : (
-								<CustomLinkContainer to='/login' navigateExtraProps={{ replace: true }}>
+								<CustomLinkContainer to='/login'>
 									<i className='fas fa-user'></i> Sign In
 								</CustomLinkContainer>
 							)}

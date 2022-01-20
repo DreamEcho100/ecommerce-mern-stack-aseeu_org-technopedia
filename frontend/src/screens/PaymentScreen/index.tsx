@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -20,17 +20,17 @@ const PaymentScreen = () => {
 	const { shippingAddress } = cart;
 
 	if (!shippingAddress.address) {
-		navigate('/shipping', { replace: true });
+		navigate('/shipping');
 	}
 
 	const [paymentMethod, setPaymentMethod] = useState<TPaymentMethod>(
-		cart.paymentMethod
+		cart.paymentMethod // || 'PayPal'
 	);
 
 	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
-		navigate('/placeOrder', { replace: true });
+		navigate('/placeOrder');
 	};
 
 	return (
@@ -47,10 +47,8 @@ const PaymentScreen = () => {
 							id='PayPal'
 							name='paymentMethod'
 							value='PayPal'
-							checked
-							onChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setPaymentMethod(event.target.value as 'PayPal')
-							}
+							checked={paymentMethod === 'PayPal'}
+							onChange={() => setPaymentMethod('PayPal')}
 						></Form.Check>
 						<Form.Check
 							type='radio'
@@ -58,14 +56,18 @@ const PaymentScreen = () => {
 							id='Stripe'
 							name='paymentMethod'
 							value='Stripe'
-							onChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setPaymentMethod(event.target.value as 'Stripe')
-							}
+							checked={paymentMethod === 'Stripe'}
+							onChange={() => setPaymentMethod('Stripe')}
 						></Form.Check>
 					</Col>
 				</Form.Group>
 
-				<Button className='my-3' type='submit' variant='primary'>
+				<Button
+					disabled={!paymentMethod}
+					className='my-3'
+					type='submit'
+					variant='primary'
+				>
 					Continue
 				</Button>
 			</Form>

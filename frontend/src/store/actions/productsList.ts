@@ -21,6 +21,7 @@ export const handleListProducts: THandleListProducts =
 				payload: { products },
 			});
 		} catch (error) {
+			console.log(error);
 			if (error instanceof Error) {
 				dispatch({
 					type: PRODUCTS_LIST_FAIL,

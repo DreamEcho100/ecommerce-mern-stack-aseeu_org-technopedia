@@ -25,7 +25,7 @@ import {
 import { BACK_END_ROOT_URL } from 'src/config';
 
 export const handleUserLogin: THandleUserLogin =
-	(email, password) => async (dispatch, getState) => {
+	(email, password) => async (dispatch) => {
 		try {
 			dispatch({ type: USER_LOGIN_REQUEST });
 
@@ -63,7 +63,7 @@ export const handleUserLogin: THandleUserLogin =
 	};
 
 export const handleUserRegister: THandleUserRegister =
-	(name, email, password) => async (dispatch, getState) => {
+	(name, email, password) => async (dispatch) => {
 		try {
 			dispatch({ type: USER_REGISTER_REQUEST });
 
@@ -113,6 +113,8 @@ export const getUserDetails: TGetUserDetails =
 				user: { info },
 			} = getState();
 
+			if (!info || !info._id) throw new Error('User info not found!');
+
 			const userInfo: IUser = await fetch(
 				`${BACK_END_ROOT_URL}/api/users/${_id}`,
 				{
@@ -159,6 +161,8 @@ export const updateUserProfile: TUpdateUserProfile =
 			const {
 				user: { info },
 			} = getState();
+
+			if (!info || !info._id) throw new Error('User info not found!');
 
 			const userInfo: IUser = await fetch(
 				`${BACK_END_ROOT_URL}/api/users/profile`,

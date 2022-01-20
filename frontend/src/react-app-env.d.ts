@@ -56,14 +56,4 @@ export interface IOrder {
 	paidAt?: Date;
 	isDelivered: boolean;
 	DeliveredAt?: Date;
-	/*
- orderItems,
-      user: req.user._id,
-      shippingAddress,
-      paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice
-	*/
 }
