@@ -4,35 +4,21 @@ export const addDecimals = (num: number): string => {
 	return (Math.round(num * 100) / 100).toFixed(2);
 };
 
-export const calcItemsPrice = (items: ICartItem[] | []) => {
+export const calcItemsPrice = (items: ICartItem[]) => {
 	if (!items || items.length === 0) return '00.00';
 
-	/*
-This expression is not callable.
-  Each member of the union type 
-  '{ (callbackfn: (previousValue: never, currentValue: never, currentIndex: number, array: never[]) => never): never; (callbackfn: (previousValue: never, currentValue: never, currentIndex: number, array: never[]) => never, initialValue: never): never; <U>(callbackfn: (previousValue: U, currentValue: never, currentIndex...' has signatures, but none of those signatures are compatible with each other.ts(2349)
-  */
-	const cartItems: ICartItem[] = items as ICartItem[];
-
 	return addDecimals(
-		cartItems.reduce(
+		items.reduce(
 			(acc: number, item: ICartItem) => acc + item.price * item.quantity,
 			0
 		)
 	);
 };
-export const calcItemsQuantity = (items: ICartItem[] | []) => {
-	if (!items || items.length === 0) return '00.00';
-
-	/*
-This expression is not callable.
-  Each member of the union type 
-  '{ (callbackfn: (previousValue: never, currentValue: never, currentIndex: number, array: never[]) => never): never; (callbackfn: (previousValue: never, currentValue: never, currentIndex: number, array: never[]) => never, initialValue: never): never; <U>(callbackfn: (previousValue: U, currentValue: never, currentIndex...' has signatures, but none of those signatures are compatible with each other.ts(2349)
-  */
-	const cartItems: ICartItem[] = items as ICartItem[];
+export const calcItemsQuantity = (items: ICartItem[]) => {
+	if (!items || items.length === 0) return 0;
 
 	return addDecimals(
-		cartItems.reduce((acc: number, item: ICartItem) => acc + item.quantity, 0)
+		items.reduce((acc: number, item: ICartItem) => acc + item.quantity, 0)
 	);
 };
 export const calcShippingPrice = (itemsPrice: string) =>

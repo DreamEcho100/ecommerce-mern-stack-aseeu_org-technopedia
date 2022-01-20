@@ -1,11 +1,13 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 // import colors from 'colors';
 import { config } from 'dotenv';
 
 import connectDB from './config/db';
+import { errorHandlerMiddleware, notFoundMiddleware } from './middleware/error';
 import productsRoutes from './routes/products';
 import usersRoutes from './routes/users';
+import orderRoutes from './routes/order';
 
 config();
 connectDB();
@@ -28,18 +30,10 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/orders', orderRoutes);
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-	const error = new Error(`Not Found - ${req.originalUrl}`);
-	res.status(404);
-	next(error);
-});
-
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-	const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-	res.status(statusCode);
-	/* if (error instanceof Error) */ res.json(error.message);
-});
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 app.listen(
 	PORT,

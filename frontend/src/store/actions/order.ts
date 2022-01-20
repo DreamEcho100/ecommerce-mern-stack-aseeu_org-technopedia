@@ -18,6 +18,8 @@ export const createOrder: ICreateOrder =
 				user: { info: userInfo },
 			} = getState();
 
+			if (!userInfo || !userInfo._id) throw new Error('User token not found!');
+
 			const data: IOrder = await fetch(`${BACK_END_ROOT_URL}/api/orders`, {
 				method: 'POST',
 				headers: {
@@ -32,7 +34,7 @@ export const createOrder: ICreateOrder =
 
 			dispatch({
 				type: ORDER_CART_ITEMS_SUCCESS,
-				payload: { order: data },
+				payload: { data },
 			});
 		} catch (error) {
 			if (error instanceof Error) {

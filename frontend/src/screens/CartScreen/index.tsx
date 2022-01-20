@@ -17,7 +17,7 @@ import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
 import { useMainStoreSelector } from 'src/store';
 import { ICartItem } from 'src/react-app-env.d';
-import { addDecimals } from 'src/utils/v1/core/cart';
+import { calcItemsPrice, calcItemsQuantity } from 'src/utils/v1/core/cart';
 
 interface Props {}
 
@@ -26,7 +26,7 @@ const CartScreen = (props: Props): JSX.Element => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const cartItems = useMainStoreSelector().cart.items;
+	const cartItems = useMainStoreSelector().cart?.items;
 
 	const productId = params.id;
 	const quantity = window?.location?.search
@@ -47,34 +47,36 @@ const CartScreen = (props: Props): JSX.Element => {
 		navigate('/login/?redirect=shipping', { replace: true });
 	};
 
-	const calculateSubtotal = (items: typeof cartItems) => {
-		let total: number = 0;
-		let i: number = 0;
-		for (i = 0; i < items.length; i++) {
-			total += items[i].quantity;
-		}
+	// const calculateSubtotal = (items: typeof cartItems) => {
+	// 	let total: number = 0;
+	// 	let i: number = 0;
+	// 	for (i = 0; i < items.length; i++) {
+	// 		total += items[i].quantity;
+	// 	}
 
-		return addDecimals(total);
-	};
+	// 	return addDecimals(total);
+	// };
 
-	const calculatePrice = (items: typeof cartItems) => {
-		// cartItems
-		// 	.reduce((acc: number, item: ICartItem) => acc + item.quantity * item.price, 0)
-		// 	.toFixed(2)
-		let total: number = 0;
-		let i: number = 0;
-		for (i = 0; i < items.length; i++) {
-			total += items[i].quantity * items[i].price;
-		}
+	// const calculatePrice = (items: typeof cartItems) => {
+	// 	// cartItems
+	// 	// 	.reduce((acc: number, item: ICartItem) => acc + item.quantity * item.price, 0)
+	// 	// 	.toFixed(2)
+	// 	let total: number = 0;
+	// 	let i: number = 0;
+	// 	for (i = 0; i < items.length; i++) {
+	// 		total += items[i].quantity * items[i].price;
+	// 	}
 
-		return addDecimals(total);
-	};
+	// 	return addDecimals(total);
+	// };
+
+	// if (!cartItems || cartItems.length === 0) navigate('/cart');
 
 	return (
 		<Row>
 			<Col md={8}>
 				<h1 className='h1-l'>Shopping Cart</h1>
-				{cartItems.length === 0 ? (
+				{!cartItems || cartItems.length === 0 ? (
 					<Message>
 						Your cart is empty <Link to='/'>Go Back</Link>
 					</Message>
@@ -128,29 +130,14 @@ const CartScreen = (props: Props): JSX.Element => {
 				<Card>
 					<ListGroup variant='flush'>
 						<ListGroup.Item>
-							<h3>
-								Subtotal (
-								{
-									calculateSubtotal(cartItems)
-									// (cartItems as ICartItem[])
-									// 	.reduce((acc: number | Array<string>, item: number | string | ICartItem) =>
-									// 		parseInt(acc) + parseInt(item.quantity), 0)
-								}
-								) items
-							</h3>
-							$
-							{
-								calculatePrice(cartItems)
-								// cartItems
-								// .reduce((acc: number, item: ICartItem) => acc + item.quantity * item.price, 0)
-								// .toFixed(2)
-							}
+							<h3>Subtotal ({calcItemsPrice(cartItems)}) items</h3>$
+							{calcItemsQuantity(cartItems)}
 						</ListGroup.Item>
 						<ListGroup.Item>
 							<Button
 								type='button'
 								className='btn-block'
-								disabled={cartItems.length === 0}
+								disabled={!cartItems || cartItems.length === 0}
 								onClick={checkoutHandler}
 							>
 								Proceed To Checkout

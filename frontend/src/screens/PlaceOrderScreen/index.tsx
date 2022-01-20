@@ -2,18 +2,22 @@
 import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import { useMainStoreSelector } from 'src/store';
 
 import Message from 'src/components/UI/V1/Message';
 import CheckoutSteps from 'src/components/UI/V1/CheckoutSteps';
-import { IOrder } from 'src/react-app-env';
 import { createOrder } from 'src/store/actions/order';
+import { useEffect } from 'react';
 
 const PlaceOrderScreen = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	// const cart = useSelector((state) => state.cart)
+	const { cart, order } = useMainStoreSelector();
+
 	const {
 		items: cartItems,
 		shippingAddress,
@@ -22,10 +26,10 @@ const PlaceOrderScreen = () => {
 		shippingPrice,
 		taxPrice,
 		totalPrice,
-	} = useMainStoreSelector().cart;
+	} = cart;
 
 	const placeOrderHandler = () => {
-		const order: IOrder = {
+		const order = {
 			items: cartItems,
 			shippingAddress,
 			paymentMethod,
@@ -39,6 +43,14 @@ const PlaceOrderScreen = () => {
 
 		dispatch(createOrder(order));
 	};
+
+	useEffect(() => {
+		if (order.success && order?.data?._id) {
+			navigate(`/order/${order.data._id}`, { replace: true });
+		}
+	}, [order.success, navigate, order?.data?._id]);
+
+	if (!cartItems || cartItems.length === 0) navigate('/cart');
 
 	return (
 		<>
@@ -63,7 +75,7 @@ const PlaceOrderScreen = () => {
 
 						<ListGroup.Item>
 							<h2>Order Items</h2>
-							{cartItems.length === 0 ? (
+							{!cartItems || cartItems.length === 0 ? (
 								<Message>Your cart is empty</Message>
 							) : (
 								<ListGroup variant='flush'>
@@ -127,7 +139,7 @@ const PlaceOrderScreen = () => {
 								<Button
 									type='button'
 									className='btn-block'
-									disabled={cartItems.length === 0}
+									disabled={!cartItems || cartItems.length === 0}
 									onClick={placeOrderHandler}
 								>
 									Place Order

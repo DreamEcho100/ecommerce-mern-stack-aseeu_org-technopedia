@@ -47,7 +47,7 @@ import { TRootState } from 'src/store';
 /* ************************ */
 
 export interface IStoreUserState {
-	info: IUser;
+	info?: IUser;
 	isLoading: boolean;
 	error: string;
 	actions: {
@@ -123,7 +123,7 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 /****** PRODUCTS LIST ******/
 /* ************************ */
 export interface IStoreProductsListState {
-	products: TProducts | [];
+	products?: TProducts;
 	isLoading: boolean;
 	error: string;
 }
@@ -155,7 +155,7 @@ export type THandleListProducts = () => (
 /***** PRODUCTS DETAIL *****/
 /* ************************ */
 export interface IStoreProductDetailsState {
-	product: IProduct;
+	product?: IProduct;
 	isLoading: boolean;
 	error: string;
 }
@@ -188,7 +188,7 @@ export type THandleProductDetails = (
 /* ************************ */
 
 export interface IStoreCartState {
-	items: ICartItem[] | [];
+	items: ICartItem[];
 	shippingAddress: IShippingAddress;
 	paymentMethod: TPaymentMethod;
 	itemsPrice: string;
@@ -252,15 +252,16 @@ export type ISavePaymentMethod = (
 /* ************************ */
 
 export interface IStoreOrderState {
-	order: IOrder | {};
+	data?: IOrder;
 	isLoading: boolean;
 	error: string;
+	success: boolean;
 }
 export type TOrderAction =
 	| { type: typeof ORDER_CART_ITEMS_REQUEST }
 	| {
 			type: typeof ORDER_CART_ITEMS_SUCCESS;
-			payload: { order: IOrder };
+			payload: { data: IOrder };
 	  }
 	| {
 			type: typeof ORDER_CART_ITEMS_FAIL;
@@ -277,9 +278,15 @@ export type TStoreOrderCartItemsReducer = Reducer<
 type TOrderDispatch =
 	| React.Dispatch<TOrderAction>
 	| ((value: TOrderAction) => IStoreOrderState);
-export type ICreateOrder = (
-	order: IOrder
-) => (dispatch: TOrderDispatch, getState: () => TRootState) => void;
+export type ICreateOrder = (data: {
+	items: IOrder['items'];
+	shippingAddress: IOrder['shippingAddress'];
+	paymentMethod: IOrder['paymentMethod'];
+	itemsPrice: IOrder['itemsPrice'];
+	shippingPrice: IOrder['shippingPrice'];
+	taxPrice: IOrder['taxPrice'];
+	totalPrice: IOrder['totalPrice'];
+}) => (dispatch: TOrderDispatch, getState: () => TRootState) => void;
 
 /* ************************ */
 /******* STORE STATE *******/

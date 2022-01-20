@@ -22,8 +22,8 @@ const HomeScreen = (): JSX.Element => {
 			<h1 className='text-center'>Latest Products</h1>
 			{isLoading ? (
 				<Loader />
-			) : error ? (
-				<Message variant='danger'>{error}</Message>
+			) : error || !products || products.length === 0 ? (
+				<Message variant='danger'>{error || 'Products Not Found'}</Message>
 			) : (
 				<Row>
 					{products.map((product, indx) => (

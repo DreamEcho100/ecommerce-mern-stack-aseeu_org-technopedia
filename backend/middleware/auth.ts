@@ -1,20 +1,20 @@
-import {
-	// Request,
-	Response,
-	NextFunction,
-} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/user';
-import { IUserRequest } from '../general';
+// import { IUserRequest } from '../general';
 
 interface IJwtPayloadID extends JwtPayload {
 	id?: string;
 }
 
 const protectMiddleware = asyncHandler(
-	async (req: IUserRequest, res: Response, next: NextFunction) => {
+	async (
+		req: Request /* IUserRequest */,
+		res: Response,
+		next: NextFunction
+	) => {
 		// let token: string | undefined;
 		const infoHolder: {
 			token?: string;

@@ -102,9 +102,10 @@ export const returnCartInitialState = (): IStoreCartState => ({
 });
 
 export const returnOrderInitialState = (): IStoreOrderState => ({
-	order: {},
+	data: undefined,
 	isLoading: false,
 	error: '',
+	success: false,
 });
 
 const storeInitialState: IStoreState = {

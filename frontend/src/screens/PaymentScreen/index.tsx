@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import { savePaymentMethod } from 'src/store/actions/cart';
 import { useMainStoreSelector } from 'src/store';
-import { useNavigate } from 'react-router';
 import { TPaymentMethod } from 'src/react-app-env';
 
 import FormContainer from 'src/components/UI/V1/FormContainer';

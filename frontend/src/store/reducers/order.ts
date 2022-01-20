@@ -20,12 +20,13 @@ const productListReducer: TStoreOrderCartItemsReducer = (
 		}
 
 		case ORDER_CART_ITEMS_SUCCESS: {
-			const { order } = action.payload;
+			const { data } = action.payload;
 
 			return {
 				...state,
 				...returnOrderInitialState(),
-				order: order,
+				data: data,
+				success: true,
 			};
 		}
 

@@ -28,7 +28,7 @@ const ProfileScreen = (props: Props): JSX.Element => {
 	const [message, setMessage] = useState<string>('');
 
 	useEffect(() => {
-		if (!info._id) {
+		if (!info || !info._id) {
 			navigate('/login', { replace: true });
 		} else {
 			if (!info.name) {
@@ -47,6 +47,8 @@ const ProfileScreen = (props: Props): JSX.Element => {
 
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match');
+		} else if (!info || !info._id) {
+			setMessage('User data not found!');
 		} else {
 			dispatch(updateUserProfile({ _id: info._id, name, email, password }));
 		}

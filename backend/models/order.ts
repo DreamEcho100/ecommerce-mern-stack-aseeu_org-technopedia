@@ -1,35 +1,35 @@
 import { Schema, Document, Model, model } from 'mongoose';
 
-type TPaymentResult = {
+interface IPaymentResult {
 	id: string;
 	status: string;
 	update_time: string;
 	email_address: string;
-};
+}
 
-type TOrderItem = {
+interface IOrderItem {
 	name: String;
 	quantity: Number;
 	image: String;
 	price: Number;
-	product: typeof Schema.Types.ObjectId;
-};
+	product_id: typeof Schema.Types.ObjectId;
+}
 
-type TShippingAddress = {
+interface IShippingAddress {
 	address: string;
 	city: string;
 	postalCode: string;
 	country: string;
-};
+}
 
 interface IOrder {
-	user: typeof Schema.Types.ObjectId;
-	orderItems: TOrderItem[];
-	shippingAddress: TShippingAddress;
+	user_id: typeof Schema.Types.ObjectId;
+	orderItems: IOrderItem[];
+	shippingAddress: IShippingAddress;
 	itemsPrice: string;
 	paymentMethod: string;
-	paymentResult: TPaymentResult;
-	category: string;
+	paymentResult: IPaymentResult;
+	// category: string;
 	taxPrice: number;
 	shippingPrice: number;
 	totalPrice: string;
@@ -43,7 +43,7 @@ interface IOrderModel extends Model<IOrderDocument> {}
 
 const orderSchema: Schema<IOrderDocument> = new Schema(
 	{
-		user: {
+		user_id: {
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User',
@@ -54,7 +54,7 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 				quantity: { type: Number, required: true },
 				image: { type: String, required: true },
 				price: { type: Number, required: true },
-				product: {
+				product_id: {
 					type: Schema.Types.ObjectId,
 					required: true,
 					ref: 'Product',
@@ -80,10 +80,10 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 			update_time: { type: String },
 			email_address: { type: String },
 		},
-		category: {
-			type: String,
-			required: true,
-		},
+		// category: {
+		// 	type: String,
+		// 	required: true,
+		// },
 		taxPrice: {
 			type: Number,
 			required: true,

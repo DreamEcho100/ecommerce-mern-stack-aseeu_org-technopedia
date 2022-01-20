@@ -49,8 +49,8 @@ const ProductScreen = (props: Props): JSX.Element => {
 			</Link>
 			{isLoading ? (
 				<Loader />
-			) : error ? (
-				<Message variant='danger'>{error}</Message>
+			) : error || !product || !product._id ? (
+				<Message variant='danger'>{error || 'Product Not Found'}</Message>
 			) : (
 				<Row>
 					<Col md={6}>
