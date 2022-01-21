@@ -229,6 +229,7 @@ export type TCartAction =
 	  }
 	| {
 			type: typeof CART_RESET;
+			payload: { resetShippingAddress?: boolean; resetPaymentMethod?: boolean };
 	  };
 
 export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
@@ -251,7 +252,13 @@ export type ISavePaymentMethod = (
 	paymentMethod: TPaymentMethod
 ) => (dispatch: TCartDispatch) => void;
 
-export type IResetCart = () => (dispatch: TCartDispatch) => void;
+interface IResetCartExtraOptions {
+	resetShippingAddress?: boolean;
+	resetPaymentMethod?: boolean;
+}
+export type IResetCart = (
+	extraOptions?: IResetCartExtraOptions
+) => (dispatch: TCartDispatch) => void;
 
 /* ************************ */
 /***** ORDER CREATE *****/

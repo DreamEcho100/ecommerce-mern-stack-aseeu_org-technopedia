@@ -10,13 +10,12 @@ import {
 	Card,
 } from 'react-bootstrap';
 
-import { resetCart } from 'src/store/actions/cart';
 import { getOrderDetails } from 'src/store/actions/order';
 import { useMainStoreSelector } from 'src/store';
+import { addDecimals } from 'src/lib/core/cart';
 
 import Message from 'src/components/UI/Message';
 import Loader from 'src/components/UI/Loader';
-import { addDecimals } from 'src/lib/core/cart';
 
 const OrderScreen = () => {
 	const orderId = useParams().id;
@@ -40,7 +39,6 @@ const OrderScreen = () => {
 	useEffect(() => {
 		if (!error && orderId && (!order || order._id !== orderId)) {
 			dispatch(getOrderDetails(orderId));
-			dispatch(resetCart());
 		}
 	}, [dispatch, order, orderId, error]);
 

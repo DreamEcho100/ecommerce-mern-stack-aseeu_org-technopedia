@@ -91,8 +91,11 @@ export const savePaymentMethod: ISavePaymentMethod =
 		localStorage.setItem('cartPaymentMethod', JSON.stringify(paymentMethod));
 	};
 
-export const resetCart: IResetCart = () => (dispatch) => {
-	dispatch({
-		type: CART_RESET,
-	});
-};
+export const resetCart: IResetCart =
+	({ resetShippingAddress, resetPaymentMethod } = {}) =>
+	(dispatch) => {
+		dispatch({
+			type: CART_RESET,
+			payload: { resetShippingAddress, resetPaymentMethod },
+		});
+	};

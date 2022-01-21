@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 // import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
@@ -5,11 +6,11 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { useMainStoreSelector } from 'src/store';
+import { createOrder } from 'src/store/actions/order';
+import { resetCart } from 'src/store/actions/cart';
 
 import Message from 'src/components/UI/Message';
 import CheckoutSteps from 'src/components/UI/CheckoutSteps';
-import { createOrder } from 'src/store/actions/order';
-import { useEffect } from 'react';
 
 const PlaceOrderScreen = () => {
 	const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const PlaceOrderScreen = () => {
 
 	useEffect(() => {
 		if (orderCreate.success && orderCreate?.data?._id) {
+			dispatch(resetCart());
 			navigate(`/order/${orderCreate.data._id}`);
 		}
 	}, [orderCreate.success, navigate, orderCreate?.data?._id]);

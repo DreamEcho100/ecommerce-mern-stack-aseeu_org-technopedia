@@ -69,10 +69,17 @@ const cartReducer: TCartReducer = (
 		}
 
 		case CART_RESET: {
+			const { resetShippingAddress, resetPaymentMethod } = action.payload;
+			const cartRested = returnCartInitialState();
+
 			return {
-				...returnCartInitialState(),
-				shippingAddress: state.shippingAddress,
-				paymentMethod: state.paymentMethod,
+				...cartRested,
+				shippingAddress: resetShippingAddress
+					? cartRested.shippingAddress
+					: state.shippingAddress,
+				paymentMethod: resetPaymentMethod
+					? cartRested.paymentMethod
+					: state.paymentMethod,
 			};
 		}
 
