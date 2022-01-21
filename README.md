@@ -36,7 +36,7 @@ USER_3_PASSWORD = '';
 
 - [Upgrading from v5](https://reactrouter.com/docs/en/v6/upgrading/v5#relative-routes-and-links)
 
-- [\[Typescript] mongoose methods, statics](https://millo-l.github.io/Typescript-mongoose-methods-statics/)
+- [[Typescript] mongoose methods, statics](https://millo-l.github.io/Typescript-mongoose-methods-statics/)
 
 - [How to run ts script with package.json?](https://stackoverflow.com/questions/59468082/how-to-run-ts-script-with-package-json)
 

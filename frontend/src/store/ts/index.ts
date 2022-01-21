@@ -36,13 +36,18 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_SAVE_PAYMENT_METHOD,
+	CART_RESET,
+	//
 	ORDER_CREATE_CART_ITEMS_REQUEST,
 	ORDER_CREATE_CART_ITEMS_SUCCESS,
 	ORDER_CREATE_CART_ITEMS_FAIL,
-	ORDERS_DETAILS_REQUEST,
-	ORDERS_DETAILS_SUCCESS,
-	ORDERS_DETAILS_FAIL,
-	CART_RESET,
+	ORDER_DETAILS_REQUEST,
+	ORDER_DETAILS_SUCCESS,
+	ORDER_DETAILS_FAIL,
+	ORDER_PAY_REQUEST,
+	ORDER_PAY_SUCCESS,
+	ORDER_PAY_FAIL,
+	ORDER_PAY_RESET,
 } from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
@@ -303,36 +308,73 @@ export type ICreateOrder = (data: {
 /***** ORDER DETAILS *****/
 /* ************************ */
 
-export interface IStoreOrdersDetailsState {
+export interface IStoreOrderDetailsState {
 	data?: IOrder;
 	// shippingAddress
 	isLoading: boolean;
 	error: string;
 }
-export type TOrdersDetailsAction =
-	| { type: typeof ORDERS_DETAILS_REQUEST }
+export type TOrderDetailsAction =
+	| { type: typeof ORDER_DETAILS_REQUEST }
 	| {
-			type: typeof ORDERS_DETAILS_SUCCESS;
+			type: typeof ORDER_DETAILS_SUCCESS;
 			payload: { data: IOrder };
 	  }
 	| {
-			type: typeof ORDERS_DETAILS_FAIL;
-			payload: { error: IStoreOrdersDetailsState['error'] };
+			type: typeof ORDER_DETAILS_FAIL;
+			payload: { error: IStoreOrderDetailsState['error'] };
 	  };
 
-export type TOrdersDetailsReducer = Reducer<
-	IStoreOrdersDetailsState,
-	TOrdersDetailsAction
+export type TOrderDetailsReducer = Reducer<
+	IStoreOrderDetailsState,
+	TOrderDetailsAction
 >;
 
-type TOrdersDetailsDispatch =
-	| React.Dispatch<TOrdersDetailsAction>
-	| ((value: TOrdersDetailsAction) => IStoreOrdersDetailsState);
+type TOrderDetailsDispatch =
+	| React.Dispatch<TOrderDetailsAction>
+	| ((value: TOrderDetailsAction) => IStoreOrderDetailsState);
 export type TGetOrderDetails = (
 	_id: IUser['_id']
-) => (dispatch: TOrdersDetailsDispatch, getState: () => TRootState) => void;
-/*
- */
+) => (dispatch: TOrderDetailsDispatch, getState: () => TRootState) => void;
+
+/* ************************ */
+/***** ORDER DETAILS *****/
+/* ************************ */
+export interface IStoreOrderPayState {
+	data?: IOrder;
+	// shippingAddress
+	isLoading: boolean;
+	error: string;
+	success: boolean;
+}
+export type TOrderPayAction =
+	| { type: typeof ORDER_PAY_REQUEST }
+	| {
+			type: typeof ORDER_PAY_SUCCESS;
+			payload: { data: IOrder };
+	  }
+	| {
+			type: typeof ORDER_PAY_FAIL;
+			payload: { error: IStoreOrderPayState['error'] };
+	  }
+	| {
+			type: typeof ORDER_PAY_RESET;
+	  };
+
+export type TOrderPayReducer = Reducer<IStoreOrderPayState, TOrderPayAction>;
+
+type TOrderPayDispatch =
+	| React.Dispatch<TOrderPayAction>
+	| ((value: TOrderPayAction) => IStoreOrderPayState);
+export type TPayOrderAfterPayment = (
+	orderId: string,
+	paymentResults: {
+		id: string;
+		status: string;
+		time: string;
+		payer: { email_address: string };
+	}
+) => (dispatch: TOrderPayDispatch, getState: () => TRootState) => void;
 
 /* ************************ */
 /******* STORE STATE *******/
@@ -343,4 +385,6 @@ export interface IStoreState {
 	productDetails: IStoreProductDetailsState;
 	cart: IStoreCartState;
 	orderCreate: IStoreOrderCreateState;
+	orderDetails: IStoreOrderDetailsState;
+	orderPay: IStoreOrderPayState;
 }

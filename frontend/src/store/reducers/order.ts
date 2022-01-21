@@ -2,20 +2,26 @@ import {
 	ORDER_CREATE_CART_ITEMS_FAIL,
 	ORDER_CREATE_CART_ITEMS_SUCCESS,
 	ORDER_CREATE_CART_ITEMS_REQUEST,
-	ORDERS_DETAILS_REQUEST,
-	ORDERS_DETAILS_SUCCESS,
-	ORDERS_DETAILS_FAIL,
+	ORDER_DETAILS_REQUEST,
+	ORDER_DETAILS_SUCCESS,
+	ORDER_DETAILS_FAIL,
+	ORDER_PAY_REQUEST,
+	ORDER_PAY_SUCCESS,
+	ORDER_PAY_FAIL,
+	ORDER_PAY_RESET,
 } from 'src/lib/core/constants';
 import {
-	TOrdersDetailsReducer,
+	TOrderDetailsReducer,
 	TStoreOrderCreateCartItemsReducer,
+	TOrderPayReducer,
 } from 'src/store/ts';
 import {
 	returnOrderCreateInitialState,
-	returnOrdersDetailsInitialState,
+	returnOrderDetailsInitialState,
+	returnOrderPayInitialState,
 } from 'src/store/initialState';
 
-export const orderCreate: TStoreOrderCreateCartItemsReducer = (
+export const orderCreateReducer: TStoreOrderCreateCartItemsReducer = (
 	state = returnOrderCreateInitialState(),
 	action
 ) => {
@@ -55,35 +61,75 @@ export const orderCreate: TStoreOrderCreateCartItemsReducer = (
 	}
 };
 
-export const orderDetails: TOrdersDetailsReducer = (
-	state = returnOrdersDetailsInitialState(),
+export const orderDetailsReducer: TOrderDetailsReducer = (
+	state = returnOrderDetailsInitialState(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDERS_DETAILS_REQUEST: {
+		case ORDER_DETAILS_REQUEST: {
 			return {
 				// ...state,
-				...returnOrdersDetailsInitialState(),
+				...returnOrderDetailsInitialState(),
 				isLoading: true,
 			};
 		}
-		case ORDERS_DETAILS_SUCCESS: {
+		case ORDER_DETAILS_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrdersDetailsInitialState(),
+				...returnOrderDetailsInitialState(),
 				data,
 			};
 		}
-		case ORDERS_DETAILS_FAIL: {
+		case ORDER_DETAILS_FAIL: {
 			const { error } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrdersDetailsInitialState(),
+				...returnOrderDetailsInitialState(),
 				error,
 			};
+		}
+		default: {
+			return state;
+		}
+	}
+};
+
+export const orderPayReducer: TOrderPayReducer = (
+	state = returnOrderPayInitialState(),
+	action
+) => {
+	switch (action.type) {
+		case ORDER_PAY_REQUEST: {
+			return {
+				// ...state,
+				...returnOrderPayInitialState(),
+				isLoading: true,
+			};
+		}
+		case ORDER_PAY_SUCCESS: {
+			const { data } = action.payload;
+
+			return {
+				// ...state,
+				...returnOrderPayInitialState(),
+				data,
+				success: true,
+			};
+		}
+		case ORDER_PAY_FAIL: {
+			const { error } = action.payload;
+
+			return {
+				// ...state,
+				...returnOrderPayInitialState(),
+				error,
+			};
+		}
+		case ORDER_PAY_RESET: {
+			return returnOrderPayInitialState();
 		}
 		default: {
 			return state;

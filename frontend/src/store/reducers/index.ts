@@ -2,15 +2,20 @@ import user from './user';
 import productDetails from './productDetails';
 import productList from './productList';
 import cart from './cart';
-import { orderCreate, orderDetails } from './order';
+import {
+	orderCreateReducer,
+	orderDetailsReducer,
+	orderPayReducer,
+} from './order';
 
 const reducers = {
 	user,
 	productDetails,
 	productList,
 	cart,
-	orderCreate,
-	orderDetails,
+	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
+	orderPay: orderPayReducer,
 };
 
 export default reducers;

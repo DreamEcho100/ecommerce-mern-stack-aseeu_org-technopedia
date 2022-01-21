@@ -8,7 +8,8 @@ import {
 	IStoreProductDetailsState,
 	IStoreState,
 	IStoreOrderCreateState,
-	IStoreOrdersDetailsState,
+	IStoreOrderDetailsState,
+	IStoreOrderPayState,
 } from '../ts';
 
 interface IItemTemp {
@@ -109,12 +110,18 @@ export const returnOrderCreateInitialState = (): IStoreOrderCreateState => ({
 	success: false,
 });
 
-export const returnOrdersDetailsInitialState =
-	(): IStoreOrdersDetailsState => ({
-		// data: {},
-		isLoading: false,
-		error: '',
-	});
+export const returnOrderDetailsInitialState = (): IStoreOrderDetailsState => ({
+	// data: {},
+	isLoading: false,
+	error: '',
+});
+
+export const returnOrderPayInitialState = (): IStoreOrderPayState => ({
+	// data: {},
+	isLoading: false,
+	error: '',
+	success: false,
+});
 
 const storeInitialState: IStoreState = {
 	user: returnUserInitialState(),
@@ -122,6 +129,8 @@ const storeInitialState: IStoreState = {
 	productList: returnProductListInitialState(),
 	cart: returnCartInitialState(),
 	orderCreate: returnOrderCreateInitialState(),
+	orderDetails: returnOrderDetailsInitialState(),
+	orderPay: returnOrderPayInitialState(),
 };
 
 export default storeInitialState;
