@@ -4,7 +4,7 @@ import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { /* Link */ NavLink } from 'react-router-dom';
 // import { LinkContainer } from 'react-router-bootstrap';
 import { handleUserLogout } from 'src/store/actions/user';
-import CustomLinkContainer from 'src/components/UI/V1/CustomLinkContainer';
+import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
 // import CustomLinkContainer from '../CustomLinkContainer';
 
 interface Props {}

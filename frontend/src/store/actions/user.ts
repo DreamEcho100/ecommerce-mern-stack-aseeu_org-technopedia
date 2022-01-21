@@ -1,4 +1,4 @@
-import ls from 'src/utils/v1/localStorage';
+import ls from 'src/lib/utils/storage/localStorage';
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
@@ -13,7 +13,7 @@ import {
 	USER_UPDATE_PROFILE_REQUEST,
 	USER_UPDATE_PROFILE_SUCCESS,
 	USER_UPDATE_PROFILE_FAIL,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { IUser } from 'src/react-app-env';
 import {
 	THandleUserLogin,

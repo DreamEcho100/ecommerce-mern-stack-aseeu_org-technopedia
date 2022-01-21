@@ -2,7 +2,7 @@ import {
 	PRODUCT_DETAILS_REQUEST,
 	PRODUCT_DETAILS_SUCCESS,
 	PRODUCT_DETAILS_FAIL,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { TStoreProductDetailsReducer } from 'src/store/ts';
 import { returnProductDetailsInitialState } from 'src/store/initialState';
 

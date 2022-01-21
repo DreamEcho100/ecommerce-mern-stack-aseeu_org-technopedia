@@ -19,9 +19,9 @@ import { handleProductDetails } from 'src/store/actions/productDetails';
 
 import classes from './styles.module.css';
 
-import Rating from 'src/components/UI/V1/Rating';
-import Loader from 'src/components/UI/V1/Loader';
-import Message from 'src/components/UI/V1/Message';
+import Rating from 'src/components/UI/Rating';
+import Loader from 'src/components/UI/Loader';
+import Message from 'src/components/UI/Message';
 
 interface Props {}
 

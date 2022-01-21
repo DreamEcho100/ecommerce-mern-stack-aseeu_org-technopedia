@@ -39,7 +39,7 @@ import {
 	ORDER_CART_ITEMS_REQUEST,
 	ORDER_CART_ITEMS_SUCCESS,
 	ORDER_CART_ITEMS_FAIL,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
 /* ************************ */

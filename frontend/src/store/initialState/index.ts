@@ -1,6 +1,6 @@
 // import { IProduct } from 'src/react-app-env';
-import { handleCartItemsCalcs } from 'src/utils/v1/core/cart';
-import ls from 'src/utils/v1/localStorage';
+import { handleCartItemsCalcs } from 'src/lib/core/cart';
+import ls from 'src/lib/utils/storage/localStorage';
 import {
 	IStoreUserState,
 	IStoreCartState,

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router';
 
 import { useMainStoreSelector } from 'src/store';
 
-import Message from 'src/components/UI/V1/Message';
-import CheckoutSteps from 'src/components/UI/V1/CheckoutSteps';
+import Message from 'src/components/UI/Message';
+import CheckoutSteps from 'src/components/UI/CheckoutSteps';
 import { createOrder } from 'src/store/actions/order';
 import { useEffect } from 'react';
 

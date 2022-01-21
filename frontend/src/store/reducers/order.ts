@@ -2,7 +2,7 @@ import {
 	ORDER_CART_ITEMS_FAIL,
 	ORDER_CART_ITEMS_SUCCESS,
 	ORDER_CART_ITEMS_REQUEST,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { TStoreOrderCartItemsReducer } from 'src/store/ts';
 import { returnOrderInitialState } from 'src/store/initialState';
 

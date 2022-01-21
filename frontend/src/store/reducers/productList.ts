@@ -2,7 +2,7 @@ import {
 	PRODUCTS_LIST_FAIL,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_REQUEST,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { TStoreProductsListReducer } from 'src/store/ts';
 import { returnProductListInitialState } from 'src/store/initialState';
 

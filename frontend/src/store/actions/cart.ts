@@ -3,14 +3,14 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_SAVE_PAYMENT_METHOD,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import {
 	ISavePaymentMethod,
 	TAddToCart,
 	TRemoveFromCart,
 	TSaveShippingAddress,
 } from 'src/store/ts';
-import ls from 'src/utils/v1/localStorage';
+import ls from 'src/lib/utils/storage/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IProduct } from 'src/react-app-env';
 

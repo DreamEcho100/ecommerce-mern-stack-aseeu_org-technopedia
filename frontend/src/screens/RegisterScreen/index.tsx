@@ -7,9 +7,9 @@ import { IUser } from 'src/react-app-env';
 import { handleUserRegister } from 'src/store/actions/user';
 import { useMainStoreSelector } from 'src/store';
 
-import Message from 'src/components/UI/V1/Message';
-import Loader from 'src/components/UI/V1/Loader';
-import FormContainer from 'src/components/UI/V1/FormContainer';
+import Message from 'src/components/UI/Message';
+import Loader from 'src/components/UI/Loader';
+import FormContainer from 'src/components/UI/FormContainer';
 
 interface Props {}
 

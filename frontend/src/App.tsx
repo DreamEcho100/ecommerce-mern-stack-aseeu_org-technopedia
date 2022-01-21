@@ -8,13 +8,13 @@ import { Container } from 'react-bootstrap';
 
 import './App.css';
 
-import MainLayout from './components/Layout/MainLayout/index';
+import MainLayout from './components/Layout/MainLayout';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen'
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';

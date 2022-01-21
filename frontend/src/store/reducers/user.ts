@@ -13,7 +13,7 @@ import {
 	USER_UPDATE_PROFILE_SUCCESS,
 	USER_UPDATE_PROFILE_FAIL,
 	USER_UPDATE_PROFILE_RESET,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { IUserReducer } from 'src/store/ts';
 import { returnUserInitialState } from 'src/store/initialState';
 

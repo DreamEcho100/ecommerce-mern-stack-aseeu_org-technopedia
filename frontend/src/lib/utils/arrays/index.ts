@@ -84,8 +84,10 @@ export const differenceBetweenTwoArrays = <T>(
 	};
 };
 
-export default {
+const arrayFormatter = {
 	shuffle: shuffleArray,
 	removeDuplicates: removeArrayDuplicates,
 	differenceBetweenTwo: differenceBetweenTwoArrays,
 };
+
+export default arrayFormatter;

@@ -8,9 +8,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { IUser } from 'src/react-app-env';
 import { handleUserLogin } from 'src/store/actions/user';
 
-import Message from 'src/components/UI/V1//Message';
-import Loader from 'src/components/UI/V1//Loader';
-import FormContainer from 'src/components/UI/V1//FormContainer';
+import Message from 'src/components/UI//Message';
+import Loader from 'src/components/UI//Loader';
+import FormContainer from 'src/components/UI//FormContainer';
 
 const LoginScreen = (): JSX.Element => {
 	const navigate = useNavigate();

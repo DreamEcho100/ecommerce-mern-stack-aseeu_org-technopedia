@@ -7,8 +7,8 @@ import { savePaymentMethod } from 'src/store/actions/cart';
 import { useMainStoreSelector } from 'src/store';
 import { TPaymentMethod } from 'src/react-app-env';
 
-import FormContainer from 'src/components/UI/V1/FormContainer';
-import CheckoutSteps from 'src/components/UI/V1/CheckoutSteps';
+import FormContainer from 'src/components/UI/FormContainer';
+import CheckoutSteps from 'src/components/UI/CheckoutSteps';
 
 const PaymentScreen = () => {
 	const navigate = useNavigate();

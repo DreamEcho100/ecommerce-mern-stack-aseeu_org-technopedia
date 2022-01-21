@@ -2,7 +2,7 @@ import {
 	PRODUCTS_LIST_REQUEST,
 	PRODUCTS_LIST_SUCCESS,
 	PRODUCTS_LIST_FAIL,
-} from 'src/constants';
+} from 'src/lib/core/constants';
 import { TProducts } from 'src/react-app-env';
 import { THandleListProducts } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';

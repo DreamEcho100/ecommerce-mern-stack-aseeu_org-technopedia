@@ -1,0 +1,15 @@
+{
+	"name": "utils",
+	"version": "0.0.1",
+	"description": "A combination of different general purpose utilities.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"utilities",
+		"general-purpose-utilities"
+	],
+	"author": "DreamEcho100",
+	"license": "ISC"
+}

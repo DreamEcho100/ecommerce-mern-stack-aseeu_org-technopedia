@@ -7,8 +7,8 @@ import { IUser } from 'src/react-app-env';
 import { useMainStoreSelector } from 'src/store';
 import { getUserDetails, updateUserProfile } from 'src/store/actions/user';
 
-import Message from 'src/components/UI/V1/Message';
-import Loader from 'src/components/UI/V1/Loader';
+import Message from 'src/components/UI/Message';
+import Loader from 'src/components/UI/Loader';
 
 interface Props {}
 
