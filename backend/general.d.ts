@@ -15,3 +15,5 @@ export interface CustomRequest extends Request {
 		_id: string;
 	}; //or other type you would like to use
 }
+
+export type TDate = Date | number | string;

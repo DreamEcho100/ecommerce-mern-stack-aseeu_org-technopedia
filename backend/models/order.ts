@@ -1,4 +1,5 @@
 import { Schema, Document, Model, model } from 'mongoose';
+import { TDate } from '../general';
 
 interface IPaymentResult {
 	id: string;
@@ -34,9 +35,9 @@ interface IOrder {
 	shippingPrice: number;
 	totalPrice: string;
 	isPaid: boolean;
-	paidAt?: Date;
+	paidAt?: TDate;
 	isDelivered: boolean;
-	DeliveredAt?: Date;
+	DeliveredAt?: TDate;
 }
 interface IOrderDocument extends IOrder, Document {}
 interface IOrderModel extends Model<IOrderDocument> {}
