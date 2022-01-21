@@ -13,10 +13,8 @@ const productListReducer: TStoreProductsListReducer = (
 	switch (action.type) {
 		case PRODUCTS_LIST_REQUEST: {
 			return {
-				...state,
-				products: [],
+				...returnProductListInitialState(),
 				isLoading: true,
-				error: '',
 			};
 		}
 
@@ -24,10 +22,8 @@ const productListReducer: TStoreProductsListReducer = (
 			const { products } = action.payload;
 
 			return {
-				...state,
+				...returnProductListInitialState(),
 				products: products,
-				isLoading: false,
-				error: '',
 			};
 		}
 
@@ -35,9 +31,7 @@ const productListReducer: TStoreProductsListReducer = (
 			const { error } = action.payload;
 
 			return {
-				...state,
-				products: [],
-				isLoading: false,
+				...returnProductListInitialState(),
 				error: error,
 			};
 		}

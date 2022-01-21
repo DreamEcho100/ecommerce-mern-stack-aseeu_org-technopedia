@@ -7,7 +7,8 @@ import {
 	IStoreProductsListState,
 	IStoreProductDetailsState,
 	IStoreState,
-	IStoreOrderState,
+	IStoreOrderCreateState,
+	IStoreOrdersDetailsState,
 } from '../ts';
 
 interface IItemTemp {
@@ -101,19 +102,26 @@ export const returnCartInitialState = (): IStoreCartState => ({
 	...handleCartItemsCalcs(items),
 });
 
-export const returnOrderInitialState = (): IStoreOrderState => ({
+export const returnOrderCreateInitialState = (): IStoreOrderCreateState => ({
 	data: undefined,
 	isLoading: false,
 	error: '',
 	success: false,
 });
 
+export const returnOrdersDetailsInitialState =
+	(): IStoreOrdersDetailsState => ({
+		// data: {},
+		isLoading: false,
+		error: '',
+	});
+
 const storeInitialState: IStoreState = {
 	user: returnUserInitialState(),
 	productDetails: returnProductDetailsInitialState(),
 	productList: returnProductListInitialState(),
 	cart: returnCartInitialState(),
-	order: returnOrderInitialState(),
+	orderCreate: returnOrderCreateInitialState(),
 };
 
 export default storeInitialState;

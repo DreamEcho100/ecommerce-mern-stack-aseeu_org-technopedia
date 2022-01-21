@@ -17,9 +17,7 @@ export const calcItemsPrice = (items: ICartItem[]) => {
 export const calcItemsQuantity = (items: ICartItem[]) => {
 	if (!items || items.length === 0) return 0;
 
-	return addDecimals(
-		items.reduce((acc: number, item: ICartItem) => acc + item.quantity, 0)
-	);
+	return items.reduce((acc: number, item: ICartItem) => acc + item.quantity, 0);
 };
 export const calcShippingPrice = (itemsPrice: string) =>
 	addDecimals(Number(itemsPrice) > 100 ? 0 : 100);

@@ -3,8 +3,10 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_SAVE_PAYMENT_METHOD,
+	CART_RESET,
 } from 'src/lib/core/constants';
 import {
+	IResetCart,
 	ISavePaymentMethod,
 	TAddToCart,
 	TRemoveFromCart,
@@ -88,3 +90,9 @@ export const savePaymentMethod: ISavePaymentMethod =
 
 		localStorage.setItem('cartPaymentMethod', JSON.stringify(paymentMethod));
 	};
+
+export const resetCart: IResetCart = () => (dispatch) => {
+	dispatch({
+		type: CART_RESET,
+	});
+};

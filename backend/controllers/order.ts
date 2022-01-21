@@ -25,7 +25,7 @@ const addOrderItems = asyncHandler(
 		} else {
 			const order = new OrderModel({
 				orderItems,
-				user_id: req.user._id,
+				userRef: req.user._id,
 				shippingAddress,
 				paymentMethod,
 				itemsPrice,
@@ -46,7 +46,7 @@ const addOrderItems = asyncHandler(
 // @access  Private
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 	const order = await OrderModel.findById(req.params.id).populate(
-		'user',
+		'userRef',
 		'name email'
 	);
 

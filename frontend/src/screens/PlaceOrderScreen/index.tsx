@@ -16,7 +16,7 @@ const PlaceOrderScreen = () => {
 	const navigate = useNavigate();
 
 	// const cart = useSelector((state) => state.cart)
-	const { cart, order } = useMainStoreSelector();
+	const { cart, orderCreate } = useMainStoreSelector();
 
 	const {
 		items: cartItems,
@@ -29,7 +29,7 @@ const PlaceOrderScreen = () => {
 	} = cart;
 
 	const placeOrderHandler = () => {
-		const order = {
+		const orderCreate = {
 			items: cartItems,
 			shippingAddress,
 			paymentMethod,
@@ -39,16 +39,16 @@ const PlaceOrderScreen = () => {
 			totalPrice,
 		};
 
-		console.log('order', order);
+		console.log('orderCreate', orderCreate);
 
-		dispatch(createOrder(order));
+		dispatch(createOrder(orderCreate));
 	};
 
 	useEffect(() => {
-		if (order.success && order?.data?._id) {
-			navigate(`/order/${order.data._id}`);
+		if (orderCreate.success && orderCreate?.data?._id) {
+			navigate(`/order/${orderCreate.data._id}`);
 		}
-	}, [order.success, navigate, order?.data?._id]);
+	}, [orderCreate.success, navigate, orderCreate?.data?._id]);
 
 	if (!cartItems || cartItems.length === 0) navigate('/cart');
 

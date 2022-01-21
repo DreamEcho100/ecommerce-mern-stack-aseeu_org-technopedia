@@ -130,8 +130,8 @@ const CartScreen = (props: Props): JSX.Element => {
 				<Card>
 					<ListGroup variant='flush'>
 						<ListGroup.Item>
-							<h3>Subtotal ({calcItemsPrice(cartItems)}) items</h3>$
-							{calcItemsQuantity(cartItems)}
+							<h3>Subtotal ({calcItemsQuantity(cartItems)}) items</h3>$
+							{calcItemsPrice(cartItems)}
 						</ListGroup.Item>
 						<ListGroup.Item>
 							<Button

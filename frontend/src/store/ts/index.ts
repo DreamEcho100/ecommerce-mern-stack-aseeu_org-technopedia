@@ -36,9 +36,13 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_SAVE_PAYMENT_METHOD,
-	ORDER_CART_ITEMS_REQUEST,
-	ORDER_CART_ITEMS_SUCCESS,
-	ORDER_CART_ITEMS_FAIL,
+	ORDER_CREATE_CART_ITEMS_REQUEST,
+	ORDER_CREATE_CART_ITEMS_SUCCESS,
+	ORDER_CREATE_CART_ITEMS_FAIL,
+	ORDERS_DETAILS_REQUEST,
+	ORDERS_DETAILS_SUCCESS,
+	ORDERS_DETAILS_FAIL,
+	CART_RESET,
 } from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
@@ -91,7 +95,6 @@ export type IUserAction =
 	  }
 	| {
 			type: typeof USER_UPDATE_PROFILE_RESET;
-			payload: {};
 	  };
 
 export type IUserReducer = Reducer<IStoreUserState, IUserAction>;
@@ -215,16 +218,17 @@ export type TCartAction =
 			payload: { paymentMethod: TPaymentMethod };
 	  }
 	| {
-			type: typeof ORDER_CART_ITEMS_REQUEST;
-			payload: {};
+			type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
 	  }
 	| {
-			type: typeof ORDER_CART_ITEMS_SUCCESS;
-			payload: { order: IOrder };
+			type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
+			payload: { orderCreate: IOrder };
 	  }
 	| {
-			type: typeof ORDER_CART_ITEMS_FAIL;
-			payload: {};
+			type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+	  }
+	| {
+			type: typeof CART_RESET;
 	  };
 
 export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
@@ -247,37 +251,37 @@ export type ISavePaymentMethod = (
 	paymentMethod: TPaymentMethod
 ) => (dispatch: TCartDispatch) => void;
 
+export type IResetCart = () => (dispatch: TCartDispatch) => void;
+
 /* ************************ */
-/***** ORDER *****/
+/***** ORDER CREATE *****/
 /* ************************ */
 
-export interface IStoreOrderState {
+export interface IStoreOrderCreateState {
 	data?: IOrder;
 	isLoading: boolean;
 	error: string;
 	success: boolean;
 }
-export type TOrderAction =
-	| { type: typeof ORDER_CART_ITEMS_REQUEST }
+export type TOrderCreateAction =
+	| { type: typeof ORDER_CREATE_CART_ITEMS_REQUEST }
 	| {
-			type: typeof ORDER_CART_ITEMS_SUCCESS;
+			type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
 			payload: { data: IOrder };
 	  }
 	| {
-			type: typeof ORDER_CART_ITEMS_FAIL;
-			payload: { error: IStoreOrderState['error'] };
+			type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+			payload: { error: IStoreOrderCreateState['error'] };
 	  };
 
-export type TOrderReducer = Reducer<IStoreOrderState, TOrderAction>;
-
-export type TStoreOrderCartItemsReducer = Reducer<
-	IStoreOrderState,
-	TOrderAction
+export type TStoreOrderCreateCartItemsReducer = Reducer<
+	IStoreOrderCreateState,
+	TOrderCreateAction
 >;
 
-type TOrderDispatch =
-	| React.Dispatch<TOrderAction>
-	| ((value: TOrderAction) => IStoreOrderState);
+type TOrderCreateDispatch =
+	| React.Dispatch<TOrderCreateAction>
+	| ((value: TOrderCreateAction) => IStoreOrderCreateState);
 export type ICreateOrder = (data: {
 	items: IOrder['items'];
 	shippingAddress: IOrder['shippingAddress'];
@@ -286,7 +290,42 @@ export type ICreateOrder = (data: {
 	shippingPrice: IOrder['shippingPrice'];
 	taxPrice: IOrder['taxPrice'];
 	totalPrice: IOrder['totalPrice'];
-}) => (dispatch: TOrderDispatch, getState: () => TRootState) => void;
+}) => (dispatch: TOrderCreateDispatch, getState: () => TRootState) => void;
+
+/* ************************ */
+/***** ORDER DETAILS *****/
+/* ************************ */
+
+export interface IStoreOrdersDetailsState {
+	data?: IOrder;
+	// shippingAddress
+	isLoading: boolean;
+	error: string;
+}
+export type TOrdersDetailsAction =
+	| { type: typeof ORDERS_DETAILS_REQUEST }
+	| {
+			type: typeof ORDERS_DETAILS_SUCCESS;
+			payload: { data: IOrder };
+	  }
+	| {
+			type: typeof ORDERS_DETAILS_FAIL;
+			payload: { error: IStoreOrdersDetailsState['error'] };
+	  };
+
+export type TOrdersDetailsReducer = Reducer<
+	IStoreOrdersDetailsState,
+	TOrdersDetailsAction
+>;
+
+type TOrdersDetailsDispatch =
+	| React.Dispatch<TOrdersDetailsAction>
+	| ((value: TOrdersDetailsAction) => IStoreOrdersDetailsState);
+export type TGetOrderDetails = (
+	_id: IUser['_id']
+) => (dispatch: TOrdersDetailsDispatch, getState: () => TRootState) => void;
+/*
+ */
 
 /* ************************ */
 /******* STORE STATE *******/
@@ -296,5 +335,5 @@ export interface IStoreState {
 	productList: IStoreProductsListState;
 	productDetails: IStoreProductDetailsState;
 	cart: IStoreCartState;
-	order: IStoreOrderState;
+	orderCreate: IStoreOrderCreateState;
 }

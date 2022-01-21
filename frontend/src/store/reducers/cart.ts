@@ -3,9 +3,7 @@ import {
 	CART_REMOVE_ITEM,
 	CART_SAVE_PAYMENT_METHOD,
 	CART_SAVE_SHIPPING_ADDRESS,
-	// ORDER_CART_ITEMS_REQUEST,
-	// ORDER_CART_ITEMS_SUCCESS,
-	// ORDER_CART_ITEMS_FAIL,
+	CART_RESET,
 } from 'src/lib/core/constants';
 import { TCartReducer } from 'src/store/ts';
 import { returnCartInitialState } from 'src/store/initialState';
@@ -67,6 +65,14 @@ const cartReducer: TCartReducer = (
 			return {
 				...state,
 				paymentMethod,
+			};
+		}
+
+		case CART_RESET: {
+			return {
+				...returnCartInitialState(),
+				shippingAddress: state.shippingAddress,
+				paymentMethod: state.paymentMethod,
 			};
 		}
 

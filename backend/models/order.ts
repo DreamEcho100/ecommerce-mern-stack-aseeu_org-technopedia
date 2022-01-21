@@ -12,7 +12,7 @@ interface IOrderItem {
 	quantity: Number;
 	image: String;
 	price: Number;
-	product_id: typeof Schema.Types.ObjectId;
+	productRef: typeof Schema.Types.ObjectId;
 }
 
 interface IShippingAddress {
@@ -23,7 +23,7 @@ interface IShippingAddress {
 }
 
 interface IOrder {
-	user_id: typeof Schema.Types.ObjectId;
+	userRef: typeof Schema.Types.ObjectId;
 	orderItems: IOrderItem[];
 	shippingAddress: IShippingAddress;
 	itemsPrice: string;
@@ -43,7 +43,7 @@ interface IOrderModel extends Model<IOrderDocument> {}
 
 const orderSchema: Schema<IOrderDocument> = new Schema(
 	{
-		user_id: {
+		userRef: {
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User',
@@ -54,7 +54,7 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 				quantity: { type: Number, required: true },
 				image: { type: String, required: true },
 				price: { type: Number, required: true },
-				product_id: {
+				productRef: {
 					type: Schema.Types.ObjectId,
 					required: true,
 					ref: 'Product',

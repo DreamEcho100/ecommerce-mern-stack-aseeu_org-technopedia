@@ -1,41 +1,50 @@
 import {
-	ORDER_CART_ITEMS_FAIL,
-	ORDER_CART_ITEMS_SUCCESS,
-	ORDER_CART_ITEMS_REQUEST,
+	ORDER_CREATE_CART_ITEMS_FAIL,
+	ORDER_CREATE_CART_ITEMS_SUCCESS,
+	ORDER_CREATE_CART_ITEMS_REQUEST,
+	ORDERS_DETAILS_REQUEST,
+	ORDERS_DETAILS_SUCCESS,
+	ORDERS_DETAILS_FAIL,
 } from 'src/lib/core/constants';
-import { TStoreOrderCartItemsReducer } from 'src/store/ts';
-import { returnOrderInitialState } from 'src/store/initialState';
+import {
+	TOrdersDetailsReducer,
+	TStoreOrderCreateCartItemsReducer,
+} from 'src/store/ts';
+import {
+	returnOrderCreateInitialState,
+	returnOrdersDetailsInitialState,
+} from 'src/store/initialState';
 
-const productListReducer: TStoreOrderCartItemsReducer = (
-	state = returnOrderInitialState(),
+export const orderCreate: TStoreOrderCreateCartItemsReducer = (
+	state = returnOrderCreateInitialState(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDER_CART_ITEMS_REQUEST: {
+		case ORDER_CREATE_CART_ITEMS_REQUEST: {
 			return {
-				...state,
-				...returnOrderInitialState(),
+				// 	...state,
+				...returnOrderCreateInitialState(),
 				isLoading: true,
 			};
 		}
 
-		case ORDER_CART_ITEMS_SUCCESS: {
+		case ORDER_CREATE_CART_ITEMS_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
-				...state,
-				...returnOrderInitialState(),
+				// 	...state,
+				...returnOrderCreateInitialState(),
 				data: data,
 				success: true,
 			};
 		}
 
-		case ORDER_CART_ITEMS_FAIL: {
+		case ORDER_CREATE_CART_ITEMS_FAIL: {
 			const { error } = action.payload;
 
 			return {
-				...state,
-				...returnOrderInitialState(),
+				// 	...state,
+				...returnOrderCreateInitialState(),
 				error: error,
 			};
 		}
@@ -46,4 +55,38 @@ const productListReducer: TStoreOrderCartItemsReducer = (
 	}
 };
 
-export default productListReducer;
+export const orderDetails: TOrdersDetailsReducer = (
+	state = returnOrdersDetailsInitialState(),
+	action
+) => {
+	switch (action.type) {
+		case ORDERS_DETAILS_REQUEST: {
+			return {
+				// ...state,
+				...returnOrdersDetailsInitialState(),
+				isLoading: true,
+			};
+		}
+		case ORDERS_DETAILS_SUCCESS: {
+			const { data } = action.payload;
+
+			return {
+				// ...state,
+				...returnOrdersDetailsInitialState(),
+				data,
+			};
+		}
+		case ORDERS_DETAILS_FAIL: {
+			const { error } = action.payload;
+
+			return {
+				// ...state,
+				...returnOrdersDetailsInitialState(),
+				error,
+			};
+		}
+		default: {
+			return state;
+		}
+	}
+};
