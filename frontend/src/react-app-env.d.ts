@@ -1,5 +1,7 @@
 /// <reference types="react-scripts" />
 
+export type TDate = string | number | Date;
+
 export interface IProduct {
 	_id: string;
 	name: string;
@@ -60,4 +62,28 @@ export interface IOrder {
 	paidAt?: Date;
 	isDelivered: boolean;
 	deliveredAt?: Date;
+}
+
+export interface IOrderPay {
+	createdAt: TDate;
+	isDelivered: boolean;
+	isPaid: boolean;
+	itemsPrice: string;
+	orderItems: ICartItem[];
+	paidAt: TDate;
+	paymentMethod: TPaymentMethod;
+	paymentResult: {
+		id: string;
+		status: string;
+		update_time: TDate;
+		email_address: string;
+	};
+	shippingAddress: IShippingAddress;
+	shippingPrice: number;
+	taxPrice: number;
+	totalPrice: string;
+	updatedAt: TDate;
+	userRef: string;
+	// __v: 0
+	_id: string;
 }

@@ -15,6 +15,7 @@ import {
 import ls from 'src/lib/utils/storage/localStorage';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IProduct } from 'src/react-app-env';
+import { returnCartInitialState } from 'src/store/initialState';
 
 export const addToCart: TAddToCart =
 	(_id, quantity) => async (dispatch, getState) => {
@@ -23,10 +24,7 @@ export const addToCart: TAddToCart =
 				`${BACK_END_ROOT_URL}/api/products/${_id}`
 			).then((response) => response.json());
 
-			localStorage.setItem(
-				'cartItems',
-				JSON.stringify(getState().cart.items || [])
-			);
+			ls.set('cartItems', JSON.stringify(getState().cart.items || []));
 
 			dispatch({
 				type: CART_ADD_ITEM,
@@ -75,10 +73,7 @@ export const saveShippingAddress: TSaveShippingAddress =
 			payload: { shippingAddress },
 		});
 
-		localStorage.setItem(
-			'cartShippingAddress',
-			JSON.stringify(shippingAddress)
-		);
+		ls.set('cartShippingAddress', JSON.stringify(shippingAddress));
 	};
 
 export const savePaymentMethod: ISavePaymentMethod =
@@ -88,7 +83,7 @@ export const savePaymentMethod: ISavePaymentMethod =
 			payload: { paymentMethod },
 		});
 
-		localStorage.setItem('cartPaymentMethod', JSON.stringify(paymentMethod));
+		ls.set('cartPaymentMethod', JSON.stringify(paymentMethod));
 	};
 
 export const resetCart: IResetCart =
@@ -98,4 +93,12 @@ export const resetCart: IResetCart =
 			type: CART_RESET,
 			payload: { resetShippingAddress, resetPaymentMethod },
 		});
+
+		ls.set('cartItems', returnCartInitialState().items);
+
+		if (resetShippingAddress)
+			ls.set('cartShippingAddress', returnCartInitialState().shippingAddress);
+
+		if (resetPaymentMethod)
+			ls.set('cartPaymentMethod', returnCartInitialState().paymentMethod);
 	};

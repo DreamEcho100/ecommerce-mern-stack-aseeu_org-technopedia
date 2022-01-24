@@ -40,8 +40,6 @@ const PlaceOrderScreen = () => {
 			totalPrice,
 		};
 
-		console.log('orderCreate', orderCreate);
-
 		dispatch(createOrder(orderCreate));
 	};
 
@@ -50,7 +48,7 @@ const PlaceOrderScreen = () => {
 			dispatch(resetCart());
 			navigate(`/order/${orderCreate.data._id}`);
 		}
-	}, [orderCreate.success, navigate, orderCreate?.data?._id]);
+	}, [dispatch, orderCreate.success, navigate, orderCreate?.data?._id]);
 
 	if (!cartItems || cartItems.length === 0) navigate('/cart');
 

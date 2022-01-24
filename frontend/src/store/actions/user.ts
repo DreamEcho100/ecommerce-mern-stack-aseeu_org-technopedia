@@ -100,7 +100,6 @@ export const handleUserRegister: THandleUserRegister =
 export const handleUserLogout: THandleUserLogout = () => (dispatch) => {
 	ls.remove('userInfo');
 
-	console.log('USER_LOGOUT', USER_LOGOUT);
 	dispatch({ type: USER_LOGOUT });
 };
 

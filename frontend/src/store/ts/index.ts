@@ -7,6 +7,7 @@ import {
 	IShippingAddress,
 	TPaymentMethod,
 	IOrder,
+	IOrderPay,
 } from 'src/react-app-env';
 import {
 	USER_LOGIN_REQUEST,
@@ -73,34 +74,38 @@ export interface IStoreUserState {
 	};
 }
 
+interface IUserRequestAction {
+	type:
+		| typeof USER_LOGIN_REQUEST
+		| typeof USER_REGISTER_REQUEST
+		| typeof USER_LOGOUT
+		| typeof USER_DETAILS_REQUEST
+		| typeof USER_UPDATE_PROFILE_REQUEST;
+}
+interface IUserRequestSuccessAction {
+	type:
+		| typeof USER_LOGIN_SUCCESS
+		| typeof USER_REGISTER_SUCCESS
+		| typeof USER_DETAILS_SUCCESS
+		| typeof USER_UPDATE_PROFILE_SUCCESS;
+	payload: { info: IUser };
+}
+interface IUserRequestFailAction {
+	type:
+		| typeof USER_LOGIN_FAIL
+		| typeof USER_REGISTER_FAIL
+		| typeof USER_DETAILS_FAIL
+		| typeof USER_UPDATE_PROFILE_FAIL;
+	payload: { error: string };
+}
+interface IUserUpdateProfileResetAction {
+	type: typeof USER_UPDATE_PROFILE_RESET;
+}
 export type IUserAction =
-	| {
-			type:
-				| typeof USER_LOGIN_REQUEST
-				| typeof USER_REGISTER_REQUEST
-				| typeof USER_LOGOUT
-				| typeof USER_DETAILS_REQUEST
-				| typeof USER_UPDATE_PROFILE_REQUEST;
-	  }
-	| {
-			type:
-				| typeof USER_LOGIN_SUCCESS
-				| typeof USER_REGISTER_SUCCESS
-				| typeof USER_DETAILS_SUCCESS
-				| typeof USER_UPDATE_PROFILE_SUCCESS;
-			payload: { info: IUser };
-	  }
-	| {
-			type:
-				| typeof USER_LOGIN_FAIL
-				| typeof USER_REGISTER_FAIL
-				| typeof USER_DETAILS_FAIL
-				| typeof USER_UPDATE_PROFILE_FAIL;
-			payload: { error: string };
-	  }
-	| {
-			type: typeof USER_UPDATE_PROFILE_RESET;
-	  };
+	| IUserRequestAction
+	| IUserRequestSuccessAction
+	| IUserRequestFailAction
+	| IUserUpdateProfileResetAction;
 
 export type IUserReducer = Reducer<IStoreUserState, IUserAction>;
 
@@ -136,16 +141,21 @@ export interface IStoreProductsListState {
 	error: string;
 }
 
+interface IProductsListRequestAction {
+	type: typeof PRODUCTS_LIST_REQUEST;
+}
+interface IProductsListRequestSuccessAction {
+	type: typeof PRODUCTS_LIST_SUCCESS;
+	payload: { products: IStoreProductsListState['products'] };
+}
+interface IProductsListRequestFailAction {
+	type: typeof PRODUCTS_LIST_FAIL;
+	payload: { error: IStoreProductsListState['error'] };
+}
 export type TStoreProductsListAction =
-	| { type: typeof PRODUCTS_LIST_REQUEST }
-	| {
-			type: typeof PRODUCTS_LIST_SUCCESS;
-			payload: { products: IStoreProductsListState['products'] };
-	  }
-	| {
-			type: typeof PRODUCTS_LIST_FAIL;
-			payload: { error: IStoreProductsListState['error'] };
-	  };
+	| IProductsListRequestAction
+	| IProductsListRequestSuccessAction
+	| IProductsListRequestFailAction;
 
 export type TStoreProductsListReducer = Reducer<
 	IStoreProductsListState,
@@ -168,16 +178,21 @@ export interface IStoreProductDetailsState {
 	error: string;
 }
 
+interface IProductDetailsRequestAction {
+	type: typeof PRODUCT_DETAILS_REQUEST;
+}
+interface IProductDetailsRequestSuccessAction {
+	type: typeof PRODUCT_DETAILS_SUCCESS;
+	payload: { product: IStoreProductDetailsState['product'] };
+}
+interface IProductDetailsRequestFailAction {
+	type: typeof PRODUCT_DETAILS_FAIL;
+	payload: { error: IStoreProductDetailsState['error'] };
+}
 export type TStoreProductDetailsAction =
-	| { type: typeof PRODUCT_DETAILS_REQUEST }
-	| {
-			type: typeof PRODUCT_DETAILS_SUCCESS;
-			payload: { product: IStoreProductDetailsState['product'] };
-	  }
-	| {
-			type: typeof PRODUCT_DETAILS_FAIL;
-			payload: { error: IStoreProductDetailsState['error'] };
-	  };
+	| IProductDetailsRequestAction
+	| IProductDetailsRequestSuccessAction
+	| IProductDetailsRequestFailAction;
 
 export type TStoreProductDetailsReducer = Reducer<
 	IStoreProductDetailsState,
@@ -205,37 +220,45 @@ export interface IStoreCartState {
 	totalPrice: string;
 }
 
+interface ICartAddItemAction {
+	type: typeof CART_ADD_ITEM;
+	payload: { item: ICartItem };
+}
+interface ICartRemoveItemAction {
+	type: typeof CART_REMOVE_ITEM;
+	payload: { _id: ICartItem['_id'] };
+}
+interface ICartSaveShippingAddressAction {
+	type: typeof CART_SAVE_SHIPPING_ADDRESS;
+	payload: { shippingAddress: IShippingAddress };
+}
+interface ICartSavePaymentMethodAction {
+	type: typeof CART_SAVE_PAYMENT_METHOD;
+	payload: { paymentMethod: TPaymentMethod };
+}
+interface ICreateCartItemsRequestAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
+}
+interface ICreateCartItemsRequestSuccessAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
+	payload: { orderCreate: IOrder };
+}
+interface ICreateCartItemsRequestFailAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+}
+interface ICartResetAction {
+	type: typeof CART_RESET;
+	payload: { resetShippingAddress?: boolean; resetPaymentMethod?: boolean };
+}
 export type TCartAction =
-	| {
-			type: typeof CART_ADD_ITEM;
-			payload: { item: ICartItem };
-	  }
-	| {
-			type: typeof CART_REMOVE_ITEM;
-			payload: { _id: ICartItem['_id'] };
-	  }
-	| {
-			type: typeof CART_SAVE_SHIPPING_ADDRESS;
-			payload: { shippingAddress: IShippingAddress };
-	  }
-	| {
-			type: typeof CART_SAVE_PAYMENT_METHOD;
-			payload: { paymentMethod: TPaymentMethod };
-	  }
-	| {
-			type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
-	  }
-	| {
-			type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
-			payload: { orderCreate: IOrder };
-	  }
-	| {
-			type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
-	  }
-	| {
-			type: typeof CART_RESET;
-			payload: { resetShippingAddress?: boolean; resetPaymentMethod?: boolean };
-	  };
+	| ICartAddItemAction
+	| ICartRemoveItemAction
+	| ICartSaveShippingAddressAction
+	| ICartSavePaymentMethodAction
+	| ICreateCartItemsRequestAction
+	| ICreateCartItemsRequestSuccessAction
+	| ICreateCartItemsRequestFailAction
+	| ICartResetAction;
 
 export type TCartReducer = Reducer<IStoreCartState, TCartAction>;
 
@@ -275,16 +298,22 @@ export interface IStoreOrderCreateState {
 	error: string;
 	success: boolean;
 }
+
+interface IOrderCreateRequestAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
+}
+interface IOrderCreateRequestSuccessAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
+	payload: { data: IOrder };
+}
+interface IOrderCreateRequestFailAction {
+	type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+	payload: { error: IStoreOrderCreateState['error'] };
+}
 export type TOrderCreateAction =
-	| { type: typeof ORDER_CREATE_CART_ITEMS_REQUEST }
-	| {
-			type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
-			payload: { data: IOrder };
-	  }
-	| {
-			type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
-			payload: { error: IStoreOrderCreateState['error'] };
-	  };
+	| IOrderCreateRequestAction
+	| IOrderCreateRequestSuccessAction
+	| IOrderCreateRequestFailAction;
 
 export type TStoreOrderCreateCartItemsReducer = Reducer<
 	IStoreOrderCreateState,
@@ -314,16 +343,22 @@ export interface IStoreOrderDetailsState {
 	isLoading: boolean;
 	error: string;
 }
+
+interface IOrderDetailsRequestAction {
+	type: typeof ORDER_DETAILS_REQUEST;
+}
+interface IOrderDetailsRequestSuccessAction {
+	type: typeof ORDER_DETAILS_SUCCESS;
+	payload: { data: IOrder };
+}
+interface IOrderDetailsRequestFailAction {
+	type: typeof ORDER_DETAILS_FAIL;
+	payload: { error: IStoreOrderDetailsState['error'] };
+}
 export type TOrderDetailsAction =
-	| { type: typeof ORDER_DETAILS_REQUEST }
-	| {
-			type: typeof ORDER_DETAILS_SUCCESS;
-			payload: { data: IOrder };
-	  }
-	| {
-			type: typeof ORDER_DETAILS_FAIL;
-			payload: { error: IStoreOrderDetailsState['error'] };
-	  };
+	| IOrderDetailsRequestAction
+	| IOrderDetailsRequestSuccessAction
+	| IOrderDetailsRequestFailAction;
 
 export type TOrderDetailsReducer = Reducer<
 	IStoreOrderDetailsState,
@@ -341,25 +376,32 @@ export type TGetOrderDetails = (
 /***** ORDER DETAILS *****/
 /* ************************ */
 export interface IStoreOrderPayState {
-	data?: IOrder;
+	data?: IOrderPay;
 	// shippingAddress
 	isLoading: boolean;
 	error: string;
 	success: boolean;
 }
+
+interface IOrderPayActionRequestAction {
+	type: typeof ORDER_PAY_REQUEST;
+}
+interface IOrderPayActionRequestSuccessAction {
+	type: typeof ORDER_PAY_SUCCESS;
+	payload: { data: IOrderPay };
+}
+interface IOrderPayActionRequestFailAction {
+	type: typeof ORDER_PAY_FAIL;
+	payload: { error: IStoreOrderPayState['error'] };
+}
+interface IOrderPayResetAction {
+	type: typeof ORDER_PAY_RESET;
+}
 export type TOrderPayAction =
-	| { type: typeof ORDER_PAY_REQUEST }
-	| {
-			type: typeof ORDER_PAY_SUCCESS;
-			payload: { data: IOrder };
-	  }
-	| {
-			type: typeof ORDER_PAY_FAIL;
-			payload: { error: IStoreOrderPayState['error'] };
-	  }
-	| {
-			type: typeof ORDER_PAY_RESET;
-	  };
+	| IOrderPayActionRequestAction
+	| IOrderPayActionRequestSuccessAction
+	| IOrderPayActionRequestFailAction
+	| IOrderPayResetAction;
 
 export type TOrderPayReducer = Reducer<IStoreOrderPayState, TOrderPayAction>;
 

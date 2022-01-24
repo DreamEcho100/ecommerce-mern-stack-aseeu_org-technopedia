@@ -7,7 +7,7 @@ import connectDB from './config/db';
 import { errorHandlerMiddleware, notFoundMiddleware } from './middleware/error';
 import productsRoutes from './routes/products';
 import usersRoutes from './routes/users';
-import orderRoutes from './routes/order';
+import ordersRoutes from './routes/orders';
 
 config();
 connectDB();
@@ -30,7 +30,11 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/orders', ordersRoutes);
+
+app.get('/api/config/paypal', (req: Request, res: Response) => {
+	res.json(process.env.PAYPAL_CLIENT_ID);
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

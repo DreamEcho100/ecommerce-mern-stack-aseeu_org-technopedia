@@ -2,14 +2,19 @@
 	"name": "ecommerce-mern-stack-aseeu_org-technopedia",
 	"version": "1.0.0",
 	"description": "Ecommerce website for MERN course on aseeu.org/technopedia",
-	"main": "server.js",
+	"engines": {
+		"node": "14.16",
+		"npm": "8.3"
+	},
+	"main": "backend/server.ts",
 	"scripts": {
-		"start-server": "ts-node backend/server.ts",
-		"start-server-dev": "ts-node-dev backend/server.ts",
-		"start-client-dev": "npm start --prefix frontend",
-		"dev": "concurrently \"npm run start-server-dev\" \"npm run start-client-dev\"",
+		"start": "ts-node backend/server.ts",
+		"start-dev": "ts-node-dev backend/server.ts",
+		"client": "npm start --prefix frontend",
+		"dev": "concurrently \"npm run start-dev\" \"npm run client\"",
 		"import:init-data": "ts-node backend/seeder.ts",
-		"destroy:init-data": "ts-node backend/seeder.ts -d"
+		"destroy:init-data": "ts-node backend/seeder.ts -d",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix my-app && npm run build --prefix my-app"
 	},
 	"repository": {
 		"type": "git",

@@ -36,8 +36,9 @@ const CartScreen = (props: Props): JSX.Element => {
 	useEffect(() => {
 		if (productId) {
 			dispatch(addToCart(productId, quantity));
+			navigate('/cart', { replace: true });
 		}
-	}, [dispatch, productId, quantity]);
+	}, [dispatch, navigate, productId, quantity]);
 
 	const removeFromCartHandler = (_id: ICartItem['_id']) => {
 		dispatch(removeFromCart(_id));
