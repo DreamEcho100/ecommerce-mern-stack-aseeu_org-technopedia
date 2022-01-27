@@ -1,9 +1,5 @@
 import { useCallback } from 'react';
-
-const joinArrayWith1EmptySpace = (arr: string[]): string => arr.join(' ');
-
-export const joinClassNames = (...classes: string[]): string =>
-	joinArrayWith1EmptySpace(classes);
+import { joinArrayWith1EmptySpace } from '../arrays';
 
 export const useJoinClassNamesMemoized = (...classes: string[]): string =>
 	useCallback(

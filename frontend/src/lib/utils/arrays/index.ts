@@ -84,10 +84,14 @@ export const differenceBetweenTwoArrays = <T>(
 	};
 };
 
+export const joinArrayWith1EmptySpace = (arr: string[]): string => arr.join(' ');
+
+
 const arrayFormatter = {
 	shuffle: shuffleArray,
 	removeDuplicates: removeArrayDuplicates,
 	differenceBetweenTwo: differenceBetweenTwoArrays,
+	joinWith1EmptySpace: joinArrayWith1EmptySpace
 };
 
 export default arrayFormatter;
