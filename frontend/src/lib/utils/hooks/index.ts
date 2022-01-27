@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { joinArrayWith1EmptySpace } from '../arrays';
+import { joinArrayWith1EmptySpace } from '../array';
 
 export const useJoinClassNamesMemoized = (...classes: string[]): string =>
 	useCallback(

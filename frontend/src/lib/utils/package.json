@@ -1,6 +1,6 @@
 {
 	"name": "utils",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A combination of different general purpose utilities.",
 	"main": "index.js",
 	"scripts": {
@@ -8,7 +8,12 @@
 	},
 	"keywords": [
 		"utilities",
-		"general-purpose-utilities"
+		"general-purpose",
+		"array",
+		"date",
+		"cookie",
+		"localStorage",
+		"string"
 	],
 	"author": "DreamEcho100",
 	"license": "ISC"

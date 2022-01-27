@@ -1,3 +1,5 @@
+import stringUtilsConstants from '../constants';
+
 export interface IPad0Options {
 	maxLength?: number;
 	padDir?: 'left' | 'right';
@@ -16,24 +18,23 @@ export type TReadingTime = (
 	wordsCount: number;
 };
 
-export type ISplitStringToSentences = (str: string) => string[];
+export type ISplitStringToSentences = (str: string) => RegExpMatchArray | null;
 export type ISplitStringToParagraphs = (str: string) => string[];
 
 export type TCountSentences = (str: string) => number;
 export type TCountParagraphs = (str: string) => number;
 
 export type TCase =
-	| 'kebab'
-	| 'camel'
-	| 'pascal'
-	| 'snake'
-	| 'upper'
-	| 'lower'
-	| 'capital'
-	| 'constant'
-	| 'title'
-	//
-	| 'sentence';
+	| typeof stringUtilsConstants.KEBAB_CASE
+	| typeof stringUtilsConstants.CAMEL_CASE
+	| typeof stringUtilsConstants.PASCAL_CASE
+	| typeof stringUtilsConstants.SNAKE_CASE
+	| typeof stringUtilsConstants.UPPER_CASE
+	| typeof stringUtilsConstants.LOWER_CASE
+	| typeof stringUtilsConstants.CAPITAL_CASE
+	| typeof stringUtilsConstants.CONSTANT_CASE
+	| typeof stringUtilsConstants.TITLE_CASE
+	| typeof stringUtilsConstants.SENTENCE_CASE;
 // | 'header'
 export type TArrCaseConvertor = (
 	strArr: string[],
