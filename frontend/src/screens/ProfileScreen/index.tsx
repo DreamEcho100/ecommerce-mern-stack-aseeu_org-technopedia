@@ -1,14 +1,18 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { IUser } from 'src/react-app-env';
+import { IUser, TDate } from 'src/react-app-env';
 import { useMainStoreSelector } from 'src/store';
 import { getUserDetails, updateUserProfile } from 'src/store/actions/user';
+import { getOrdersList } from 'src/store/actions/order';
 
 import Message from 'src/components/UI/Message';
 import Loader from 'src/components/UI/Loader';
+import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+import { formatDate } from 'src/lib/utils/date';
+// import { LinkContainer } from 'react-router-bootstrap';
 
 interface Props {}
 
@@ -16,29 +20,22 @@ const ProfileScreen = (props: Props): JSX.Element => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const { user, ordersList } = useMainStoreSelector();
 	const {
-		info,
+		info: userInfo,
 		actions: { requestUpdateUserProfile, requestUserDetails },
-	} = useMainStoreSelector().user;
+	} = user;
+	const {
+		isLoading: isLoadingOrdersList,
+		error: errorOrdersList,
+		data: ordersListData,
+	} = ordersList;
 
 	const [name, setName] = useState<IUser['name']>('');
 	const [email, setEmail] = useState<IUser['email']>('');
 	const [password, setPassword] = useState<IUser['password']>('');
 	const [confirmPassword, setConfirmPassword] = useState<IUser['password']>('');
 	const [message, setMessage] = useState<string>('');
-
-	useEffect(() => {
-		if (!info || !info._id) {
-			navigate('/login', { replace: true });
-		} else {
-			if (!info.name) {
-				dispatch(getUserDetails('profile'));
-			} else {
-				setName(info.name);
-				setEmail(info.email);
-			}
-		}
-	}, [dispatch, navigate, info]);
 
 	const submitHandler = (event: FormEvent) => {
 		event.preventDefault();
@@ -47,12 +44,31 @@ const ProfileScreen = (props: Props): JSX.Element => {
 
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match');
-		} else if (!info || !info._id) {
+		} else if (!userInfo || !userInfo._id) {
 			setMessage('User data not found!');
 		} else {
-			dispatch(updateUserProfile({ _id: info._id, name, email, password }));
+			dispatch(updateUserProfile({ _id: userInfo._id, name, email, password }));
 		}
 	};
+
+	const handleFormattedDate = (dateHolder: TDate) => {
+		const { date, time } = formatDate(dateHolder);
+		return `${date}, ${time}`;
+	};
+
+	useEffect(() => {
+		if (!userInfo || !userInfo._id) {
+			navigate('/login', { replace: true });
+		} else {
+			if (!userInfo.name) {
+				dispatch(getUserDetails('profile'));
+			} else {
+				setName(userInfo.name);
+				setEmail(userInfo.email);
+			}
+			dispatch(getOrdersList());
+		}
+	}, [dispatch, navigate, userInfo]);
 
 	return (
 		<Row>
@@ -131,6 +147,54 @@ const ProfileScreen = (props: Props): JSX.Element => {
 			</Col>
 			<Col md={9}>
 				<h2>My Orders</h2>
+				{isLoadingOrdersList ? (
+					<Loader />
+				) : errorOrdersList ? (
+					<Message variant='danger'>{errorOrdersList}</Message>
+				) : (
+					<Table striped bordered hover responsive className='table-sm'>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>DATE</th>
+								<th>TOTAL</th>
+								<th>PAID</th>
+								<th>DELIVERED</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{ordersListData.map((order) => (
+								<tr key={order._id}>
+									<td>{order._id}</td>
+									<td>{handleFormattedDate(order.createdAt)}</td>
+									<td>{order.totalPrice}</td>
+									<td>
+										{order.isPaid && order.paidAt ? (
+											handleFormattedDate(order.paidAt)
+										) : (
+											<i className='fas fa-times' style={{ color: 'red' }}></i>
+										)}
+									</td>
+									<td>
+										{order.isDelivered && order.deliveredAt ? (
+											handleFormattedDate(order.deliveredAt)
+										) : (
+											<i className='fas fa-times' style={{ color: 'red' }}></i>
+										)}
+									</td>
+									<td>
+										<CustomLinkContainer to={`/order/${order._id}`}>
+											<Button className='btn-sm' variant='light'>
+												Details
+											</Button>
+										</CustomLinkContainer>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+				)}
 			</Col>
 		</Row>
 	);

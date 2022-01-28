@@ -81,11 +81,7 @@ const OrderScreen = () => {
 			}
 		};
 
-		if (
-			!order ||
-			// order._id !== orderId ||
-			successPay
-		) {
+		if (!order || (order && order._id !== orderId) || successPay) {
 			dispatch({ type: ORDER_PAY_RESET });
 			dispatch(getOrderDetails(orderId));
 		} else if (order && !order.isPaid) {

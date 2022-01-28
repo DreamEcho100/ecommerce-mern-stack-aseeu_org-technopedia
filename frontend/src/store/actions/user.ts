@@ -23,6 +23,7 @@ import {
 	TUpdateUserProfile,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
+import { handleActionThrowError } from 'src/lib/core/error';
 
 export const handleUserLogin: THandleUserLogin =
 	(email, password) => async (dispatch) => {
@@ -41,9 +42,7 @@ export const handleUserLogin: THandleUserLogin =
 			).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
-				throw new Error(
-					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
-				);
+				handleActionThrowError<typeof userInfo>(userInfo);
 
 			ls.set('userInfo', userInfo);
 
@@ -76,9 +75,7 @@ export const handleUserRegister: THandleUserRegister =
 			}).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
-				throw new Error(
-					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
-				);
+				handleActionThrowError<typeof userInfo>(userInfo);
 
 			ls.set('userInfo', userInfo);
 
@@ -126,9 +123,7 @@ export const getUserDetails: TGetUserDetails =
 			).then((response) => response.json());
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
-				throw new Error(
-					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
-				);
+				handleActionThrowError<typeof userInfo>(userInfo);
 
 			ls.set('userInfo', {
 				...info,
@@ -178,9 +173,7 @@ export const updateUserProfile: TUpdateUserProfile =
 			// delete userUpdatedInfo.password;
 
 			if (typeof userInfo !== 'object' || !userInfo || !userInfo._id)
-				throw new Error(
-					typeof userInfo === 'string' ? userInfo : JSON.stringify(userInfo)
-				);
+				handleActionThrowError<typeof userInfo>(userInfo);
 
 			ls.set('userInfo', {
 				...info,

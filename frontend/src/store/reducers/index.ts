@@ -6,6 +6,7 @@ import {
 	orderCreateReducer,
 	orderDetailsReducer,
 	orderPayReducer,
+	ordersListReducer
 } from './order';
 
 const reducers = {
@@ -16,6 +17,7 @@ const reducers = {
 	orderCreate: orderCreateReducer,
 	orderDetails: orderDetailsReducer,
 	orderPay: orderPayReducer,
+	ordersList: ordersListReducer
 };
 
 export default reducers;

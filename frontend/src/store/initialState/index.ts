@@ -10,6 +10,7 @@ import {
 	IStoreOrderCreateState,
 	IStoreOrderDetailsState,
 	IStoreOrderPayState,
+	IStoreOrdersListState,
 } from '../ts';
 
 interface IItemTemp {
@@ -123,6 +124,12 @@ export const returnOrderPayInitialState = (): IStoreOrderPayState => ({
 	success: false,
 });
 
+export const returnOrdersListInitialState = (): IStoreOrdersListState => ({
+	data: [],
+	error: '',
+	isLoading: true,
+})
+
 const storeInitialState: IStoreState = {
 	user: returnUserInitialState(),
 	productDetails: returnProductDetailsInitialState(),
@@ -131,6 +138,7 @@ const storeInitialState: IStoreState = {
 	orderCreate: returnOrderCreateInitialState(),
 	orderDetails: returnOrderDetailsInitialState(),
 	orderPay: returnOrderPayInitialState(),
+	ordersList: returnOrdersListInitialState(),
 };
 
 export default storeInitialState;

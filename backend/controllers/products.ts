@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import ProductModel from '../models/product';
 
+// @desc    Get products
+// @route   GET /api/products
+// @access  Public
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
 	try {
 		const products = await ProductModel.find({});
@@ -15,6 +18,9 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
+// @desc    Get product by id
+// @route   GET /api/products/:id
+// @access  Public
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
 	try {
 		const product = await ProductModel.findById(req.params.id);

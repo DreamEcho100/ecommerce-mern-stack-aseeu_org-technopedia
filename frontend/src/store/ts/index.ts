@@ -49,6 +49,9 @@ import {
 	ORDER_PAY_SUCCESS,
 	ORDER_PAY_FAIL,
 	ORDER_PAY_RESET,
+	ORDERS_LIST_REQUEST,
+	ORDERS_LIST_SUCCESS,
+	ORDERS_LIST_FAIL,
 } from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
@@ -419,6 +422,44 @@ export type TPayOrderAfterPayment = (
 ) => (dispatch: TOrderPayDispatch, getState: () => TRootState) => void;
 
 /* ************************ */
+/***** ORDERS LIST *****/
+/* ************************ */
+export interface IStoreOrdersListState {
+	data: IOrder[];
+	isLoading: boolean;
+	error: string;
+}
+
+interface IOrdersListActionRequestAction {
+	type: typeof ORDERS_LIST_REQUEST;
+}
+interface IOrdersListActionRequestSuccessAction {
+	type: typeof ORDERS_LIST_SUCCESS;
+	payload: { data: IOrder[] };
+}
+interface IOrdersListActionRequestFailAction {
+	type: typeof ORDERS_LIST_FAIL;
+	payload: { error: IStoreOrdersListState['error'] };
+}
+export type TOrdersListAction =
+	| IOrdersListActionRequestAction
+	| IOrdersListActionRequestSuccessAction
+	| IOrdersListActionRequestFailAction;
+
+export type TOrdersListReducer = Reducer<
+	IStoreOrdersListState,
+	TOrdersListAction
+>;
+
+type TOrdersListDispatch =
+	| React.Dispatch<TOrdersListAction>
+	| ((value: TOrdersListAction) => IStoreOrdersListState);
+export type TGetOrdersList = () => (
+	dispatch: TOrdersListDispatch,
+	getState: () => TRootState
+) => void;
+
+/* ************************ */
 /******* STORE STATE *******/
 /* ************************ */
 export interface IStoreState {
@@ -429,4 +470,5 @@ export interface IStoreState {
 	orderCreate: IStoreOrderCreateState;
 	orderDetails: IStoreOrderDetailsState;
 	orderPay: IStoreOrderPayState;
+	ordersList: IStoreOrdersListState;
 }

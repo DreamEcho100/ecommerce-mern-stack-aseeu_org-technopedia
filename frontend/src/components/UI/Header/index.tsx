@@ -2,12 +2,11 @@ import { useDispatch } from 'react-redux';
 import { useMainStoreSelector } from 'src/store';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { /* Link */ NavLink } from 'react-router-dom';
-// import { LinkContainer } from 'react-router-bootstrap';
 import { handleUserLogout } from 'src/store/actions/user';
 import { resetCart } from 'src/store/actions/cart';
 
 import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
-// import CustomLinkContainer from '../CustomLinkContainer';
+// import { LinkContainer } from 'react-router-bootstrap';
 
 interface Props {}
 
@@ -41,7 +40,10 @@ const Header = (props: Props): JSX.Element => {
 
 							{info?._id && info._id?.length !== 0 ? (
 								<NavDropdown title={info.name} id='username'>
-									<CustomLinkContainer to='/profile'>
+									<CustomLinkContainer
+										to='/profile'
+										elementType='NavDropdownItem'
+									>
 										Profile
 									</CustomLinkContainer>
 									<NavDropdown.Item onClick={logoutHandler}>
