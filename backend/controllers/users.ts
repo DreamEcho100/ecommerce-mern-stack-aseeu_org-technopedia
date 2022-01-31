@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
-import asyncHandler from 'express-async-handler';
 
 import generateToken from '../utils/generateToken';
 import UserModel from '../models/user';
 import { CustomRequest } from '../general';
+// import asyncHandler from 'express-async-handler';
+import expressAsyncHandler from '../utils/core/express-async-handler';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
-const authUser = asyncHandler(async (req: Request, res: Response) => {
+const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	const user = await UserModel.findOne({ email });
@@ -30,7 +31,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const registerUser = asyncHandler(async (req: Request, res: Response) => {
+const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
 	const { name, email, password } = req.body;
 
 	const userExist = await UserModel.findOne({ email });
@@ -63,7 +64,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
-const getUserProfile = asyncHandler(
+const getUserProfile = expressAsyncHandler(
 	async (req: CustomRequest, res: Response) => {
 		// if (!req.user || !req.user._id) throw new Error('User not found');
 
@@ -86,7 +87,7 @@ const getUserProfile = asyncHandler(
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-const updateUserProfile = asyncHandler(
+const updateUserProfile = expressAsyncHandler(
 	async (req: CustomRequest, res: Response) => {
 		// res.send('successful calling')
 		// if (!req.user || !req.user._id) throw new Error('User not found');
