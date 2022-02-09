@@ -1,20 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
+// import expressAsyncHandler from '../utils/core/express-async-handler';
 
 import User from '../models/user';
-// import { IUserRequest } from '../general';
+// import { CustomRequest } from '../general';
 
 interface IJwtPayloadID extends JwtPayload {
 	id?: string;
 }
 
-const protectMiddleware = asyncHandler(
-	async (
-		req: Request /* IUserRequest */,
-		res: Response,
-		next: NextFunction
-	) => {
+const protect = asyncHandler(
+	async (req: Request, res: Response, next: NextFunction) => {
 		// let token: string | undefined;
 		const infoHolder: {
 			token?: string;
@@ -72,4 +69,13 @@ const protectMiddleware = asyncHandler(
 	}
 );
 
-export { protectMiddleware };
+const admin = (req: Request, res: Response, next: NextFunction) => {
+	if (req?.user?.isAdmin) {
+		next();
+	} else {
+		res.status(401);
+		throw new Error('Not authorized as admin');
+	}
+};
+
+export { protect as protectMiddleware, admin as adminMiddleware };

@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 
 import generateToken from '../utils/generateToken';
 import UserModel from '../models/user';
-import { CustomRequest } from '../general';
-// import asyncHandler from 'express-async-handler';
-import expressAsyncHandler from '../utils/core/express-async-handler';
+// import { CustomRequest } from '../general';
+import asyncHandler from 'express-async-handler';
+// import expressAsyncHandler from '../utils/core/express-async-handler';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
-const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
+const authUser = asyncHandler(async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	const user = await UserModel.findOne({ email });
@@ -31,7 +31,7 @@ const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
+const registerUser = asyncHandler(async (req: Request, res: Response) => {
 	const { name, email, password } = req.body;
 
 	const userExist = await UserModel.findOne({ email });
@@ -64,57 +64,61 @@ const registerUser = expressAsyncHandler(async (req: Request, res: Response) => 
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
-const getUserProfile = expressAsyncHandler(
-	async (req: CustomRequest, res: Response) => {
-		// if (!req.user || !req.user._id) throw new Error('User not found');
+const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
+	// if (!req.user || !req.user._id) throw new Error('User not found');
 
-		const user = await UserModel.findById(req.user._id);
-		if (user) {
-			res.json({
-				_id: user._id,
-				name: user.name,
-				email: user.email,
-				isAdmin: user.isAdmin,
-			});
-		} else {
-			// res.status(404).send('User not found');
-			res.status(404);
-			throw new Error('User not found');
-		}
+	const user = await UserModel.findById(req.user._id);
+	if (user) {
+		res.json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+		});
+	} else {
+		// res.status(404).send('User not found');
+		res.status(404);
+		throw new Error('User not found');
 	}
-);
+});
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-const updateUserProfile = expressAsyncHandler(
-	async (req: CustomRequest, res: Response) => {
-		// res.send('successful calling')
-		// if (!req.user || !req.user._id) throw new Error('User not found');
+const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
+	// res.send('successful calling')
+	// if (!req.user || !req.user._id) throw new Error('User not found');
 
-		const user = await UserModel.findById(req.user._id);
+	const user = await UserModel.findById(req.user._id);
 
-		if (user) {
-			user.name = req.body.name || user.name;
-			user.email = req.body.email || user.email;
-			if (req.body.password) {
-				user.password = req.body.password;
-			}
-
-			const updatedUser = await user.save();
-
-			res.json({
-				_id: updatedUser._id,
-				name: updatedUser.name,
-				email: updatedUser.email,
-				isAdmin: updatedUser.isAdmin,
-				token: generateToken(updatedUser._id),
-			});
-		} else {
-			res.status(404);
-			throw new Error('User not found');
+	if (user) {
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		if (req.body.password) {
+			user.password = req.body.password;
 		}
-	}
-);
 
-export { authUser, getUserProfile, registerUser, updateUserProfile };
+		const updatedUser = await user.save();
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+			token: generateToken(updatedUser._id),
+		});
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+});
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private
+const getUsers = asyncHandler(async (req: Request, res: Response) => {
+	const users = await UserModel.find({});
+	res.json(users);
+});
+
+export { authUser, getUserProfile, registerUser, updateUserProfile, getUsers };

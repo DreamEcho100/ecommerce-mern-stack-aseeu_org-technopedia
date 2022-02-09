@@ -1,16 +1,12 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 
-const notFoundMiddleware = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
+const notFound = (req: Request, res: Response, next: NextFunction) => {
 	// const error = new Error(`Not Found - ${req.originalUrl}`);
 	res.status(404);
 	next(new Error(`Not Found - ${req.originalUrl}`));
 };
 
-const errorHandlerMiddleware = (
+const errorHandler = (
 	error: ErrorRequestHandler,
 	req: Request,
 	res: Response,
@@ -39,4 +35,7 @@ const errorHandlerMiddleware = (
 	});
 };
 
-export { notFoundMiddleware, errorHandlerMiddleware };
+export {
+	notFound as notFoundMiddleware,
+	errorHandler as errorHandlerMiddleware,
+};

@@ -5,15 +5,17 @@ declare global {
 		interface Request {
 			user: {
 				_id: string;
+				isAdmin?: boolean;
 			}; //or other type you would like to use
 		}
 	}
 }
 
-export interface CustomRequest extends Request {
-	user: {
-		_id: string;
-	}; //or other type you would like to use
-}
+// export interface CustomRequest extends Request {
+// 	user: {
+// 		_id: string;
+// 		isAdmin?: boolean;
+// 	}; //or other type you would like to use
+// }
 
 export type TDate = Date | number | string;
