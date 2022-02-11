@@ -42,7 +42,7 @@ export const addToCart: TAddToCart =
 		} catch (error) {
 			if (error instanceof Error) {
 				// dispatch({
-				//   type: PRODUCT_DETAILS_FAIL,
+				//   type: PRODUCT_DETAILS_REQUEST_FAIL,
 				//   payload: { error: error.message },
 				// });
 				console.error(error.message);

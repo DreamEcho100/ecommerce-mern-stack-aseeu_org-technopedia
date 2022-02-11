@@ -26,6 +26,19 @@ export interface IUser {
 	token: string;
 }
 
+export interface IAdmin {
+	usersList?: IUser[];
+	actions: {
+		requests: {
+			usersList: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+		};
+	};
+}
+
 export interface ICartItem {
 	_id: IProduct['_id'];
 	name: IProduct['name'];

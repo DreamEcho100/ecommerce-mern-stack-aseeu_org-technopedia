@@ -6,11 +6,11 @@ import {
 	CART_RESET,
 } from 'src/lib/core/constants';
 import { TCartReducer } from 'src/store/ts';
-import { returnCartInitialState } from 'src/store/initialState';
+import { returnCartInitialState as cartInit } from 'src/store/initialState';
 import { handleCartItemsCalcs } from 'src/lib/core/cart';
 
 const cartReducer: TCartReducer = (
-	state = returnCartInitialState(),
+	state = cartInit(),
 	action
 ) => {
 	switch (action.type) {
@@ -70,7 +70,7 @@ const cartReducer: TCartReducer = (
 
 		case CART_RESET: {
 			const { resetShippingAddress, resetPaymentMethod } = action.payload;
-			const cartRested = returnCartInitialState();
+			const cartRested = cartInit();
 
 			return {
 				...cartRested,

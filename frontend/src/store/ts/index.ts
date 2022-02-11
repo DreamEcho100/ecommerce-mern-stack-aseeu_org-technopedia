@@ -8,30 +8,35 @@ import {
 	TPaymentMethod,
 	IOrder,
 	IOrderPay,
+	IAdmin,
 } from 'src/react-app-env';
 import {
-	USER_LOGIN_REQUEST,
-	USER_LOGIN_SUCCESS,
-	USER_LOGIN_FAIL,
-	USER_REGISTER_REQUEST,
-	USER_REGISTER_SUCCESS,
-	USER_REGISTER_FAIL,
+	USER_LOGIN_REQUEST_PENDING,
+	USER_LOGIN_REQUEST_SUCCESS,
+	USER_LOGIN_REQUEST_FAIL,
+	USER_REGISTER_REQUEST_PENDING,
+	USER_REGISTER_REQUEST_SUCCESS,
+	USER_REGISTER_REQUEST_FAIL,
 	USER_LOGOUT,
-	USER_DETAILS_REQUEST,
-	USER_DETAILS_SUCCESS,
-	USER_DETAILS_FAIL,
-	USER_UPDATE_PROFILE_REQUEST,
-	USER_UPDATE_PROFILE_SUCCESS,
-	USER_UPDATE_PROFILE_FAIL,
+	USER_DETAILS_REQUEST_PENDING,
+	USER_DETAILS_REQUEST_SUCCESS,
+	USER_DETAILS_REQUEST_FAIL,
+	USER_UPDATE_PROFILE_REQUEST_PENDING,
+	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
+	USER_UPDATE_PROFILE_REQUEST_FAIL,
 	USER_UPDATE_PROFILE_RESET,
+	ADMIN_USERS_LIST_REQUEST_PENDING,
+	ADMIN_USERS_LIST_REQUEST_SUCCESS,
+	ADMIN_USERS_LIST_REQUEST_FAIL,
+	ADMIN_USERS_LIST_RESET,
 	//
-	PRODUCTS_LIST_FAIL,
-	PRODUCTS_LIST_SUCCESS,
-	PRODUCTS_LIST_REQUEST,
+	PRODUCTS_LIST_REQUEST_FAIL,
+	PRODUCTS_LIST_REQUEST_SUCCESS,
+	PRODUCTS_LIST_REQUEST_PENDING,
 	//
-	PRODUCT_DETAILS_REQUEST,
-	PRODUCT_DETAILS_SUCCESS,
-	PRODUCT_DETAILS_FAIL,
+	PRODUCT_DETAILS_REQUEST_PENDING,
+	PRODUCT_DETAILS_REQUEST_SUCCESS,
+	PRODUCT_DETAILS_REQUEST_FAIL,
 	//
 	CART_ADD_ITEM,
 	CART_REMOVE_ITEM,
@@ -39,66 +44,70 @@ import {
 	CART_SAVE_PAYMENT_METHOD,
 	CART_RESET,
 	//
-	ORDER_CREATE_CART_ITEMS_REQUEST,
-	ORDER_CREATE_CART_ITEMS_SUCCESS,
-	ORDER_CREATE_CART_ITEMS_FAIL,
-	ORDER_DETAILS_REQUEST,
-	ORDER_DETAILS_SUCCESS,
-	ORDER_DETAILS_FAIL,
-	ORDER_PAY_REQUEST,
-	ORDER_PAY_SUCCESS,
-	ORDER_PAY_FAIL,
+	ORDER_CREATE_CART_ITEMS_REQUEST_PENDING,
+	ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS,
+	ORDER_CREATE_CART_ITEMS_REQUEST_FAIL,
+	ORDER_DETAILS_REQUEST_PENDING,
+	ORDER_DETAILS_REQUEST_SUCCESS,
+	ORDER_DETAILS_REQUEST_FAIL,
+	ORDER_DETAILS_RESET,
+	ORDER_PAY_REQUEST_PENDING,
+	ORDER_PAY_REQUEST_SUCCESS,
+	ORDER_PAY_REQUEST_FAIL,
 	ORDER_PAY_RESET,
-	ORDERS_LIST_REQUEST,
-	ORDERS_LIST_SUCCESS,
-	ORDERS_LIST_FAIL,
+	ORDERS_LIST_REQUEST_PENDING,
+	ORDERS_LIST_REQUEST_SUCCESS,
+	ORDERS_LIST_REQUEST_FAIL,
+	ORDERS_LIST_RESET,
+	USER_IS_NOT_ADMIN,
 } from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
 /* ************************ */
 /***** USER *****/
 /* ************************ */
-
 export interface IStoreUserState {
 	info?: IUser;
 	isLoading: boolean;
 	error: string;
 	actions: {
-		requestUserDetails: {
-			isLoading: boolean;
-			error: string;
-			success: boolean;
-		};
-		requestUpdateUserProfile: {
-			isLoading: boolean;
-			error: string;
-			success: boolean;
+		requests: {
+			userDetails: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			updateUserProfile: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
 		};
 	};
 }
 
 interface IUserRequestAction {
 	type:
-		| typeof USER_LOGIN_REQUEST
-		| typeof USER_REGISTER_REQUEST
+		| typeof USER_LOGIN_REQUEST_PENDING
+		| typeof USER_REGISTER_REQUEST_PENDING
 		| typeof USER_LOGOUT
-		| typeof USER_DETAILS_REQUEST
-		| typeof USER_UPDATE_PROFILE_REQUEST;
+		| typeof USER_DETAILS_REQUEST_PENDING
+		| typeof USER_UPDATE_PROFILE_REQUEST_PENDING;
 }
 interface IUserRequestSuccessAction {
 	type:
-		| typeof USER_LOGIN_SUCCESS
-		| typeof USER_REGISTER_SUCCESS
-		| typeof USER_DETAILS_SUCCESS
-		| typeof USER_UPDATE_PROFILE_SUCCESS;
+		| typeof USER_LOGIN_REQUEST_SUCCESS
+		| typeof USER_REGISTER_REQUEST_SUCCESS
+		| typeof USER_DETAILS_REQUEST_SUCCESS
+		| typeof USER_UPDATE_PROFILE_REQUEST_SUCCESS;
 	payload: { info: IUser };
 }
 interface IUserRequestFailAction {
 	type:
-		| typeof USER_LOGIN_FAIL
-		| typeof USER_REGISTER_FAIL
-		| typeof USER_DETAILS_FAIL
-		| typeof USER_UPDATE_PROFILE_FAIL;
+		| typeof USER_LOGIN_REQUEST_FAIL
+		| typeof USER_REGISTER_REQUEST_FAIL
+		| typeof USER_DETAILS_REQUEST_FAIL
+		| typeof USER_UPDATE_PROFILE_REQUEST_FAIL;
 	payload: { error: string };
 }
 interface IUserUpdateProfileResetAction {
@@ -136,6 +145,47 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 }) => (dispatch: IUserDispatch, getState: () => TRootState) => Promise<void>;
 
 /* ************************ */
+/***** ADMIN *****/
+/* ************************ */
+export type TStoreAdminState = IAdmin | undefined;
+
+interface IAdminUsersListRequestAction {
+	type: typeof ADMIN_USERS_LIST_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminUsersListRequestSuccussAction {
+	type: typeof ADMIN_USERS_LIST_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; usersList: IUser[] };
+}
+interface IAdminUsersListRequestFailAction {
+	type: typeof ADMIN_USERS_LIST_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminUserListResetAction {
+	type: typeof ADMIN_USERS_LIST_RESET;
+}
+interface IUserIsNotAdmin {
+	type: typeof USER_IS_NOT_ADMIN;
+}
+export type IUsersListAction =
+	| IAdminUsersListRequestAction
+	| IAdminUsersListRequestSuccussAction
+	| IAdminUsersListRequestFailAction
+	| IAdminUserListResetAction
+	| IUserIsNotAdmin;
+
+export type IAdminReducer = Reducer<TStoreAdminState, IUsersListAction>;
+
+type IAdminDispatch =
+	| React.Dispatch<IUsersListAction>
+	| ((value: IUsersListAction) => TStoreAdminState);
+export type TAdminReset = () => (dispatch: IAdminDispatch) => void;
+export type TAdminGetUsersList = () => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void>;
+
+/* ************************ */
 /****** PRODUCTS LIST ******/
 /* ************************ */
 export interface IStoreProductsListState {
@@ -145,14 +195,14 @@ export interface IStoreProductsListState {
 }
 
 interface IProductsListRequestAction {
-	type: typeof PRODUCTS_LIST_REQUEST;
+	type: typeof PRODUCTS_LIST_REQUEST_PENDING;
 }
 interface IProductsListRequestSuccessAction {
-	type: typeof PRODUCTS_LIST_SUCCESS;
+	type: typeof PRODUCTS_LIST_REQUEST_SUCCESS;
 	payload: { products: IStoreProductsListState['products'] };
 }
 interface IProductsListRequestFailAction {
-	type: typeof PRODUCTS_LIST_FAIL;
+	type: typeof PRODUCTS_LIST_REQUEST_FAIL;
 	payload: { error: IStoreProductsListState['error'] };
 }
 export type TStoreProductsListAction =
@@ -182,14 +232,14 @@ export interface IStoreProductDetailsState {
 }
 
 interface IProductDetailsRequestAction {
-	type: typeof PRODUCT_DETAILS_REQUEST;
+	type: typeof PRODUCT_DETAILS_REQUEST_PENDING;
 }
 interface IProductDetailsRequestSuccessAction {
-	type: typeof PRODUCT_DETAILS_SUCCESS;
+	type: typeof PRODUCT_DETAILS_REQUEST_SUCCESS;
 	payload: { product: IStoreProductDetailsState['product'] };
 }
 interface IProductDetailsRequestFailAction {
-	type: typeof PRODUCT_DETAILS_FAIL;
+	type: typeof PRODUCT_DETAILS_REQUEST_FAIL;
 	payload: { error: IStoreProductDetailsState['error'] };
 }
 export type TStoreProductDetailsAction =
@@ -240,14 +290,14 @@ interface ICartSavePaymentMethodAction {
 	payload: { paymentMethod: TPaymentMethod };
 }
 interface ICreateCartItemsRequestAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_PENDING;
 }
 interface ICreateCartItemsRequestSuccessAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS;
 	payload: { orderCreate: IOrder };
 }
 interface ICreateCartItemsRequestFailAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_FAIL;
 }
 interface ICartResetAction {
 	type: typeof CART_RESET;
@@ -303,14 +353,14 @@ export interface IStoreOrderCreateState {
 }
 
 interface IOrderCreateRequestAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_PENDING;
 }
 interface IOrderCreateRequestSuccessAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_SUCCESS;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS;
 	payload: { data: IOrder };
 }
 interface IOrderCreateRequestFailAction {
-	type: typeof ORDER_CREATE_CART_ITEMS_FAIL;
+	type: typeof ORDER_CREATE_CART_ITEMS_REQUEST_FAIL;
 	payload: { error: IStoreOrderCreateState['error'] };
 }
 export type TOrderCreateAction =
@@ -348,20 +398,25 @@ export interface IStoreOrderDetailsState {
 }
 
 interface IOrderDetailsRequestAction {
-	type: typeof ORDER_DETAILS_REQUEST;
+	type: typeof ORDER_DETAILS_REQUEST_PENDING;
 }
 interface IOrderDetailsRequestSuccessAction {
-	type: typeof ORDER_DETAILS_SUCCESS;
+	type: typeof ORDER_DETAILS_REQUEST_SUCCESS;
 	payload: { data: IOrder };
 }
 interface IOrderDetailsRequestFailAction {
-	type: typeof ORDER_DETAILS_FAIL;
+	type: typeof ORDER_DETAILS_REQUEST_FAIL;
 	payload: { error: IStoreOrderDetailsState['error'] };
 }
+interface IOrderDetailsResetAction {
+	type: typeof ORDER_DETAILS_RESET;
+}
+
 export type TOrderDetailsAction =
 	| IOrderDetailsRequestAction
 	| IOrderDetailsRequestSuccessAction
-	| IOrderDetailsRequestFailAction;
+	| IOrderDetailsRequestFailAction
+	| IOrderDetailsResetAction;
 
 export type TOrderDetailsReducer = Reducer<
 	IStoreOrderDetailsState,
@@ -374,6 +429,9 @@ type TOrderDetailsDispatch =
 export type TGetOrderDetails = (
 	_id: IUser['_id']
 ) => (dispatch: TOrderDetailsDispatch, getState: () => TRootState) => void;
+export type TOrderDetailsReset = () => (
+	dispatch: TOrderDetailsDispatch
+) => void;
 
 /* ************************ */
 /***** ORDER DETAILS *****/
@@ -387,14 +445,14 @@ export interface IStoreOrderPayState {
 }
 
 interface IOrderPayActionRequestAction {
-	type: typeof ORDER_PAY_REQUEST;
+	type: typeof ORDER_PAY_REQUEST_PENDING;
 }
 interface IOrderPayActionRequestSuccessAction {
-	type: typeof ORDER_PAY_SUCCESS;
+	type: typeof ORDER_PAY_REQUEST_SUCCESS;
 	payload: { data: IOrderPay };
 }
 interface IOrderPayActionRequestFailAction {
-	type: typeof ORDER_PAY_FAIL;
+	type: typeof ORDER_PAY_REQUEST_FAIL;
 	payload: { error: IStoreOrderPayState['error'] };
 }
 interface IOrderPayResetAction {
@@ -420,6 +478,7 @@ export type TPayOrderAfterPayment = (
 		payer: { email_address: string };
 	}
 ) => (dispatch: TOrderPayDispatch, getState: () => TRootState) => void;
+export type TPayOrderReset = () => (dispatch: TOrderPayDispatch) => void;
 
 /* ************************ */
 /***** ORDERS LIST *****/
@@ -431,20 +490,24 @@ export interface IStoreOrdersListState {
 }
 
 interface IOrdersListActionRequestAction {
-	type: typeof ORDERS_LIST_REQUEST;
+	type: typeof ORDERS_LIST_REQUEST_PENDING;
 }
 interface IOrdersListActionRequestSuccessAction {
-	type: typeof ORDERS_LIST_SUCCESS;
+	type: typeof ORDERS_LIST_REQUEST_SUCCESS;
 	payload: { data: IOrder[] };
 }
 interface IOrdersListActionRequestFailAction {
-	type: typeof ORDERS_LIST_FAIL;
+	type: typeof ORDERS_LIST_REQUEST_FAIL;
 	payload: { error: IStoreOrdersListState['error'] };
+}
+interface IOrdersListActionResetAction {
+	type: typeof ORDERS_LIST_RESET;
 }
 export type TOrdersListAction =
 	| IOrdersListActionRequestAction
 	| IOrdersListActionRequestSuccessAction
-	| IOrdersListActionRequestFailAction;
+	| IOrdersListActionRequestFailAction
+	| IOrdersListActionResetAction;
 
 export type TOrdersListReducer = Reducer<
 	IStoreOrdersListState,
@@ -458,12 +521,14 @@ export type TGetOrdersList = () => (
 	dispatch: TOrdersListDispatch,
 	getState: () => TRootState
 ) => void;
+export type TOrdersListReset = () => (dispatch: TOrdersListDispatch) => void;
 
 /* ************************ */
 /******* STORE STATE *******/
 /* ************************ */
 export interface IStoreState {
 	user: IStoreUserState;
+	admin: TStoreAdminState;
 	productList: IStoreProductsListState;
 	productDetails: IStoreProductDetailsState;
 	cart: IStoreCartState;

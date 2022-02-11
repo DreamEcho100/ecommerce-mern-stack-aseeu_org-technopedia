@@ -2,7 +2,13 @@ import { useDispatch } from 'react-redux';
 import { useMainStoreSelector } from 'src/store';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { /* Link */ NavLink } from 'react-router-dom';
-import { handleUserLogout } from 'src/store/actions/user';
+
+import { adminReset, handleUserLogout } from 'src/store/actions/user';
+import {
+	orderDetailsReset,
+	OrdersListReset,
+	payOrderReset,
+} from 'src/store/actions/order';
 import { resetCart } from 'src/store/actions/cart';
 
 import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
@@ -16,10 +22,14 @@ const Header = (props: Props): JSX.Element => {
 	const { info } = useMainStoreSelector().user;
 
 	const logoutHandler = () => {
-		dispatch(handleUserLogout());
+		dispatch(adminReset());
+		dispatch(orderDetailsReset());
+		dispatch(payOrderReset());
+		dispatch(OrdersListReset());
 		dispatch(
 			resetCart({ resetPaymentMethod: true, resetShippingAddress: true })
 		);
+		dispatch(handleUserLogout());
 	};
 
 	return (

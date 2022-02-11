@@ -23,7 +23,7 @@ const ProfileScreen = (props: Props): JSX.Element => {
 	const { user, ordersList } = useMainStoreSelector();
 	const {
 		info: userInfo,
-		actions: { requestUpdateUserProfile, requestUserDetails },
+		actions: { requests },
 	} = user;
 	const {
 		isLoading: isLoadingOrdersList,
@@ -74,7 +74,7 @@ const ProfileScreen = (props: Props): JSX.Element => {
 		<Row>
 			<Col md={3}>
 				<h2>User Profile</h2>
-				{requestUserDetails.isLoading && <Loader />}
+				{requests.userDetails.isLoading && <Loader />}
 				<Form onSubmit={submitHandler}>
 					<Form.Group controlId='name'>
 						<Form.Label>Name</Form.Label>
@@ -129,12 +129,12 @@ const ProfileScreen = (props: Props): JSX.Element => {
 							{message}
 						</Message>
 					)}
-					{(requestUserDetails.error || requestUpdateUserProfile.error) && (
+					{(requests.userDetails.error || requests.updateUserProfile.error) && (
 						<Message variant='danger' className='my-3'>
-							{requestUserDetails.error || requestUpdateUserProfile.error}
+							{requests.userDetails.error || requests.updateUserProfile.error}
 						</Message>
 					)}
-					{requestUpdateUserProfile.success && (
+					{requests.updateUserProfile.success && (
 						<Message variant='success' className='my-3'>
 							Profile Updated
 						</Message>

@@ -1,18 +1,22 @@
 import ls from 'src/lib/utils/storage/localStorage';
 import {
-	USER_LOGIN_REQUEST,
-	USER_LOGIN_SUCCESS,
-	USER_LOGIN_FAIL,
-	USER_REGISTER_REQUEST,
-	USER_REGISTER_SUCCESS,
-	USER_REGISTER_FAIL,
+	USER_LOGIN_REQUEST_PENDING,
+	USER_LOGIN_REQUEST_SUCCESS,
+	USER_LOGIN_REQUEST_FAIL,
+	USER_REGISTER_REQUEST_PENDING,
+	USER_REGISTER_REQUEST_SUCCESS,
+	USER_REGISTER_REQUEST_FAIL,
 	USER_LOGOUT,
-	USER_DETAILS_REQUEST,
-	USER_DETAILS_SUCCESS,
-	USER_DETAILS_FAIL,
-	USER_UPDATE_PROFILE_REQUEST,
-	USER_UPDATE_PROFILE_SUCCESS,
-	USER_UPDATE_PROFILE_FAIL,
+	USER_DETAILS_REQUEST_PENDING,
+	USER_DETAILS_REQUEST_SUCCESS,
+	USER_DETAILS_REQUEST_FAIL,
+	USER_UPDATE_PROFILE_REQUEST_PENDING,
+	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
+	USER_UPDATE_PROFILE_REQUEST_FAIL,
+	USER_IS_NOT_ADMIN,
+	ADMIN_USERS_LIST_REQUEST_PENDING,
+	ADMIN_USERS_LIST_REQUEST_SUCCESS,
+	ADMIN_USERS_LIST_REQUEST_FAIL,
 } from 'src/lib/core/constants';
 import { IUser } from 'src/react-app-env';
 import {
@@ -21,6 +25,8 @@ import {
 	THandleUserRegister,
 	TGetUserDetails,
 	TUpdateUserProfile,
+	TAdminReset,
+	TAdminGetUsersList,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -28,7 +34,7 @@ import { handleActionThrowError } from 'src/lib/core/error';
 export const handleUserLogin: THandleUserLogin =
 	(email, password) => async (dispatch) => {
 		try {
-			dispatch({ type: USER_LOGIN_REQUEST });
+			dispatch({ type: USER_LOGIN_REQUEST_PENDING });
 
 			const userInfo: IUser = await fetch(
 				`${BACK_END_ROOT_URL}/api/users/login`,
@@ -47,13 +53,13 @@ export const handleUserLogin: THandleUserLogin =
 			ls.set('userInfo', userInfo);
 
 			dispatch({
-				type: USER_LOGIN_SUCCESS,
+				type: USER_LOGIN_REQUEST_SUCCESS,
 				payload: { info: userInfo },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: USER_LOGIN_FAIL,
+					type: USER_LOGIN_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -64,7 +70,7 @@ export const handleUserLogin: THandleUserLogin =
 export const handleUserRegister: THandleUserRegister =
 	(name, email, password) => async (dispatch) => {
 		try {
-			dispatch({ type: USER_REGISTER_REQUEST });
+			dispatch({ type: USER_REGISTER_REQUEST_PENDING });
 
 			const userInfo: IUser = await fetch(`${BACK_END_ROOT_URL}/api/users`, {
 				method: 'POST',
@@ -80,13 +86,13 @@ export const handleUserRegister: THandleUserRegister =
 			ls.set('userInfo', userInfo);
 
 			dispatch({
-				type: USER_REGISTER_SUCCESS,
+				type: USER_REGISTER_REQUEST_SUCCESS,
 				payload: { info: userInfo },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: USER_REGISTER_FAIL,
+					type: USER_REGISTER_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -103,7 +109,7 @@ export const handleUserLogout: THandleUserLogout = () => (dispatch) => {
 export const getUserDetails: TGetUserDetails =
 	(_id) => async (dispatch, getState) => {
 		try {
-			dispatch({ type: USER_DETAILS_REQUEST });
+			dispatch({ type: USER_DETAILS_REQUEST_PENDING });
 
 			const {
 				user: { info },
@@ -131,13 +137,13 @@ export const getUserDetails: TGetUserDetails =
 			});
 
 			dispatch({
-				type: USER_DETAILS_SUCCESS,
+				type: USER_DETAILS_REQUEST_SUCCESS,
 				payload: { info: userInfo },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: USER_DETAILS_FAIL,
+					type: USER_DETAILS_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -150,7 +156,7 @@ export const updateUserProfile: TUpdateUserProfile =
 	// _id
 	async (dispatch, getState) => {
 		try {
-			dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+			dispatch({ type: USER_UPDATE_PROFILE_REQUEST_PENDING });
 
 			const {
 				user: { info },
@@ -181,16 +187,63 @@ export const updateUserProfile: TUpdateUserProfile =
 			});
 
 			dispatch({
-				type: USER_UPDATE_PROFILE_SUCCESS,
+				type: USER_UPDATE_PROFILE_REQUEST_SUCCESS,
 				payload: { info: userInfo },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: USER_UPDATE_PROFILE_FAIL,
+					type: USER_UPDATE_PROFILE_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
 			}
 		}
 	};
+
+export const adminGetUsersList: TAdminGetUsersList =
+	() => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_USERS_LIST_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const usersList: IUser[] = await fetch(`${BACK_END_ROOT_URL}/api/users`, {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${info.token}`,
+				},
+			}).then((response) => response.json());
+
+			// delete userUpdatedInfo.password;
+
+			if (!Array.isArray(usersList) || !usersList)
+				handleActionThrowError<typeof usersList>(usersList);
+
+			dispatch({
+				type: ADMIN_USERS_LIST_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, usersList },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_USERS_LIST_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+
+export const adminReset: TAdminReset = () => (dispatch) => {
+	dispatch({
+		type: USER_IS_NOT_ADMIN,
+	});
+};

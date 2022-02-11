@@ -11,6 +11,7 @@ import {
 	IStoreOrderDetailsState,
 	IStoreOrderPayState,
 	IStoreOrdersListState,
+	TStoreAdminState,
 } from '../ts';
 
 interface IItemTemp {
@@ -19,6 +20,10 @@ interface IItemTemp {
 	rating: string;
 	numReviews: string;
 }
+
+type TReturnAdminInitialState = (
+	isAdmin?: boolean
+) => TStoreAdminState | undefined;
 
 const userInfo: IStoreUserState['info'] = ls.get<IStoreUserState['info']>(
 	'userInfo',
@@ -37,18 +42,38 @@ export const returnUserInitialState = (): IStoreUserState => ({
 	isLoading: false,
 	error: '',
 	actions: {
-		requestUserDetails: {
-			isLoading: false,
-			error: '',
-			success: false,
-		},
-		requestUpdateUserProfile: {
-			isLoading: false,
-			error: '',
-			success: false,
+		requests: {
+			userDetails: {
+				isLoading: false,
+				error: '',
+				success: false,
+			},
+			updateUserProfile: {
+				isLoading: false,
+				error: '',
+				success: false,
+			},
 		},
 	},
 });
+
+export const returnAdminInitialState: TReturnAdminInitialState = (
+	isAdmin = returnUserInitialState().info?.isAdmin || false
+) =>
+	isAdmin
+		? {
+				usersList: [],
+				actions: {
+					requests: {
+						usersList: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
+					},
+				},
+		  }
+		: undefined;
 
 export const returnProductDetailsInitialState =
 	(): IStoreProductDetailsState => ({
@@ -128,10 +153,11 @@ export const returnOrdersListInitialState = (): IStoreOrdersListState => ({
 	data: [],
 	error: '',
 	isLoading: true,
-})
+});
 
 const storeInitialState: IStoreState = {
 	user: returnUserInitialState(),
+	admin: returnAdminInitialState(),
 	productDetails: returnProductDetailsInitialState(),
 	productList: returnProductListInitialState(),
 	cart: returnCartInitialState(),

@@ -1,17 +1,19 @@
 import {
-	ORDER_CREATE_CART_ITEMS_FAIL,
-	ORDER_CREATE_CART_ITEMS_SUCCESS,
-	ORDER_CREATE_CART_ITEMS_REQUEST,
-	ORDER_DETAILS_REQUEST,
-	ORDER_DETAILS_SUCCESS,
-	ORDER_DETAILS_FAIL,
-	ORDER_PAY_REQUEST,
-	ORDER_PAY_SUCCESS,
-	ORDER_PAY_FAIL,
+	ORDER_CREATE_CART_ITEMS_REQUEST_FAIL,
+	ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS,
+	ORDER_CREATE_CART_ITEMS_REQUEST_PENDING,
+	ORDER_DETAILS_REQUEST_PENDING,
+	ORDER_DETAILS_REQUEST_SUCCESS,
+	ORDER_DETAILS_REQUEST_FAIL,
+	ORDER_DETAILS_RESET,
+	ORDER_PAY_REQUEST_PENDING,
+	ORDER_PAY_REQUEST_SUCCESS,
+	ORDER_PAY_REQUEST_FAIL,
 	ORDER_PAY_RESET,
-	ORDERS_LIST_REQUEST,
-	ORDERS_LIST_SUCCESS,
-	ORDERS_LIST_FAIL,
+	ORDERS_LIST_REQUEST_PENDING,
+	ORDERS_LIST_REQUEST_SUCCESS,
+	ORDERS_LIST_REQUEST_FAIL,
+	ORDERS_LIST_RESET,
 } from 'src/lib/core/constants';
 import {
 	TOrderDetailsReducer,
@@ -20,42 +22,42 @@ import {
 	TOrdersListReducer,
 } from 'src/store/ts';
 import {
-	returnOrderCreateInitialState,
-	returnOrderDetailsInitialState,
-	returnOrderPayInitialState,
-	returnOrdersListInitialState,
+	returnOrderCreateInitialState as orderCreateInit,
+	returnOrderDetailsInitialState as orderDetailsInit,
+	returnOrderPayInitialState as orderPayInit,
+	returnOrdersListInitialState as ordersListInit,
 } from 'src/store/initialState';
 
 export const orderCreateReducer: TStoreOrderCreateCartItemsReducer = (
-	state = returnOrderCreateInitialState(),
+	state = orderCreateInit(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDER_CREATE_CART_ITEMS_REQUEST: {
+		case ORDER_CREATE_CART_ITEMS_REQUEST_PENDING: {
 			return {
 				// 	...state,
-				...returnOrderCreateInitialState(),
+				...orderCreateInit(),
 				isLoading: true,
 			};
 		}
 
-		case ORDER_CREATE_CART_ITEMS_SUCCESS: {
+		case ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
 				// 	...state,
-				...returnOrderCreateInitialState(),
+				...orderCreateInit(),
 				data: data,
 				success: true,
 			};
 		}
 
-		case ORDER_CREATE_CART_ITEMS_FAIL: {
+		case ORDER_CREATE_CART_ITEMS_REQUEST_FAIL: {
 			const { error } = action.payload;
 
 			return {
 				// 	...state,
-				...returnOrderCreateInitialState(),
+				...orderCreateInit(),
 				error: error,
 			};
 		}
@@ -67,34 +69,37 @@ export const orderCreateReducer: TStoreOrderCreateCartItemsReducer = (
 };
 
 export const orderDetailsReducer: TOrderDetailsReducer = (
-	state = returnOrderDetailsInitialState(),
+	state = orderDetailsInit(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDER_DETAILS_REQUEST: {
+		case ORDER_DETAILS_REQUEST_PENDING: {
 			return {
 				// ...state,
-				...returnOrderDetailsInitialState(),
+				...orderDetailsInit(),
 				isLoading: true,
 			};
 		}
-		case ORDER_DETAILS_SUCCESS: {
+		case ORDER_DETAILS_REQUEST_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrderDetailsInitialState(),
+				...orderDetailsInit(),
 				data,
 			};
 		}
-		case ORDER_DETAILS_FAIL: {
+		case ORDER_DETAILS_REQUEST_FAIL: {
 			const { error } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrderDetailsInitialState(),
+				...orderDetailsInit(),
 				error,
 			};
+		}
+		case ORDER_DETAILS_RESET: {
+			return orderDetailsInit();
 		}
 		default: {
 			return state;
@@ -103,38 +108,38 @@ export const orderDetailsReducer: TOrderDetailsReducer = (
 };
 
 export const orderPayReducer: TOrderPayReducer = (
-	state = returnOrderPayInitialState(),
+	state = orderPayInit(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDER_PAY_REQUEST: {
+		case ORDER_PAY_REQUEST_PENDING: {
 			return {
 				// ...state,
-				...returnOrderPayInitialState(),
+				...orderPayInit(),
 				isLoading: true,
 			};
 		}
-		case ORDER_PAY_SUCCESS: {
+		case ORDER_PAY_REQUEST_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrderPayInitialState(),
+				...orderPayInit(),
 				data,
 				success: true,
 			};
 		}
-		case ORDER_PAY_FAIL: {
+		case ORDER_PAY_REQUEST_FAIL: {
 			const { error } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrderPayInitialState(),
+				...orderPayInit(),
 				error,
 			};
 		}
 		case ORDER_PAY_RESET: {
-			return returnOrderPayInitialState();
+			return orderPayInit();
 		}
 		default: {
 			return state;
@@ -143,33 +148,33 @@ export const orderPayReducer: TOrderPayReducer = (
 };
 
 export const ordersListReducer: TOrdersListReducer = (
-	state = returnOrdersListInitialState(),
+	state = ordersListInit(),
 	action
 ) => {
 	switch (action.type) {
-		case ORDERS_LIST_REQUEST: {
+		case ORDERS_LIST_REQUEST_PENDING: {
 			return {
 				// ...state,
-				...returnOrdersListInitialState(),
+				...ordersListInit(),
 				isLoading: true,
 			};
 		}
-		case ORDERS_LIST_SUCCESS: {
+		case ORDERS_LIST_REQUEST_SUCCESS: {
 			const { data } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrdersListInitialState(),
+				...ordersListInit(),
 				isLoading: false,
 				data,
 			};
 		}
-		case ORDERS_LIST_FAIL: {
+		case ORDERS_LIST_REQUEST_FAIL: {
 			const { error } = action.payload;
 
 			return {
 				// ...state,
-				...returnOrdersListInitialState(),
+				...ordersListInit(),
 				isLoading: false,
 				error,
 			};

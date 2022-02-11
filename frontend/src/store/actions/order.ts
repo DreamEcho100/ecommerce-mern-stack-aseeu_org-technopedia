@@ -1,22 +1,28 @@
 import {
-	ORDER_CREATE_CART_ITEMS_REQUEST,
-	ORDER_CREATE_CART_ITEMS_SUCCESS,
-	ORDER_CREATE_CART_ITEMS_FAIL,
-	ORDER_DETAILS_REQUEST,
-	ORDER_DETAILS_SUCCESS,
-	ORDER_DETAILS_FAIL,
-	ORDER_PAY_REQUEST,
-	ORDER_PAY_SUCCESS,
-	ORDER_PAY_FAIL,
-	ORDERS_LIST_REQUEST,
-	ORDERS_LIST_SUCCESS,
-	ORDERS_LIST_FAIL,
+	ORDER_CREATE_CART_ITEMS_REQUEST_PENDING,
+	ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS,
+	ORDER_CREATE_CART_ITEMS_REQUEST_FAIL,
+	ORDER_DETAILS_REQUEST_PENDING,
+	ORDER_DETAILS_REQUEST_SUCCESS,
+	ORDER_DETAILS_REQUEST_FAIL,
+	ORDER_DETAILS_RESET,
+	ORDER_PAY_REQUEST_PENDING,
+	ORDER_PAY_REQUEST_SUCCESS,
+	ORDER_PAY_REQUEST_FAIL,
+	ORDER_PAY_RESET,
+	ORDERS_LIST_REQUEST_PENDING,
+	ORDERS_LIST_REQUEST_SUCCESS,
+	ORDERS_LIST_REQUEST_FAIL,
+	ORDERS_LIST_RESET,
 } from 'src/lib/core/constants';
 import {
 	ICreateOrder,
 	TGetOrderDetails,
 	TGetOrdersList,
+	TOrderDetailsReset,
+	TOrdersListReset,
 	TPayOrderAfterPayment,
+	TPayOrderReset,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IOrder, IOrderPay } from 'src/react-app-env';
@@ -26,7 +32,7 @@ export const createOrder: ICreateOrder =
 	(orderCreate) => async (dispatch, getState) => {
 		try {
 			dispatch({
-				type: ORDER_CREATE_CART_ITEMS_REQUEST,
+				type: ORDER_CREATE_CART_ITEMS_REQUEST_PENDING,
 			});
 
 			const {
@@ -47,13 +53,13 @@ export const createOrder: ICreateOrder =
 			if (!data || !data._id) handleActionThrowError<typeof data>(data);
 
 			dispatch({
-				type: ORDER_CREATE_CART_ITEMS_SUCCESS,
+				type: ORDER_CREATE_CART_ITEMS_REQUEST_SUCCESS,
 				payload: { data },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: ORDER_CREATE_CART_ITEMS_FAIL,
+					type: ORDER_CREATE_CART_ITEMS_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -65,7 +71,7 @@ export const getOrderDetails: TGetOrderDetails =
 	(_id) => async (dispatch, getState) => {
 		try {
 			dispatch({
-				type: ORDER_DETAILS_REQUEST,
+				type: ORDER_DETAILS_REQUEST_PENDING,
 			});
 
 			const {
@@ -87,13 +93,13 @@ export const getOrderDetails: TGetOrderDetails =
 			if (!data || !data._id) handleActionThrowError<typeof data>(data);
 
 			dispatch({
-				type: ORDER_DETAILS_SUCCESS,
+				type: ORDER_DETAILS_REQUEST_SUCCESS,
 				payload: { data },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: ORDER_DETAILS_FAIL,
+					type: ORDER_DETAILS_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -101,11 +107,17 @@ export const getOrderDetails: TGetOrderDetails =
 		}
 	};
 
+export const orderDetailsReset: TOrderDetailsReset = () => (dispatch) => {
+	dispatch({
+		type: ORDER_DETAILS_RESET,
+	});
+};
+
 export const payOrderAfterPayment: TPayOrderAfterPayment =
 	(orderId, paymentResults) => async (dispatch, getState) => {
 		try {
 			dispatch({
-				type: ORDER_PAY_REQUEST,
+				type: ORDER_PAY_REQUEST_PENDING,
 			});
 
 			const {
@@ -134,13 +146,13 @@ export const payOrderAfterPayment: TPayOrderAfterPayment =
 			// };
 
 			dispatch({
-				type: ORDER_PAY_SUCCESS,
+				type: ORDER_PAY_REQUEST_SUCCESS,
 				payload: { data },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: ORDER_PAY_FAIL,
+					type: ORDER_PAY_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
@@ -148,11 +160,17 @@ export const payOrderAfterPayment: TPayOrderAfterPayment =
 		}
 	};
 
+export const payOrderReset: TPayOrderReset = () => (dispatch) => {
+	dispatch({
+		type: ORDER_PAY_RESET,
+	});
+};
+
 export const getOrdersList: TGetOrdersList =
 	() => async (dispatch, getState) => {
 		try {
 			dispatch({
-				type: ORDERS_LIST_REQUEST,
+				type: ORDERS_LIST_REQUEST_PENDING,
 			});
 
 			const {
@@ -180,16 +198,26 @@ export const getOrdersList: TGetOrdersList =
 			// };
 
 			dispatch({
-				type: ORDERS_LIST_SUCCESS,
+				type: ORDERS_LIST_REQUEST_SUCCESS,
 				payload: { data },
 			});
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({
-					type: ORDERS_LIST_FAIL,
+					type: ORDERS_LIST_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);
 			}
 		}
 	};
+
+export const OrdersListReset: TOrdersListReset = () => (dispatch) => {
+	dispatch({
+		type: ORDERS_LIST_RESET,
+	});
+};
+
+// ORDER_DETAILS_RESET
+// ORDER_PAY_RESET
+// ORDERS_LIST_RESET

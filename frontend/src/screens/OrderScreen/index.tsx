@@ -11,11 +11,14 @@ import {
 	Card,
 } from 'react-bootstrap';
 
-import { ORDER_PAY_RESET } from 'src/lib/core/constants';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { useMainStoreSelector } from 'src/store';
 import { addDecimals } from 'src/lib/core/cart';
-import { getOrderDetails, payOrderAfterPayment } from 'src/store/actions/order';
+import {
+	getOrderDetails,
+	payOrderAfterPayment,
+	payOrderReset,
+} from 'src/store/actions/order';
 import { resetCart } from 'src/store/actions/cart';
 
 import Message from 'src/components/UI/Message';
@@ -81,8 +84,11 @@ const OrderScreen = () => {
 			}
 		};
 
-		if (!order || (order && order._id !== orderId) || successPay) {
-			dispatch({ type: ORDER_PAY_RESET });
+		if (
+			orderId &&
+			(!order || !order._id || order._id !== orderId || successPay)
+		) {
+			dispatch(payOrderReset());
 			dispatch(getOrderDetails(orderId));
 		} else if (order && !order.isPaid) {
 			if (!window.paypal) {
