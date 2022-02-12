@@ -18,6 +18,9 @@ import {
 	ADMIN_USERS_LIST_REQUEST_FAIL,
 	ADMIN_USERS_LIST_RESET,
 	USER_IS_NOT_ADMIN,
+	ADMIN_DELETE_USER_REQUEST_PENDING,
+	ADMIN_DELETE_USER_REQUEST_FAIL,
+	ADMIN_DELETE_USER_REQUEST_SUCCESS,
 } from 'src/lib/core/constants';
 import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
 import {
@@ -197,6 +200,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
+						...currentAdminInit.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
 							isLoading: true,
@@ -217,10 +221,11 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 
 			return {
 				...currentState,
+				usersList,
 				actions: {
 					...currentState.actions,
-					usersList,
 					requests: {
+						...currentAdminInit.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
 							isLoading: false,
@@ -245,8 +250,83 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
+						...currentAdminInit.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
+							isLoading: false,
+							error,
+						},
+					},
+				},
+			};
+		}
+
+		case ADMIN_DELETE_USER_REQUEST_PENDING: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentAdminInit.actions.requests,
+						deleteUser: {
+							...currentAdminInit.actions.requests.deleteUser,
+							isLoading: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_DELETE_USER_REQUEST_SUCCESS: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { _id } = action.payload;
+
+			return {
+				...currentState,
+				usersList: currentState.usersList.filter((user) => user._id !== _id),
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentAdminInit.actions.requests,
+						usersList: {
+							...currentAdminInit.actions.requests.usersList,
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_DELETE_USER_REQUEST_FAIL: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { error } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentAdminInit.actions.requests,
+						deleteUser: {
+							...currentAdminInit.actions.requests.deleteUser,
 							isLoading: false,
 							error,
 						},

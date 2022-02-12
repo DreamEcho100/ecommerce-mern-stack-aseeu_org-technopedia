@@ -5,6 +5,7 @@ import {
 	registerUser,
 	updateUserProfile,
 	getUsers,
+	deleteUser,
 } from '../controllers/users';
 import { protectMiddleware, adminMiddleware } from '../middleware/auth';
 
@@ -19,5 +20,8 @@ usersRoutes
 	.route('/profile')
 	.get(protectMiddleware, getUserProfile)
 	.put(protectMiddleware, updateUserProfile);
+usersRoutes
+	.route('/:id')
+	.delete(protectMiddleware, adminMiddleware, deleteUser);
 
 export default usersRoutes;

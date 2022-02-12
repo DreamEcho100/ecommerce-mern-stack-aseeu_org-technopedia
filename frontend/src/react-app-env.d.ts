@@ -27,9 +27,14 @@ export interface IUser {
 }
 
 export interface IAdmin {
-	usersList?: IUser[];
+	usersList: IUser[];
 	actions: {
 		requests: {
+			deleteUser: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
 			usersList: {
 				isLoading: boolean;
 				error: string;

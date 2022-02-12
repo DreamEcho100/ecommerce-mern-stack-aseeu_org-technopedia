@@ -21,9 +21,7 @@ interface IItemTemp {
 	numReviews: string;
 }
 
-type TReturnAdminInitialState = (
-	isAdmin?: boolean
-) => TStoreAdminState | null;
+type TReturnAdminInitialState = (isAdmin?: boolean) => TStoreAdminState | null;
 
 const userInfo: IStoreUserState['info'] = ls.get<IStoreUserState['info']>(
 	'userInfo',
@@ -65,6 +63,11 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 				usersList: [],
 				actions: {
 					requests: {
+						deleteUser: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
 						usersList: {
 							error: '',
 							isLoading: false,

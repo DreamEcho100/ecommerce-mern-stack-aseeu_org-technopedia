@@ -29,6 +29,9 @@ import {
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
 	ADMIN_USERS_LIST_RESET,
+	ADMIN_DELETE_USER_REQUEST_PENDING,
+	ADMIN_DELETE_USER_REQUEST_SUCCESS,
+	ADMIN_DELETE_USER_REQUEST_FAIL,
 	//
 	PRODUCTS_LIST_REQUEST_FAIL,
 	PRODUCTS_LIST_REQUEST_SUCCESS,
@@ -149,7 +152,7 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 /* ************************ */
 export type TStoreAdminState = IAdmin | null;
 
-interface IAdminUsersListRequestAction {
+interface IAdminUsersListRequestPendingAction {
 	type: typeof ADMIN_USERS_LIST_REQUEST_PENDING;
 	payload: { isAdmin: boolean };
 }
@@ -167,12 +170,28 @@ interface IAdminUserListResetAction {
 interface IUserIsNotAdmin {
 	type: typeof USER_IS_NOT_ADMIN;
 }
+interface IAdminDeleteUserRequestPendingAction {
+	type: typeof ADMIN_DELETE_USER_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminDeleteUserRequestSuccussAction {
+	type: typeof ADMIN_DELETE_USER_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; _id: IUser['_id'] };
+}
+interface IAdminDeleteUserRequestFailAction {
+	type: typeof ADMIN_DELETE_USER_REQUEST_FAIL;
+	payload: { error: string };
+}
+
 export type IUsersListAction =
-	| IAdminUsersListRequestAction
+	| IAdminUsersListRequestPendingAction
 	| IAdminUsersListRequestSuccussAction
 	| IAdminUsersListRequestFailAction
 	| IAdminUserListResetAction
-	| IUserIsNotAdmin;
+	| IUserIsNotAdmin
+	| IAdminDeleteUserRequestPendingAction
+	| IAdminDeleteUserRequestSuccussAction
+	| IAdminDeleteUserRequestFailAction;
 
 export type IAdminReducer = Reducer<TStoreAdminState, IUsersListAction>;
 
@@ -184,6 +203,9 @@ export type TAdminGetUsersList = () => (
 	dispatch: IAdminDispatch,
 	getState: () => TRootState
 ) => Promise<void>;
+export type TAdminDeleteUser = (
+	_id: IUser['_id']
+) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
 
 /* ************************ */
 /****** PRODUCTS LIST ******/

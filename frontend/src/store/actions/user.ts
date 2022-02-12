@@ -17,6 +17,9 @@ import {
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
+	ADMIN_DELETE_USER_REQUEST_PENDING,
+	ADMIN_DELETE_USER_REQUEST_SUCCESS,
+	ADMIN_DELETE_USER_REQUEST_FAIL,
 } from 'src/lib/core/constants';
 import { IUser } from 'src/react-app-env';
 import {
@@ -27,6 +30,7 @@ import {
 	TUpdateUserProfile,
 	TAdminReset,
 	TAdminGetUsersList,
+	TAdminDeleteUser,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -235,6 +239,50 @@ export const adminGetUsersList: TAdminGetUsersList =
 			if (error instanceof Error) {
 				dispatch({
 					type: ADMIN_USERS_LIST_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+
+export const adminDeleteUser: TAdminDeleteUser =
+	(_id) => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_DELETE_USER_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const usersList: IUser = await fetch(
+				`${BACK_END_ROOT_URL}/api/users/${_id}`,
+				{
+					method: 'DELETE',
+					headers: {
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
+
+			// delete userUpdatedInfo.password;
+
+			if (!Array.isArray(usersList) || !usersList)
+				handleActionThrowError<typeof usersList>(usersList);
+
+			dispatch({
+				type: ADMIN_DELETE_USER_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, _id },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_DELETE_USER_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);

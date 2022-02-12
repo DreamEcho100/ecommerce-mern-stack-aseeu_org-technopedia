@@ -1,18 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import {
-	Table,
-	// Button
-} from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 import { useMainStoreSelector } from 'src/store';
 
 import Message from 'src/components/Message';
 import Loader from 'src/components/Loader';
 
+// import { LinkContainer } from 'react-router-bootstrap'
 // import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
-import { adminGetUsersList } from 'src/store/actions/user';
+import { adminDeleteUser, adminGetUsersList } from 'src/store/actions/user';
 
 const UserListScreen = () => {
 	const navigate = useNavigate();
@@ -20,6 +18,7 @@ const UserListScreen = () => {
 
 	// const userList = useSelector((state) => state.userList)
 	// const { loading, error, users } = userList
+	const userInfo = useMainStoreSelector().user.info;
 	const adminData = useMainStoreSelector().admin;
 
 	if (!adminData) navigate('/');
@@ -27,9 +26,20 @@ const UserListScreen = () => {
 	const usersList = adminData.usersList;
 	const usersListRequest = adminData.actions.requests.usersList;
 
+	const deleteHandler = (_id) => {
+		console.log('delete activated', _id);
+		if (window.confirm('Are you sure about deleting this user?')) {
+			dispatch(adminDeleteUser(_id));
+		}
+	};
+
 	useEffect(() => {
-		dispatch(adminGetUsersList);
-	}, [dispatch]);
+		if (userInfo?.isAdmin) {
+			dispatch(adminGetUsersList());
+		} else {
+			navigate('/');
+		}
+	}, [dispatch, navigate, userInfo?.isAdmin]);
 
 	return (
 		<div>
@@ -60,6 +70,22 @@ const UserListScreen = () => {
 									) : (
 										<i className='fas fa-times' style={{ color: 'red' }}></i>
 									)}
+								</td>
+								<td>
+									{/* <CustomLinkContainer to={`/user/${user._id}/edit`}>
+                  </CustomLinkContainer> */}
+									<Button
+										onClick={() => navigate(`/user/${user._id}/edit`)}
+										variant='light'
+										className='btn-sm'
+									>
+										<i className='fas fa-edit'></i>
+									</Button>
+									<Button
+										variant='danger'
+										className='btn-sm'
+										onClick={() => deleteHandler(user._id)}
+									></Button>
 								</td>
 							</tr>
 						))}
