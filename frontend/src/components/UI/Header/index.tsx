@@ -19,7 +19,7 @@ interface Props {}
 const Header = (props: Props): JSX.Element => {
 	const dispatch = useDispatch();
 
-	const { info } = useMainStoreSelector().user;
+	const { info: userInfo } = useMainStoreSelector().user;
 
 	const logoutHandler = () => {
 		dispatch(adminReset());
@@ -48,8 +48,8 @@ const Header = (props: Props): JSX.Element => {
 								<i className='fas fa-shopping-cart'></i> Cart
 							</CustomLinkContainer>
 
-							{info?._id && info._id?.length !== 0 ? (
-								<NavDropdown title={info.name} id='username'>
+							{userInfo?._id && userInfo._id?.length !== 0 ? (
+								<NavDropdown title={userInfo.name} id='username'>
 									<CustomLinkContainer
 										to='/profile'
 										elementType='NavDropdownItem'
@@ -64,6 +64,29 @@ const Header = (props: Props): JSX.Element => {
 								<CustomLinkContainer to='/login'>
 									<i className='fas fa-user'></i> Sign In
 								</CustomLinkContainer>
+							)}
+
+							{userInfo?.isAdmin && (
+								<NavDropdown title='Admin' id='adminMenu'>
+									<CustomLinkContainer
+										to='/admin/usersList'
+										elementType='NavDropdownItem'
+									>
+										Users
+									</CustomLinkContainer>
+									<CustomLinkContainer
+										to='/admin/productsList'
+										elementType='NavDropdownItem'
+									>
+										Products
+									</CustomLinkContainer>
+									<CustomLinkContainer
+										to='/admin/ordersList'
+										elementType='NavDropdownItem'
+									>
+										Orders
+									</CustomLinkContainer>
+								</NavDropdown>
 							)}
 						</Nav>
 					</Navbar.Collapse>

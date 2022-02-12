@@ -217,7 +217,3 @@ export const OrdersListReset: TOrdersListReset = () => (dispatch) => {
 		type: ORDERS_LIST_RESET,
 	});
 };
-
-// ORDER_DETAILS_RESET
-// ORDER_PAY_RESET
-// ORDERS_LIST_RESET

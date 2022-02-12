@@ -4,7 +4,9 @@ import { Provider } from 'react-redux';
 
 import store from 'src/store';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './assists/BootstrapThemes/LUXBootstrap.min.css';
+// import './assists/BootstrapThemes/CyborgBootstrap.min.css';
 import './index.css';
 
 import App from './App';

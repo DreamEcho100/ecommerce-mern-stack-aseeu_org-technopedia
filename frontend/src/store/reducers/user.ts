@@ -274,7 +274,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 		}
 
 		case USER_IS_NOT_ADMIN: {
-			return undefined;
+			return null;
 		}
 
 		default: {

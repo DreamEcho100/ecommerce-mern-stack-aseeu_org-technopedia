@@ -23,7 +23,7 @@ interface IItemTemp {
 
 type TReturnAdminInitialState = (
 	isAdmin?: boolean
-) => TStoreAdminState | undefined;
+) => TStoreAdminState | null;
 
 const userInfo: IStoreUserState['info'] = ls.get<IStoreUserState['info']>(
 	'userInfo',
@@ -73,7 +73,7 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 					},
 				},
 		  }
-		: undefined;
+		: null;
 
 export const returnProductDetailsInitialState =
 	(): IStoreProductDetailsState => ({

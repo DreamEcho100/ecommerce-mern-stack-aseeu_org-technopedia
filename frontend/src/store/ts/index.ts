@@ -147,7 +147,7 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 /* ************************ */
 /***** ADMIN *****/
 /* ************************ */
-export type TStoreAdminState = IAdmin | undefined;
+export type TStoreAdminState = IAdmin | null;
 
 interface IAdminUsersListRequestAction {
 	type: typeof ADMIN_USERS_LIST_REQUEST_PENDING;

@@ -179,6 +179,9 @@ export const ordersListReducer: TOrdersListReducer = (
 				error,
 			};
 		}
+		case ORDERS_LIST_RESET: {
+			return ordersListInit();
+		}
 		default: {
 			return state;
 		}

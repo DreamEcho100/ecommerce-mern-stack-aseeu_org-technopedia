@@ -19,6 +19,7 @@ import OrderScreen from './screens/OrderScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import UserListScreen from './screens/UserList';
 
 const AppRoutes = () => {
 	const routes = useRoutes([
@@ -29,13 +30,14 @@ const AppRoutes = () => {
 		{ path: '/payment', element: <PaymentScreen /> },
 		{ path: '/placeOrder', element: <PlaceOrderScreen /> },
 		{ path: '/order/:id', element: <OrderScreen /> },
-		{ path: '/', element: <HomeScreen /> },
 		{ path: '/product/:id', element: <ProductScreen /> },
 		{
 			path: '/cart/:id/*', // /?
 			element: <CartScreen />,
 		},
 		{ path: '/cart', element: <CartScreen /> },
+		{ path: '/admin/usersList', element: <UserListScreen /> },
+		{ path: '/', element: <HomeScreen /> },
 		// ...
 	]);
 
