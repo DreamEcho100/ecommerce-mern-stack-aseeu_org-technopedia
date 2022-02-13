@@ -5,8 +5,8 @@ import { Table, Button } from 'react-bootstrap';
 
 import { useMainStoreSelector } from 'src/store';
 
-import Message from 'src/components/Message';
-import Loader from 'src/components/Loader';
+import Message from 'src/components/UI/Message';
+import Loader from 'src/components/UI/Loader';
 
 // import { LinkContainer } from 'react-router-bootstrap'
 // import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
@@ -21,13 +21,10 @@ const UserListScreen = () => {
 	const userInfo = useMainStoreSelector().user.info;
 	const adminData = useMainStoreSelector().admin;
 
-	if (!adminData) navigate('/');
-
-	const usersList = adminData.usersList;
-	const usersListRequest = adminData.actions.requests.usersList;
+	const usersList = adminData?.usersList;
+	const usersListRequest = adminData?.actions.requests.usersList;
 
 	const deleteHandler = (_id) => {
-		console.log('delete activated', _id);
 		if (window.confirm('Are you sure about deleting this user?')) {
 			dispatch(adminDeleteUser(_id));
 		}
@@ -40,6 +37,11 @@ const UserListScreen = () => {
 			navigate('/');
 		}
 	}, [dispatch, navigate, userInfo?.isAdmin]);
+
+	if (!adminData) {
+		navigate('/');
+		return <></>;
+	}
 
 	return (
 		<div>
@@ -60,7 +62,7 @@ const UserListScreen = () => {
 					</thead>
 					<tbody>
 						{usersList.map((user) => (
-							<tr>
+							<tr key={user._id}>
 								<td>{user._id}</td>
 								<td>{user.name}</td>
 								<td>{user.email}</td>
@@ -85,7 +87,7 @@ const UserListScreen = () => {
 										variant='danger'
 										className='btn-sm'
 										onClick={() => deleteHandler(user._id)}
-									></Button>
+									>Delete</Button>
 								</td>
 							</tr>
 						))}

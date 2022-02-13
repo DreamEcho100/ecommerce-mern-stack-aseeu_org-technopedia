@@ -25,6 +25,7 @@ import {
 	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
 	USER_UPDATE_PROFILE_REQUEST_FAIL,
 	USER_UPDATE_PROFILE_RESET,
+	IS_USER_ADMIN,
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
@@ -152,6 +153,10 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 /* ************************ */
 export type TStoreAdminState = IAdmin | null;
 
+interface IIsUserAdminAction {
+	type: typeof IS_USER_ADMIN;
+	payload: { isAdmin: boolean };
+}
 interface IAdminUsersListRequestPendingAction {
 	type: typeof ADMIN_USERS_LIST_REQUEST_PENDING;
 	payload: { isAdmin: boolean };
@@ -184,6 +189,7 @@ interface IAdminDeleteUserRequestFailAction {
 }
 
 export type IUsersListAction =
+	| IIsUserAdminAction
 	| IAdminUsersListRequestPendingAction
 	| IAdminUsersListRequestSuccussAction
 	| IAdminUsersListRequestFailAction
@@ -199,6 +205,9 @@ type IAdminDispatch =
 	| React.Dispatch<IUsersListAction>
 	| ((value: IUsersListAction) => TStoreAdminState);
 export type TAdminReset = () => (dispatch: IAdminDispatch) => void;
+export type TIsUserAdmin = (
+	isAdmin: boolean
+) => (dispatch: IAdminDispatch) => void;
 export type TAdminGetUsersList = () => (
 	dispatch: IAdminDispatch,
 	getState: () => TRootState

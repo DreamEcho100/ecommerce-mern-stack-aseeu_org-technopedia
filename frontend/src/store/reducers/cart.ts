@@ -6,11 +6,14 @@ import {
 	CART_RESET,
 } from 'src/lib/core/constants';
 import { TCartReducer } from 'src/store/ts';
-import { returnCartInitialState as cartInit } from 'src/store/initialState';
+import {
+	handleReturnCartReducerInitialState,
+	returnCartInitialState as cartInit,
+} from 'src/store/initialState';
 import { handleCartItemsCalcs } from 'src/lib/core/cart';
 
 const cartReducer: TCartReducer = (
-	state = cartInit(),
+	state = handleReturnCartReducerInitialState(),
 	action
 ) => {
 	switch (action.type) {

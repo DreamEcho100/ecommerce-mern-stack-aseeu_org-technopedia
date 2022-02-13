@@ -17,13 +17,6 @@ const errorHandler = (
 
 	const isInstanceofError = error instanceof Error;
 
-	console.log('res.statusCode', res.statusCode);
-	console.log(
-		'res.statusCode > 199 && res.statusCode',
-		res.statusCode > 199 && res.statusCode
-	);
-	console.log('statusCode', statusCode);
-
 	res.status(statusCode).json({
 		message: isInstanceofError ? error.message : 'Something went wrong',
 		stack:

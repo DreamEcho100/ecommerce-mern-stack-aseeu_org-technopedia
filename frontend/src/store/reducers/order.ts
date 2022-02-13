@@ -47,6 +47,7 @@ export const orderCreateReducer: TStoreOrderCreateCartItemsReducer = (
 			return {
 				// 	...state,
 				...orderCreateInit(),
+				isLoading: false,
 				data: data,
 				success: true,
 			};
@@ -86,6 +87,7 @@ export const orderDetailsReducer: TOrderDetailsReducer = (
 			return {
 				// ...state,
 				...orderDetailsInit(),
+				isLoading: false,
 				data,
 			};
 		}
@@ -95,6 +97,7 @@ export const orderDetailsReducer: TOrderDetailsReducer = (
 			return {
 				// ...state,
 				...orderDetailsInit(),
+				isLoading: false,
 				error,
 			};
 		}
@@ -125,6 +128,7 @@ export const orderPayReducer: TOrderPayReducer = (
 			return {
 				// ...state,
 				...orderPayInit(),
+				isLoading: false,
 				data,
 				success: true,
 			};
@@ -135,6 +139,7 @@ export const orderPayReducer: TOrderPayReducer = (
 			return {
 				// ...state,
 				...orderPayInit(),
+				isLoading: false,
 				error,
 			};
 		}

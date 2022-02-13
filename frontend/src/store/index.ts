@@ -12,11 +12,9 @@ const rootReducer = combineReducers(reducers);
 
 export type TRootState = ReturnType<typeof rootReducer>;
 
-const middleware = [
-	thunk,
-	// logger
-	logger,
-];
+const middleware: any[] = [thunk];
+
+if (process.env.NODE_ENV !== 'production') middleware.push(logger);
 
 const store = createStore(
 	rootReducer,

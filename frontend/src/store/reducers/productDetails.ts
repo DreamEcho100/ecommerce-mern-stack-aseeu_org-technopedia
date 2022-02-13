@@ -20,13 +20,14 @@ const productDetailsReducer: TStoreProductDetailsReducer = (
 		case PRODUCT_DETAILS_REQUEST_SUCCESS: {
 			const { product } = action.payload;
 
-			return { ...productDetailsInit(), product };
+			return { ...productDetailsInit(), isLoading: false, product };
 		}
 
 		case PRODUCT_DETAILS_REQUEST_FAIL: {
 			const { error } = action.payload;
 			return {
 				...productDetailsInit(),
+				isLoading: false,
 				error,
 			};
 		}

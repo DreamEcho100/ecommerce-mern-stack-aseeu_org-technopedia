@@ -23,6 +23,7 @@ const productListReducer: TStoreProductsListReducer = (
 
 			return {
 				...returnProductListInitialState(),
+				isLoading: false,
 				products: products,
 			};
 		}
@@ -32,6 +33,7 @@ const productListReducer: TStoreProductsListReducer = (
 
 			return {
 				...returnProductListInitialState(),
+				isLoading: false,
 				error: error,
 			};
 		}

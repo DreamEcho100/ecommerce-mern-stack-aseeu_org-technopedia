@@ -23,20 +23,16 @@ interface IItemTemp {
 
 type TReturnAdminInitialState = (isAdmin?: boolean) => TStoreAdminState | null;
 
-const userInfo: IStoreUserState['info'] = ls.get<IStoreUserState['info']>(
-	'userInfo',
-	{
-		_id: '',
-		name: '',
-		email: '',
-		password: '',
-		isAdmin: false,
-		token: '',
-	}
-);
-
+export const returnUserInfoInitialState = (): IStoreUserState['info'] => ({
+	_id: '',
+	name: '',
+	email: '',
+	password: '',
+	isAdmin: false,
+	token: '',
+});
 export const returnUserInitialState = (): IStoreUserState => ({
-	info: userInfo,
+	info: returnUserInfoInitialState(),
 	isLoading: false,
 	error: '',
 	actions: {
@@ -53,6 +49,13 @@ export const returnUserInitialState = (): IStoreUserState => ({
 			},
 		},
 	},
+});
+export const handleReturningUserReducerInitialState = (): IStoreUserState => ({
+	...returnUserInitialState(),
+	info: ls.get<IStoreUserState['info']>(
+		'userInfo',
+		returnUserInfoInitialState()
+	),
 });
 
 export const returnAdminInitialState: TReturnAdminInitialState = (
@@ -92,30 +95,47 @@ export const returnProductDetailsInitialState =
 			rating: 0,
 			numReviews: 0,
 		},
-		isLoading: false,
+		isLoading: true,
 		error: '',
 	});
 
 export const returnProductListInitialState = (): IStoreProductsListState => ({
 	products: [],
-	isLoading: false,
+	isLoading: true,
 	error: '',
 });
 
-const items: IStoreCartState['items'] = ls
-	.get<IStoreCartState['items']>('cartItems', [])
-	.map((item) => {
-		const itemTemp = item as unknown as IItemTemp;
-		item.price = parseFloat(itemTemp.price);
-		item.countInStock = parseFloat(itemTemp.countInStock);
-		// item.rating = parseFloat(itemTemp.rating) as typeof item.rating;
-		// item.numReviews = parseFloat(itemTemp.numReviews);
-
-		return item;
-	}) as IStoreCartState['items'];
-
 export const returnCartInitialState = (): IStoreCartState => ({
-	items,
+	items: [],
+	itemsPrice: '00.00',
+	shippingPrice: '00.00',
+	taxPrice: '00.00',
+	totalPrice: '00.00',
+	shippingAddress: {
+		address: '',
+		city: '',
+		postalCode: '',
+		country: '',
+	},
+	paymentMethod: 'PayPal',
+});
+const returnCartItemsInitialState = (): IStoreCartState['items'] => [];
+const handleReturnCartItemsInitialStateFromLocalStorage =
+	(): IStoreCartState['items'] =>
+		ls
+			.get<IStoreCartState['items']>('cartItems', returnCartItemsInitialState())
+			.map((item) => {
+				const itemTemp = item as unknown as IItemTemp;
+				item.price = parseFloat(itemTemp.price);
+				item.countInStock = parseFloat(itemTemp.countInStock);
+				// item.rating = parseFloat(itemTemp.rating) as typeof item.rating;
+				// item.numReviews = parseFloat(itemTemp.numReviews);
+
+				return item;
+			}) as IStoreCartState['items'];
+export const handleReturnCartReducerInitialState = (): IStoreCartState => ({
+	...returnCartInitialState(),
+	items: handleReturnCartItemsInitialStateFromLocalStorage(),
 	shippingAddress: ls.get<IStoreCartState['shippingAddress']>(
 		'cartShippingAddress',
 		{
@@ -129,7 +149,7 @@ export const returnCartInitialState = (): IStoreCartState => ({
 		'cartPaymentMethod',
 		'PayPal'
 	),
-	...handleCartItemsCalcs(items),
+	...handleCartItemsCalcs(handleReturnCartItemsInitialStateFromLocalStorage()),
 });
 
 export const returnOrderCreateInitialState = (): IStoreOrderCreateState => ({
@@ -141,13 +161,13 @@ export const returnOrderCreateInitialState = (): IStoreOrderCreateState => ({
 
 export const returnOrderDetailsInitialState = (): IStoreOrderDetailsState => ({
 	// data: {},
-	isLoading: false,
+	isLoading: true,
 	error: '',
 });
 
 export const returnOrderPayInitialState = (): IStoreOrderPayState => ({
 	// data: {},
-	isLoading: false,
+	isLoading: true,
 	error: '',
 	success: false,
 });
@@ -159,7 +179,7 @@ export const returnOrdersListInitialState = (): IStoreOrdersListState => ({
 });
 
 const storeInitialState: IStoreState = {
-	user: returnUserInitialState(),
+	user: handleReturningUserReducerInitialState(), // returnUserInitialState(),
 	admin: returnAdminInitialState(),
 	productDetails: returnProductDetailsInitialState(),
 	productList: returnProductListInitialState(),

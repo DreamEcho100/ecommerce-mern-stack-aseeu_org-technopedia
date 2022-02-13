@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
 	BrowserRouter as Router,
 	// Route,
@@ -5,8 +6,12 @@ import {
 	useRoutes,
 } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 import './App.css';
+
+import { isUserAdmin } from 'src/store/actions/user';
+import { useMainStoreSelector } from 'src/store';
 
 import MainLayout from './components/Layout/MainLayout';
 import LoginScreen from './screens/LoginScreen';
@@ -53,6 +58,13 @@ const AppRoutes = () => {
 };
 
 const App = (): JSX.Element => {
+	const dispatch = useDispatch();
+	const userInfo = useMainStoreSelector().user.info;
+
+	useEffect(() => {
+		dispatch(isUserAdmin(!!userInfo?.isAdmin));
+	}, [dispatch, userInfo?.isAdmin]);
+
 	return (
 		<Router>
 			<MainLayout>

@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
 // import colors from 'colors';
 import { config } from 'dotenv';
 
@@ -16,17 +17,17 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-	origin: process.env.FRONT_END_ROOT_URL,
-	methods: 'GET,POST,PUT', // PUT,PATCH,POST,DELETE,HEAD,
-	// optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+	origin: [
+		process.env.FRONT_END_ROOT_URL || 'http://localhost:3000',
+		'http://localhost:5000',
+	],
+	methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+	allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
-app.get('/', (req: Request, res: Response) => {
-	res.send('API is running!');
-});
 
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
@@ -35,6 +36,25 @@ app.use('/api/orders', ordersRoutes);
 app.get('/api/config/paypal', (req: Request, res: Response) => {
 	res.json(process.env.PAYPAL_CLIENT_ID);
 });
+
+// app.get('/', (req: Request, res: Response) => {
+// 	res.send('API is running!');
+// });
+
+// const __dirname = path.resolve();
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(process.cwd(), '/frontend/build')));
+
+	app.get('*', (req: Request, res: Response) => {
+		res.sendFile(
+			path.resolve(process.cwd(), 'frontend', 'build', 'index.html')
+		);
+	});
+} else {
+	app.get('/', (req: Request, res: Response) => {
+		res.send('API is running!');
+	});
+}
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

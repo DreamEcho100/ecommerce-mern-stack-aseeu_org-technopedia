@@ -27,7 +27,7 @@ const LoginScreen = (): JSX.Element => {
 
 	useEffect(() => {
 		if (info?._id?.length !== 0) {
-			navigate(`/${redirect}`);
+			navigate(redirect);
 		}
 	}, [navigate, info, redirect]);
 

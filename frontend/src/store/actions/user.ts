@@ -13,13 +13,14 @@ import {
 	USER_UPDATE_PROFILE_REQUEST_PENDING,
 	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
 	USER_UPDATE_PROFILE_REQUEST_FAIL,
-	USER_IS_NOT_ADMIN,
+	// USER_IS_NOT_ADMIN,
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
 	ADMIN_DELETE_USER_REQUEST_PENDING,
 	ADMIN_DELETE_USER_REQUEST_SUCCESS,
 	ADMIN_DELETE_USER_REQUEST_FAIL,
+	IS_USER_ADMIN,
 } from 'src/lib/core/constants';
 import { IUser } from 'src/react-app-env';
 import {
@@ -28,6 +29,7 @@ import {
 	THandleUserRegister,
 	TGetUserDetails,
 	TUpdateUserProfile,
+	TIsUserAdmin,
 	TAdminReset,
 	TAdminGetUsersList,
 	TAdminDeleteUser,
@@ -107,7 +109,7 @@ export const handleUserRegister: THandleUserRegister =
 export const handleUserLogout: THandleUserLogout = () => (dispatch) => {
 	ls.remove('userInfo');
 
-	dispatch({ type: USER_LOGOUT });
+	setTimeout(() => dispatch({ type: USER_LOGOUT }), 0);
 };
 
 export const getUserDetails: TGetUserDetails =
@@ -260,20 +262,20 @@ export const adminDeleteUser: TAdminDeleteUser =
 
 			if (!info || !info._id) throw new Error('User info not found!');
 
-			const usersList: IUser = await fetch(
-				`${BACK_END_ROOT_URL}/api/users/${_id}`,
-				{
-					method: 'DELETE',
-					headers: {
-						Authorization: `Bearer ${info.token}`,
-					},
-				}
-			).then((response) => response.json());
+			const result: {
+				message: string;
+				succuss: boolean;
+			} = await fetch(`${BACK_END_ROOT_URL}/api/users/${_id}`, {
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${info.token}`,
+				},
+			}).then((response) => response.json());
 
 			// delete userUpdatedInfo.password;
 
-			if (!Array.isArray(usersList) || !usersList)
-				handleActionThrowError<typeof usersList>(usersList);
+			if (!result || !result.succuss)
+				handleActionThrowError<typeof result>(result);
 
 			dispatch({
 				type: ADMIN_DELETE_USER_REQUEST_SUCCESS,
@@ -290,8 +292,16 @@ export const adminDeleteUser: TAdminDeleteUser =
 		}
 	};
 
+export const isUserAdmin: TIsUserAdmin = (isAdmin) => (dispatch) => {
+	dispatch({
+		type: IS_USER_ADMIN,
+		payload: { isAdmin },
+	});
+};
+
 export const adminReset: TAdminReset = () => (dispatch) => {
 	dispatch({
-		type: USER_IS_NOT_ADMIN,
+		type: IS_USER_ADMIN,
+		payload: { isAdmin: false },
 	});
 };

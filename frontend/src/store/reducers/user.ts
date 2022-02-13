@@ -13,6 +13,7 @@ import {
 	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
 	USER_UPDATE_PROFILE_REQUEST_FAIL,
 	USER_UPDATE_PROFILE_RESET,
+	IS_USER_ADMIN,
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
@@ -26,15 +27,21 @@ import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
 import {
 	returnUserInitialState as userInit,
 	returnAdminInitialState as adminInit,
+	handleReturningUserReducerInitialState,
 } from 'src/store/initialState';
 import { IAdmin } from 'src/react-app-env';
-export const userReducer: IUserReducer = (state = userInit(), action) => {
+
+export const userReducer: IUserReducer = (
+	state = handleReturningUserReducerInitialState(),
+	action
+) => {
 	switch (action.type) {
 		case USER_REGISTER_REQUEST_PENDING:
 		case USER_LOGIN_REQUEST_PENDING: {
 			return {
-				...userInit(),
+				...state,
 				isLoading: true,
+				error: '',
 			};
 		}
 
@@ -43,7 +50,9 @@ export const userReducer: IUserReducer = (state = userInit(), action) => {
 			const { info } = action.payload;
 
 			return {
-				...userInit(),
+				...state,
+				isLoading: true,
+				error: '',
 				info,
 			};
 		}
@@ -56,7 +65,10 @@ export const userReducer: IUserReducer = (state = userInit(), action) => {
 				// ...state,
 				// isLoading: false,
 				// info: userInit().info,
-				...userInit(),
+				// ...userInit(),
+				...state,
+				info: undefined,
+				isLoading: false,
 				error,
 			};
 		}
@@ -187,6 +199,10 @@ const adminCurrentState = (isAdmin: boolean, state: TStoreAdminState) =>
 
 export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 	switch (action.type) {
+		case IS_USER_ADMIN: {
+			return adminInit(action.payload.isAdmin);
+		}
+
 		case ADMIN_USERS_LIST_REQUEST_PENDING: {
 			if (!action.payload.isAdmin) return state;
 

@@ -103,5 +103,12 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
 	"exclude": ["node_modules" /* would be default */, "frontend"],
-	"include": ["backend"]
+	"include": ["backend"],
+	"ts-node": {
+		// https://github.com/TypeStrong/ts-node
+		"swc": true,
+		// It is faster to skip typechecking.
+		// Remove if you want ts-node to do typechecking.
+		"transpileOnly": true
+	}
 }

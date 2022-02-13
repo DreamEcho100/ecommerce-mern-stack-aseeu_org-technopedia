@@ -38,7 +38,7 @@ const Header = (props: Props): JSX.Element => {
 				<Container>
 					<Navbar.Brand>
 						<NavLink to='/'>
-							<Navbar.Brand>our shop</Navbar.Brand>
+							<Navbar.Brand>E-Commerce</Navbar.Brand>
 						</NavLink>
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />

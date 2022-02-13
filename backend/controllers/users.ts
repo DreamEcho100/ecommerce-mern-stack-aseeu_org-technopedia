@@ -125,11 +125,12 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @route   DELETE /api/users/:id
 // @access  Private/admin
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
-	const user = await UserModel.findById(req.params._id);
+	const user = await UserModel.findById(req.params.id);
+	// findByIdAndDelete vs findByIdAndRemove
 
 	if (user) {
 		await user.remove();
-		res.end(); // json({ message: 'user removed' });
+		res.json({ succuss: true, message: 'user removed' });
 	} else {
 		res.status(404);
 		throw new Error('User not found');
