@@ -1,3 +1,5 @@
+import { Schema, Document, Model, model } from 'mongoose';
+
 import OrderModel from '../models/order';
 import { Request, Response } from 'express';
 // import { CustomRequest } from '../general';
@@ -86,7 +88,9 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/orders/myOrders
 // @access  Private
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
-	const orders = await OrderModel.find({ user: req.user._id });
+	const orders = await OrderModel.find({
+		userRef: req.user._id as unknown as typeof Schema.Types.ObjectId,
+	});
 	res.json(orders);
 });
 

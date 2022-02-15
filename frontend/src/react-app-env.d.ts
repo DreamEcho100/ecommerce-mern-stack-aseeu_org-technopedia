@@ -17,17 +17,21 @@ export interface IProduct {
 
 export type TProducts = IProduct[];
 
-export interface IUser {
+export interface IBasicUser {
 	_id: string;
 	name: string;
 	email: string;
-	password: string;
 	isAdmin: boolean;
+}
+
+export interface IUser extends IBasicUser {
+	password: string;
 	token: string;
 }
 
 export interface IAdmin {
 	usersList: IUser[];
+	selectedUser?: IBasicUser;
 	actions: {
 		requests: {
 			deleteUser: {
@@ -36,6 +40,15 @@ export interface IAdmin {
 				success: boolean;
 			};
 			usersList: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			getSelectedUser: {
+				isLoading: boolean;
+				error: string;
+			};
+			updateSelectedUser: {
 				isLoading: boolean;
 				error: string;
 				success: boolean;

@@ -25,6 +25,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
 import UserListScreen from './screens/UserList';
+import UserEditScreen from './screens/UserEdit';
 
 const AppRoutes = () => {
 	const routes = useRoutes([
@@ -42,6 +43,7 @@ const AppRoutes = () => {
 		},
 		{ path: '/cart', element: <CartScreen /> },
 		{ path: '/admin/usersList', element: <UserListScreen /> },
+		{ path: '/admin/user/:id/edit', element: <UserEditScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		// ...
 	]);

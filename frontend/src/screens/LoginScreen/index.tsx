@@ -26,9 +26,9 @@ const LoginScreen = (): JSX.Element => {
 	const redirect = location.search ? location.search.split('=')[1] : '/';
 
 	useEffect(() => {
-		if (info?._id?.length !== 0) {
-			navigate(redirect);
-		}
+		if (!info || info?._id.length === 0) return;
+
+		navigate(redirect.startsWith('/') ? redirect : `/${redirect}`);
 	}, [navigate, info, redirect]);
 
 	const submitHandler = (event: FormEvent) => {

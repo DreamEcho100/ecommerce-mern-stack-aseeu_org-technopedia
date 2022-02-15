@@ -4,6 +4,7 @@ import generateToken from '../utils/generateToken';
 import UserModel from '../models/user';
 // import { CustomRequest } from '../general';
 import asyncHandler from 'express-async-handler';
+import hashPassword from '../utils/hashPassword';
 // import expressAsyncHandler from '../utils/core/express-async-handler';
 
 // @desc    Auth user & get token
@@ -89,17 +90,65 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 	// res.send('successful calling')
 	// if (!req.user || !req.user._id) throw new Error('User not found');
 
-	const user = await UserModel.findById(req.user._id);
+	// const user = await UserModel.findById(req.user._id);
 
-	if (user) {
-		user.name = req.body.name || user.name;
-		user.email = req.body.email || user.email;
-		if (req.body.password) {
-			user.password = req.body.password;
+	// if (user) {
+	// 	user.name = req.body.name || user.name;
+	// 	user.email = req.body.email || user.email;
+	// 	if (req.body.password) {
+	// 		user.password = req.body.password;
+	// 	}
+
+	// 	const updatedUser = await user.save();
+
+	// 	res.json({
+	// 		_id: updatedUser._id,
+	// 		name: updatedUser.name,
+	// 		email: updatedUser.email,
+	// 		isAdmin: updatedUser.isAdmin,
+	// 		token: generateToken(updatedUser._id),
+	// 	});
+	// } else {
+	// 	res.status(404);
+	// 	throw new Error('User not found');
+	// }
+
+	let toUpdate: boolean = false;
+	const userDataToUpdate: {
+		name?: string;
+		email?: string;
+		password?: string;
+	} = {};
+	if (req.body.name) {
+		userDataToUpdate.name = req.body.name;
+		if (!toUpdate) toUpdate = true;
+	}
+	if (req.body.email) {
+		userDataToUpdate.email = req.body.email;
+		if (!toUpdate) toUpdate = true;
+	}
+	if (req.body.password) {
+		userDataToUpdate.password = await hashPassword(req.body.password);
+		if (!toUpdate) toUpdate = true;
+	}
+
+	if (!toUpdate) {
+		res.status(404);
+		throw new Error(`Nothing to update!`);
+	}
+
+	const updatedUser = await UserModel.findByIdAndUpdate(
+		req.user._id,
+		userDataToUpdate,
+		{
+			new: true,
 		}
+	);
 
-		const updatedUser = await user.save();
-
+	if (!updatedUser) {
+		res.status(404);
+		throw new Error(`User with ${req.user._id} not found.`);
+	} else {
 		res.json({
 			_id: updatedUser._id,
 			name: updatedUser.name,
@@ -107,9 +156,6 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 			isAdmin: updatedUser.isAdmin,
 			token: generateToken(updatedUser._id),
 		});
-	} else {
-		res.status(404);
-		throw new Error('User not found');
 	}
 });
 
@@ -125,15 +171,102 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @route   DELETE /api/users/:id
 // @access  Private/admin
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
-	const user = await UserModel.findById(req.params.id);
-	// findByIdAndDelete vs findByIdAndRemove
+	// const user = await UserModel.findById(req.params.id);
+	// // findByIdAndDelete vs findByIdAndRemove
+
+	// if (user) {
+	// 	await user.remove();
+	// 	res.json({ succuss: true, message: 'user removed' });
+	// } else {
+	// 	res.status(404);
+	// 	throw new Error('User not found');
+	// }
+	const userDeleted = await UserModel.findByIdAndDelete(req.params.id);
+	if (!userDeleted) {
+		res.status(404);
+		throw new Error('User not found');
+	} else res.json({ succuss: true, message: 'user removed' });
+});
+
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
+const getUserById = asyncHandler(async (req, res) => {
+	const user = await UserModel.findById(req.params.id).select('-password');
 
 	if (user) {
-		await user.remove();
-		res.json({ succuss: true, message: 'user removed' });
+		res.json(user);
 	} else {
 		res.status(404);
 		throw new Error('User not found');
+	}
+});
+
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+const updateUser = asyncHandler(async (req, res) => {
+	// const user = await UserModel.findById(req.params.id);
+
+	// if (user) {
+	// 	user.name = req.body.name || user.name;
+	// 	user.email = req.body.email || user.email;
+	// 	user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+	// 	const updatedUser = await user.save();
+
+	// 	res.json({
+	// 		_id: updatedUser._id,
+	// 		name: updatedUser.name,
+	// 		email: updatedUser.email,
+	// 		isAdmin: updatedUser.isAdmin,
+	// 	});
+	// } else {
+	// 	res.status(404);
+	// 	throw new Error('User not found');
+	// }
+	let toUpdate: boolean = false;
+	const userDataToUpdate: {
+		name?: string;
+		email?: string;
+		isAdmin?: boolean;
+	} = {};
+	if ('name' in req.body) {
+		userDataToUpdate.name = req.body.name;
+		if (!toUpdate) toUpdate = true;
+	}
+	if ('email' in req.body) {
+		userDataToUpdate.email = req.body.email;
+		if (!toUpdate) toUpdate = true;
+	}
+	if ('isAdmin' in req.body) {
+		userDataToUpdate.isAdmin = req.body.isAdmin;
+		if (!toUpdate) toUpdate = true;
+	}
+
+	if (!toUpdate) {
+		res.status(404);
+		throw new Error(`Nothing to update!`);
+	}
+
+	const updatedUser = await UserModel.findByIdAndUpdate(
+		req.params.id,
+		userDataToUpdate,
+		{
+			new: true,
+		}
+	);
+
+	if (!updatedUser) {
+		res.status(404);
+		throw new Error(`User with ${req.params.id} not found.`);
+	} else {
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+		});
 	}
 });
 
@@ -144,4 +277,6 @@ export {
 	updateUserProfile,
 	getUsers,
 	deleteUser,
+	getUserById,
+	updateUser,
 };

@@ -136,7 +136,7 @@ const ProfileScreen = (props: Props): JSX.Element => {
 					)}
 					{requests.updateUserProfile.success && (
 						<Message variant='success' className='my-3'>
-							Profile Updated
+							Profile Updated!
 						</Message>
 					)}
 

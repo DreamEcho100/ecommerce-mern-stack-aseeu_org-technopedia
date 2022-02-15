@@ -29,10 +29,16 @@ import {
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
-	ADMIN_USERS_LIST_RESET,
+	// ADMIN_USERS_LIST_RESET,
 	ADMIN_DELETE_USER_REQUEST_PENDING,
 	ADMIN_DELETE_USER_REQUEST_SUCCESS,
 	ADMIN_DELETE_USER_REQUEST_FAIL,
+	ADMIN_GET_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_GET_SELECTED_USER_REQUEST_FAIL,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
 	//
 	PRODUCTS_LIST_REQUEST_FAIL,
 	PRODUCTS_LIST_REQUEST_SUCCESS,
@@ -153,6 +159,11 @@ export type TUpdateUserProfile = (userUpdatedInfo: {
 /* ************************ */
 export type TStoreAdminState = IAdmin | null;
 
+interface IUpdatedData {
+	name?: IUser['name'];
+	email?: IUser['email'];
+	isAdmin?: IUser['isAdmin'];
+}
 interface IIsUserAdminAction {
 	type: typeof IS_USER_ADMIN;
 	payload: { isAdmin: boolean };
@@ -169,12 +180,13 @@ interface IAdminUsersListRequestFailAction {
 	type: typeof ADMIN_USERS_LIST_REQUEST_FAIL;
 	payload: { error: string };
 }
-interface IAdminUserListResetAction {
-	type: typeof ADMIN_USERS_LIST_RESET;
-}
+// interface IAdminUserListResetAction {
+// 	type: typeof ADMIN_USERS_LIST_RESET;
+// }
 interface IUserIsNotAdmin {
 	type: typeof USER_IS_NOT_ADMIN;
 }
+
 interface IAdminDeleteUserRequestPendingAction {
 	type: typeof ADMIN_DELETE_USER_REQUEST_PENDING;
 	payload: { isAdmin: boolean };
@@ -187,17 +199,47 @@ interface IAdminDeleteUserRequestFailAction {
 	type: typeof ADMIN_DELETE_USER_REQUEST_FAIL;
 	payload: { error: string };
 }
+interface IAdminSelectedUserRequestPendingAction {
+	type: typeof ADMIN_GET_SELECTED_USER_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminSelectedUserRequestSuccussAction {
+	type: typeof ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; selectedUser: IUser };
+}
+interface IAdminSelectedUserRequestFailAction {
+	type: typeof ADMIN_GET_SELECTED_USER_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminUpdateSelectedUserRequestPendingAction {
+	type: typeof ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminUpdateSelectedUserRequestSuccussAction {
+	type: typeof ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; updatedData: IUpdatedData };
+}
+interface IAdminUpdateSelectedUserRequestFailAction {
+	type: typeof ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL;
+	payload: { error: string };
+}
 
 export type IUsersListAction =
 	| IIsUserAdminAction
 	| IAdminUsersListRequestPendingAction
 	| IAdminUsersListRequestSuccussAction
 	| IAdminUsersListRequestFailAction
-	| IAdminUserListResetAction
+	// | IAdminUserListResetAction
 	| IUserIsNotAdmin
 	| IAdminDeleteUserRequestPendingAction
 	| IAdminDeleteUserRequestSuccussAction
-	| IAdminDeleteUserRequestFailAction;
+	| IAdminDeleteUserRequestFailAction
+	| IAdminSelectedUserRequestPendingAction
+	| IAdminSelectedUserRequestSuccussAction
+	| IAdminSelectedUserRequestFailAction
+	| IAdminUpdateSelectedUserRequestPendingAction
+	| IAdminUpdateSelectedUserRequestSuccussAction
+	| IAdminUpdateSelectedUserRequestFailAction;
 
 export type IAdminReducer = Reducer<TStoreAdminState, IUsersListAction>;
 
@@ -214,6 +256,13 @@ export type TAdminGetUsersList = () => (
 ) => Promise<void>;
 export type TAdminDeleteUser = (
 	_id: IUser['_id']
+) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
+export type TAdminGetSelectedUserInfo = (
+	_id: IUser['_id']
+) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
+export type TAdminUpdateSelectedUserInfo = (
+	_id: string,
+	updatedData: IUpdatedData
 ) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
 
 /* ************************ */

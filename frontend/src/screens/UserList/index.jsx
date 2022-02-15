@@ -77,7 +77,7 @@ const UserListScreen = () => {
 									{/* <CustomLinkContainer to={`/user/${user._id}/edit`}>
                   </CustomLinkContainer> */}
 									<Button
-										onClick={() => navigate(`/user/${user._id}/edit`)}
+										onClick={() => navigate(`/admin/user/${user._id}/edit`)}
 										variant='light'
 										className='btn-sm'
 									>
@@ -87,7 +87,9 @@ const UserListScreen = () => {
 										variant='danger'
 										className='btn-sm'
 										onClick={() => deleteHandler(user._id)}
-									>Delete</Button>
+									>
+										Delete
+									</Button>
 								</td>
 							</tr>
 						))}

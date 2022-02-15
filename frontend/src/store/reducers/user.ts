@@ -17,11 +17,17 @@ import {
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
-	ADMIN_USERS_LIST_RESET,
+	// ADMIN_USERS_LIST_RESET,
 	USER_IS_NOT_ADMIN,
 	ADMIN_DELETE_USER_REQUEST_PENDING,
 	ADMIN_DELETE_USER_REQUEST_FAIL,
 	ADMIN_DELETE_USER_REQUEST_SUCCESS,
+	ADMIN_GET_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_GET_SELECTED_USER_REQUEST_FAIL,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
 } from 'src/lib/core/constants';
 import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
 import {
@@ -29,7 +35,7 @@ import {
 	returnAdminInitialState as adminInit,
 	handleReturningUserReducerInitialState,
 } from 'src/store/initialState';
-import { IAdmin } from 'src/react-app-env';
+import { IAdmin, IBasicUser } from 'src/react-app-env';
 
 export const userReducer: IUserReducer = (
 	state = handleReturningUserReducerInitialState(),
@@ -216,7 +222,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
+						...currentState.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
 							isLoading: true,
@@ -241,7 +247,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
+						...currentState.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
 							isLoading: false,
@@ -266,7 +272,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
+						...currentState.actions.requests,
 						usersList: {
 							...currentAdminInit.actions.requests.usersList,
 							isLoading: false,
@@ -290,7 +296,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
+						...currentState.actions.requests,
 						deleteUser: {
 							...currentAdminInit.actions.requests.deleteUser,
 							isLoading: true,
@@ -315,9 +321,9 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
-						usersList: {
-							...currentAdminInit.actions.requests.usersList,
+						...currentState.actions.requests,
+						deleteUser: {
+							...currentAdminInit.actions.requests.deleteUser,
 							isLoading: false,
 							success: true,
 						},
@@ -340,7 +346,7 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				actions: {
 					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
+						...currentState.actions.requests,
 						deleteUser: {
 							...currentAdminInit.actions.requests.deleteUser,
 							isLoading: false,
@@ -351,7 +357,9 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 			};
 		}
 
-		case ADMIN_USERS_LIST_RESET: {
+		case ADMIN_GET_SELECTED_USER_REQUEST_PENDING: {
+			if (!action.payload.isAdmin) return state;
+
 			const currentState = adminCurrentState(true, state);
 			const currentAdminInit = adminInit(true);
 
@@ -359,15 +367,168 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 
 			return {
 				...currentState,
-				usersList: currentAdminInit.usersList,
 				actions: {
+					...currentState.actions,
 					requests: {
-						...currentAdminInit.actions.requests,
-						usersList: currentAdminInit.actions.requests.usersList,
+						...currentState.actions.requests,
+						getSelectedUser: {
+							...currentAdminInit.actions.requests.getSelectedUser,
+							isLoading: true,
+						},
 					},
 				},
 			};
 		}
+		case ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { selectedUser } = action.payload;
+
+			return {
+				...currentState,
+				selectedUser,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getSelectedUser: {
+							...currentAdminInit.actions.requests.getSelectedUser,
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_GET_SELECTED_USER_REQUEST_FAIL: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { error } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getSelectedUser: {
+							...currentAdminInit.actions.requests.getSelectedUser,
+							isLoading: false,
+							error,
+						},
+					},
+				},
+			};
+		}
+
+		case ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						updateSelectedUser: {
+							...currentAdminInit.actions.requests.updateSelectedUser,
+							isLoading: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { updatedData } = action.payload;
+
+			return {
+				...currentState,
+				selectedUser: {
+					...(currentState.selectedUser || {}),
+					...updatedData,
+				} as IBasicUser,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getSelectedUser: {
+							...currentAdminInit.actions.requests.getSelectedUser,
+							isLoading: false,
+						},
+						updateSelectedUser: {
+							...currentAdminInit.actions.requests.updateSelectedUser,
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { error } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						updateSelectedUser: {
+							...currentAdminInit.actions.requests.updateSelectedUser,
+							isLoading: false,
+							error,
+						},
+					},
+				},
+			};
+		}
+
+		// case ADMIN_USERS_LIST_RESET: {
+		// 	const currentState = adminCurrentState(true, state);
+		// 	const currentAdminInit = adminInit(true);
+
+		// 	if (!currentAdminInit) return state;
+
+		// 	return {
+		// 		...currentState,
+		// 		usersList: currentAdminInit.usersList,
+		// 		actions: {
+		// 			requests: {
+		// 				...currentState.actions.requests,
+		// 				usersList: currentAdminInit.actions.requests.usersList,
+		// 			},
+		// 		},
+		// 	};
+		// }
 
 		case USER_IS_NOT_ADMIN: {
 			return null;

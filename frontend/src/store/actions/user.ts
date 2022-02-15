@@ -21,6 +21,12 @@ import {
 	ADMIN_DELETE_USER_REQUEST_SUCCESS,
 	ADMIN_DELETE_USER_REQUEST_FAIL,
 	IS_USER_ADMIN,
+	ADMIN_GET_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_GET_SELECTED_USER_REQUEST_FAIL,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
 } from 'src/lib/core/constants';
 import { IUser } from 'src/react-app-env';
 import {
@@ -33,6 +39,8 @@ import {
 	TAdminReset,
 	TAdminGetUsersList,
 	TAdminDeleteUser,
+	TAdminGetSelectedUserInfo,
+	TAdminUpdateSelectedUserInfo,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -285,6 +293,93 @@ export const adminDeleteUser: TAdminDeleteUser =
 			if (error instanceof Error) {
 				dispatch({
 					type: ADMIN_DELETE_USER_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+
+export const adminGetSelectedUserInfo: TAdminGetSelectedUserInfo =
+	(_id) => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_GET_SELECTED_USER_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const selectedUser: IUser = await fetch(
+				`${BACK_END_ROOT_URL}/api/users/${_id}`,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
+
+			if (!selectedUser || !selectedUser._id)
+				handleActionThrowError<typeof selectedUser>(selectedUser);
+
+			dispatch({
+				type: ADMIN_GET_SELECTED_USER_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, selectedUser },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_GET_SELECTED_USER_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+
+export const adminUpdateSelectedUserInfo: TAdminUpdateSelectedUserInfo =
+	(_id, updatedData) => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const updatedSelectedUser: IUser = await fetch(
+				`${BACK_END_ROOT_URL}/api/users/${_id}`,
+				{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${info.token}`,
+					},
+					body: JSON.stringify(updatedData),
+				}
+			).then((response) => response.json());
+
+			if (!updatedSelectedUser || !updatedSelectedUser._id)
+				handleActionThrowError<typeof updatedSelectedUser>(updatedSelectedUser);
+
+			dispatch({
+				type: ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, updatedData },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
 					payload: { error: error.message },
 				});
 				console.error(error.message);

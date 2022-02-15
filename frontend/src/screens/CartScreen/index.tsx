@@ -15,6 +15,7 @@ import {
 import Message from 'src/components/UI/Message';
 import { addToCart, removeFromCart } from 'src/store/actions/cart';
 import { useNavigate, useParams } from 'react-router';
+
 import { useMainStoreSelector } from 'src/store';
 import { ICartItem } from 'src/react-app-env.d';
 import { calcItemsPrice, calcItemsQuantity } from 'src/lib/core/cart';

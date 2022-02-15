@@ -6,6 +6,8 @@ import {
 	updateUserProfile,
 	getUsers,
 	deleteUser,
+	getUserById,
+	updateUser,
 } from '../controllers/users';
 import { protectMiddleware, adminMiddleware } from '../middleware/auth';
 
@@ -22,6 +24,8 @@ usersRoutes
 	.put(protectMiddleware, updateUserProfile);
 usersRoutes
 	.route('/:id')
-	.delete(protectMiddleware, adminMiddleware, deleteUser);
+	.delete(protectMiddleware, adminMiddleware, deleteUser)
+	.get(protectMiddleware, adminMiddleware, getUserById)
+	.put(protectMiddleware, adminMiddleware, updateUser);
 
 export default usersRoutes;

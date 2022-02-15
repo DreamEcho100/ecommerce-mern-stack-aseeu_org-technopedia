@@ -30,9 +30,11 @@ const RegisterScreen = (props: Props): JSX.Element => {
 	const redirect = location.search ? location.search.split('=')[1] : '/';
 
 	useEffect(() => {
-		if (info?._id) {
-			navigate(redirect, { replace: true });
-		}
+		if (!info || info?._id.length === 0) return;
+
+		// if (info?._id) {
+		navigate(redirect, { replace: true });
+		// }
 	}, [navigate, info, redirect]);
 
 	const submitHandler = (event: FormEvent) => {

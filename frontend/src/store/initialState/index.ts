@@ -73,6 +73,15 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 						},
 						usersList: {
 							error: '',
+							isLoading: true,
+							success: false,
+						},
+						getSelectedUser: {
+							error: '',
+							isLoading: true,
+						},
+						updateSelectedUser: {
+							error: '',
 							isLoading: false,
 							success: false,
 						},
