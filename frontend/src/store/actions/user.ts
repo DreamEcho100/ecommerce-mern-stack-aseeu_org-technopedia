@@ -27,8 +27,20 @@ import {
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
+	ADMIN_DELETE_PRODUCT_REQUEST_PENDING,
+	ADMIN_DELETE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_DELETE_PRODUCT_REQUEST_FAIL,
+	ADMIN_DELETE_PRODUCT_REQUEST_RESET,
+	ADMIN_CREATE_PRODUCT_REQUEST_PENDING,
+	ADMIN_CREATE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_CREATE_PRODUCT_REQUEST_FAIL,
+	ADMIN_CREATE_PRODUCT_REQUEST_RESET,
+	ADMIN_UPDATE_PRODUCT_REQUEST_PENDING,
+	ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
+	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
 } from 'src/lib/core/constants';
-import { IUser } from 'src/react-app-env';
+import { IProduct, IUser } from 'src/react-app-env';
 import {
 	THandleUserLogin,
 	THandleUserLogout,
@@ -41,6 +53,12 @@ import {
 	TAdminDeleteUser,
 	TAdminGetSelectedUserInfo,
 	TAdminUpdateSelectedUserInfo,
+	TAdminDeleteProduct,
+	TAdminCreateProduct,
+	TAdminDeleteProductRequestReset,
+	TAdminCreateProductRequestReset,
+	TAdminUpdateProduct,
+	TAdminUpdateProductRequestReset,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -170,6 +188,19 @@ export const updateUserProfile: TUpdateUserProfile =
 	// _id
 	async (dispatch, getState) => {
 		try {
+			if (typeof userUpdatedInfo !== 'object')
+				throw new Error('No data provided!');
+
+			let itemExist: boolean = false;
+			let item: keyof typeof userUpdatedInfo;
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			for (item in userUpdatedInfo) {
+				itemExist = true;
+				break;
+			}
+
+			if (!itemExist) throw new Error('No data provided!');
+
 			dispatch({ type: USER_UPDATE_PROFILE_REQUEST_PENDING });
 
 			const {
@@ -271,7 +302,6 @@ export const adminDeleteUser: TAdminDeleteUser =
 			if (!info || !info._id) throw new Error('User info not found!');
 
 			const result: {
-				message: string;
 				succuss: boolean;
 			} = await fetch(`${BACK_END_ROOT_URL}/api/users/${_id}`, {
 				method: 'DELETE',
@@ -346,6 +376,18 @@ export const adminGetSelectedUserInfo: TAdminGetSelectedUserInfo =
 export const adminUpdateSelectedUserInfo: TAdminUpdateSelectedUserInfo =
 	(_id, updatedData) => async (dispatch, getState) => {
 		try {
+			if (typeof updatedData !== 'object') throw new Error('No data provided!');
+
+			let itemExist: boolean = false;
+			let item: keyof typeof updatedData;
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			for (item in updatedData) {
+				itemExist = true;
+				break;
+			}
+
+			if (!itemExist) throw new Error('No data provided!');
+
 			const {
 				user: { info },
 			} = getState();
@@ -387,13 +429,196 @@ export const adminUpdateSelectedUserInfo: TAdminUpdateSelectedUserInfo =
 		}
 	};
 
+export const adminDeleteProduct: TAdminDeleteProduct =
+	(_id) => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_DELETE_PRODUCT_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const deleteProduct: { success: boolean } = await fetch(
+				`${BACK_END_ROOT_URL}/api/products/${_id}`,
+				{
+					method: 'DELETE',
+					headers: {
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
+
+			if (!deleteProduct || !deleteProduct.success)
+				handleActionThrowError<typeof deleteProduct>(deleteProduct);
+
+			dispatch({
+				type: ADMIN_DELETE_PRODUCT_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			return _id;
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_DELETE_PRODUCT_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+export const adminDeleteProductRequestReset: TAdminDeleteProductRequestReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_DELETE_PRODUCT_REQUEST_RESET,
+		});
+	};
+
+export const adminCreateProduct: TAdminCreateProduct =
+	(newProductData) => async (dispatch, getState) => {
+		try {
+			if (typeof newProductData !== 'object')
+				throw new Error('No data provided!');
+
+			let itemExist: boolean = false;
+			let item: keyof typeof newProductData;
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			for (item in newProductData) {
+				itemExist = true;
+				break;
+			}
+
+			if (!itemExist) throw new Error('No data provided!');
+
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_CREATE_PRODUCT_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const newProduct: IProduct = await fetch(
+				`${BACK_END_ROOT_URL}/api/products`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${info.token}`,
+					},
+					body: JSON.stringify(newProductData),
+				}
+			).then((response) => response.json());
+
+			if (!newProduct || !newProduct._id)
+				handleActionThrowError<typeof newProduct>(newProduct);
+
+			dispatch({
+				type: ADMIN_CREATE_PRODUCT_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			return newProduct;
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_CREATE_PRODUCT_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+export const adminCreateProductRequestReset: TAdminCreateProductRequestReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_CREATE_PRODUCT_REQUEST_RESET,
+		});
+	};
+
+export const adminUpdateProduct: TAdminUpdateProduct =
+	(_id, newProductDataToUpdate) => async (dispatch, getState) => {
+		if (typeof newProductDataToUpdate !== 'object')
+			throw new Error('No data provided!');
+
+		let itemExist: boolean = false;
+		let item: keyof typeof newProductDataToUpdate;
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		for (item in newProductDataToUpdate) {
+			itemExist = true;
+			break;
+		}
+
+		if (!itemExist) throw new Error('No data provided!');
+
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_UPDATE_PRODUCT_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const updatedProduct: IProduct = await fetch(
+				`${BACK_END_ROOT_URL}/api/products/${_id}`,
+				{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${info.token}`,
+					},
+					body: JSON.stringify(newProductDataToUpdate),
+				}
+			).then((response) => response.json());
+
+			if (!updatedProduct || !updatedProduct._id)
+				handleActionThrowError<typeof updatedProduct>(updatedProduct);
+
+			dispatch({
+				type: ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			return _id;
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+export const adminUpdateProductRequestReset: TAdminUpdateProductRequestReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+		});
+	};
+// ADMIN_UPDATE_PRODUCT_REQUEST_PENDING,
+// ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
+// ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
+// ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+
 export const isUserAdmin: TIsUserAdmin = (isAdmin) => (dispatch) => {
 	dispatch({
 		type: IS_USER_ADMIN,
 		payload: { isAdmin },
 	});
 };
-
 export const adminReset: TAdminReset = () => (dispatch) => {
 	dispatch({
 		type: IS_USER_ADMIN,

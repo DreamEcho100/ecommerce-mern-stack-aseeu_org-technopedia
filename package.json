@@ -29,6 +29,7 @@
 	},
 	"homepage": "https://github.com/DreamEcho100/ecommerce-mern-stack-aseeu_org-technopedia#readme",
 	"dependencies": {
+		"@types/react-router-bootstrap": "^0.24.5",
 		"bcryptjs": "^2.4.3",
 		"colors": "^1.4.0",
 		"cors": "^2.8.5",
@@ -38,6 +39,8 @@
 		"express-async-handler": "^1.2.0",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.0.13",
+		"multer": "^1.4.4",
+		"react-bootstrap": "^2.1.2",
 		"react-router-bootstrap": "^0.26.0",
 		"ts-node": "^10.5.0"
 	},
@@ -48,6 +51,8 @@
 		"@types/cors": "^2.8.12",
 		"@types/express": "^4.17.13",
 		"@types/jsonwebtoken": "^8.5.8",
+		"@types/multer": "^1.4.7",
+		"@types/react-bootstrap": "^0.32.29",
 		"concurrently": "^6.4.0",
 		"regenerator-runtime": "^0.13.9",
 		"ts-node-dev": "^1.1.8",

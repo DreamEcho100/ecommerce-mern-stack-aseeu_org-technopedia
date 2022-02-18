@@ -2,21 +2,6 @@
 
 export type TDate = string | number | Date;
 
-export interface IProduct {
-	_id: string;
-	name: string;
-	image: string;
-	description: string;
-	brand: string;
-	category: string;
-	price: number;
-	countInStock: number;
-	rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
-	numReviews: number;
-}
-
-export type TProducts = IProduct[];
-
 export interface IBasicUser {
 	_id: string;
 	name: string;
@@ -53,9 +38,47 @@ export interface IAdmin {
 				error: string;
 				success: boolean;
 			};
+			deleteProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			createProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			updateProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
 		};
 	};
 }
+
+export interface INewProductData {
+	name: string;
+	image: string;
+	description: string;
+	brand: string;
+	category: string;
+	price: number;
+	countInStock: number;
+	// rating: IProduct['rating'];
+	// numReviews: IProduct['numReviews'];
+}
+export interface IProduct extends INewProductData {
+	_id: string;
+	userRef: IUser['_id'];
+	rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
+	numReviews: number;
+	reviews: any[];
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export type TProducts = IProduct[];
 
 export interface ICartItem {
 	_id: IProduct['_id'];

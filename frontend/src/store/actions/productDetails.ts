@@ -2,9 +2,10 @@ import {
 	PRODUCT_DETAILS_REQUEST_FAIL,
 	PRODUCT_DETAILS_REQUEST_SUCCESS,
 	PRODUCT_DETAILS_REQUEST_PENDING,
+	UPDATE_PRODUCT_DETAILS,
 } from 'src/lib/core/constants';
 import { IProduct } from 'src/react-app-env';
-import { THandleProductDetails } from 'src/store/ts';
+import { THandleProductDetails, TUpdateProductDetails } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 
 export const handleProductDetails: THandleProductDetails =
@@ -29,4 +30,12 @@ export const handleProductDetails: THandleProductDetails =
 				console.error(error.message);
 			}
 		}
+	};
+
+export const updateProductDetails: TUpdateProductDetails =
+	(newUpdatedData) => (dispatch) => {
+		dispatch({
+			type: UPDATE_PRODUCT_DETAILS,
+			payload: { newUpdatedData },
+		});
 	};

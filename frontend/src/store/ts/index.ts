@@ -9,6 +9,7 @@ import {
 	IOrder,
 	IOrderPay,
 	IAdmin,
+	INewProductData,
 } from 'src/react-app-env';
 import {
 	USER_LOGIN_REQUEST_PENDING,
@@ -39,14 +40,30 @@ import {
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_PENDING,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_SUCCESS,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL,
+	ADMIN_DELETE_PRODUCT_REQUEST_PENDING,
+	ADMIN_DELETE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_DELETE_PRODUCT_REQUEST_FAIL,
+	ADMIN_DELETE_PRODUCT_REQUEST_RESET,
+	ADMIN_CREATE_PRODUCT_REQUEST_PENDING,
+	ADMIN_CREATE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_CREATE_PRODUCT_REQUEST_FAIL,
+	ADMIN_CREATE_PRODUCT_REQUEST_RESET,
+	ADMIN_UPDATE_PRODUCT_REQUEST_PENDING,
+	ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
+	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
+	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
 	//
 	PRODUCTS_LIST_REQUEST_FAIL,
 	PRODUCTS_LIST_REQUEST_SUCCESS,
 	PRODUCTS_LIST_REQUEST_PENDING,
+	DELETE_PRODUCT_FROM_LIST,
+	ADD_PRODUCT_TO_LIST,
+	UPDATE_PRODUCT_IN_LIST,
 	//
 	PRODUCT_DETAILS_REQUEST_PENDING,
 	PRODUCT_DETAILS_REQUEST_SUCCESS,
 	PRODUCT_DETAILS_REQUEST_FAIL,
+	UPDATE_PRODUCT_DETAILS,
 	//
 	CART_ADD_ITEM,
 	CART_REMOVE_ITEM,
@@ -224,6 +241,54 @@ interface IAdminUpdateSelectedUserRequestFailAction {
 	payload: { error: string };
 }
 
+interface IAdminDeleteProductRequestPendingAction {
+	type: typeof ADMIN_DELETE_PRODUCT_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminDeleteProductRequestSuccussAction {
+	type: typeof ADMIN_DELETE_PRODUCT_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean };
+}
+interface IAdminDeleteProductRequestFailAction {
+	type: typeof ADMIN_DELETE_PRODUCT_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminDeleteProductRequestResetAction {
+	type: typeof ADMIN_DELETE_PRODUCT_REQUEST_RESET;
+}
+
+interface IAdminCreateProductRequestPendingAction {
+	type: typeof ADMIN_CREATE_PRODUCT_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminCreateProductRequestSuccussAction {
+	type: typeof ADMIN_CREATE_PRODUCT_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean };
+}
+interface IAdminCreateProductRequestFailAction {
+	type: typeof ADMIN_CREATE_PRODUCT_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminCreateProductRequestResetAction {
+	type: typeof ADMIN_CREATE_PRODUCT_REQUEST_RESET;
+}
+
+interface IAdminUpdateProductRequestPendingAction {
+	type: typeof ADMIN_UPDATE_PRODUCT_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminUpdateProductRequestSuccussAction {
+	type: typeof ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean };
+}
+interface IAdminUpdateProductRequestFailAction {
+	type: typeof ADMIN_UPDATE_PRODUCT_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminUpdateProductRequestResetAction {
+	type: typeof ADMIN_UPDATE_PRODUCT_REQUEST_RESET;
+}
+
 export type IUsersListAction =
 	| IIsUserAdminAction
 	| IAdminUsersListRequestPendingAction
@@ -239,7 +304,19 @@ export type IUsersListAction =
 	| IAdminSelectedUserRequestFailAction
 	| IAdminUpdateSelectedUserRequestPendingAction
 	| IAdminUpdateSelectedUserRequestSuccussAction
-	| IAdminUpdateSelectedUserRequestFailAction;
+	| IAdminUpdateSelectedUserRequestFailAction
+	| IAdminDeleteProductRequestPendingAction
+	| IAdminDeleteProductRequestSuccussAction
+	| IAdminDeleteProductRequestFailAction
+	| IAdminDeleteProductRequestResetAction
+	| IAdminCreateProductRequestPendingAction
+	| IAdminCreateProductRequestSuccussAction
+	| IAdminCreateProductRequestFailAction
+	| IAdminCreateProductRequestResetAction
+	| IAdminUpdateProductRequestPendingAction
+	| IAdminUpdateProductRequestSuccussAction
+	| IAdminUpdateProductRequestFailAction
+	| IAdminUpdateProductRequestResetAction;
 
 export type IAdminReducer = Reducer<TStoreAdminState, IUsersListAction>;
 
@@ -264,12 +341,48 @@ export type TAdminUpdateSelectedUserInfo = (
 	_id: string,
 	updatedData: IUpdatedData
 ) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
+export type TAdminDeleteProduct = (
+	_id?: IProduct['_id']
+) => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void | IProduct['_id']>;
+export type TAdminDeleteProductRequestReset = () => (
+	dispatch: IAdminDispatch
+) => void;
+export type TAdminCreateProduct = (
+	newProductData: INewProductData
+) => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void | IProduct>;
+export type TAdminCreateProductRequestReset = () => (
+	dispatch: IAdminDispatch
+) => void;
+export type TAdminUpdateProduct = (
+	_id: IProduct['_id'],
+	newProductDataToUpdate: {
+		name?: string;
+		image?: string;
+		description?: string;
+		brand?: string;
+		category?: string;
+		price?: number;
+		countInStock?: number;
+	}
+) => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void | IProduct['_id']>;
+export type TAdminUpdateProductRequestReset = () => (
+	dispatch: IAdminDispatch
+) => void;
 
 /* ************************ */
 /****** PRODUCTS LIST ******/
 /* ************************ */
 export interface IStoreProductsListState {
-	products?: TProducts;
+	products: TProducts;
 	isLoading: boolean;
 	error: string;
 }
@@ -285,10 +398,36 @@ interface IProductsListRequestFailAction {
 	type: typeof PRODUCTS_LIST_REQUEST_FAIL;
 	payload: { error: IStoreProductsListState['error'] };
 }
+interface IDeleteProductFromListAction {
+	type: typeof DELETE_PRODUCT_FROM_LIST;
+	payload: { _id: IProduct['_id'] };
+}
+interface IAddProductToListAction {
+	type: typeof ADD_PRODUCT_TO_LIST;
+	payload: { newProductData: IProduct };
+}
+interface IUpdateProductToListAction {
+	type: typeof UPDATE_PRODUCT_IN_LIST;
+	payload: {
+		_id: IProduct['_id'];
+		newProductDataToUpdate: {
+			name?: string;
+			image?: string;
+			description?: string;
+			brand?: string;
+			category?: string;
+			price?: number;
+			countInStock?: number;
+		};
+	};
+}
 export type TStoreProductsListAction =
 	| IProductsListRequestAction
 	| IProductsListRequestSuccessAction
-	| IProductsListRequestFailAction;
+	| IProductsListRequestFailAction
+	| IDeleteProductFromListAction
+	| IAddProductToListAction
+	| IUpdateProductToListAction;
 
 export type TStoreProductsListReducer = Reducer<
 	IStoreProductsListState,
@@ -301,6 +440,16 @@ type TStoreProductsListDispatch =
 export type THandleListProducts = () => (
 	dispatch: TStoreProductsListDispatch
 ) => Promise<void>;
+export type TDeleteProductFromList = (
+	_id: IProduct['_id']
+) => (dispatch: TStoreProductsListDispatch) => void;
+export type TAddProductToList = (
+	newProductData: IProduct
+) => (dispatch: TStoreProductsListDispatch) => void;
+export type TUpdateProductToList = (
+	_id: IProduct['_id'],
+	newProductDataToUpdate: IUpdateProductToListAction['payload']['newProductDataToUpdate']
+) => (dispatch: TStoreProductsListDispatch) => void;
 
 /* ************************ */
 /***** PRODUCTS DETAIL *****/
@@ -322,10 +471,28 @@ interface IProductDetailsRequestFailAction {
 	type: typeof PRODUCT_DETAILS_REQUEST_FAIL;
 	payload: { error: IStoreProductDetailsState['error'] };
 }
+
+interface IUpdateProductDetails {
+	type: typeof UPDATE_PRODUCT_DETAILS;
+	payload: {
+		// _id: IProduct['_id'],
+		newUpdatedData: {
+			name?: string;
+			image?: string;
+			description?: string;
+			brand?: string;
+			category?: string;
+			price?: number;
+			countInStock?: number;
+		};
+	};
+}
+
 export type TStoreProductDetailsAction =
 	| IProductDetailsRequestAction
 	| IProductDetailsRequestSuccessAction
-	| IProductDetailsRequestFailAction;
+	| IProductDetailsRequestFailAction
+	| IUpdateProductDetails;
 
 export type TStoreProductDetailsReducer = Reducer<
 	IStoreProductDetailsState,
@@ -338,6 +505,9 @@ type TStoreProductDetailsDispatch =
 export type THandleProductDetails = (
 	id: string
 ) => (dispatch: TStoreProductDetailsDispatch) => Promise<void>;
+export type TUpdateProductDetails = (
+	newUpdatedData: IUpdateProductDetails['payload']['newUpdatedData']
+) => (dispatch: TStoreProductDetailsDispatch) => void;
 
 /* ************************ */
 /***** CART *****/

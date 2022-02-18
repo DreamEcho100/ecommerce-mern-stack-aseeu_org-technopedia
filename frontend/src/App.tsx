@@ -24,8 +24,10 @@ import OrderScreen from './screens/OrderScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
-import UserListScreen from './screens/UserList';
+import UsersListScreen from './screens/UsersList';
 import UserEditScreen from './screens/UserEdit';
+import ProductsListScreen from './screens/ProductsList';
+import ProductEditScreen from './screens/ProductEdit';
 
 const AppRoutes = () => {
 	const routes = useRoutes([
@@ -42,8 +44,10 @@ const AppRoutes = () => {
 			element: <CartScreen />,
 		},
 		{ path: '/cart', element: <CartScreen /> },
-		{ path: '/admin/usersList', element: <UserListScreen /> },
 		{ path: '/admin/user/:id/edit', element: <UserEditScreen /> },
+		{ path: '/admin/usersList', element: <UsersListScreen /> },
+		{ path: '/admin/productsList', element: <ProductsListScreen /> },
+		{ path: '/admin/product/:id/edit', element: <ProductEditScreen /> },
 		{ path: '/', element: <HomeScreen /> },
 		// ...
 	]);

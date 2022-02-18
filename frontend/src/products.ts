@@ -13,6 +13,10 @@ const products: TProducts = [
 		countInStock: 10,
 		rating: 4.5,
 		numReviews: 12,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 	{
 		_id: '2',
@@ -26,6 +30,10 @@ const products: TProducts = [
 		countInStock: 0,
 		rating: 4.0,
 		numReviews: 8,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 	{
 		_id: '3',
@@ -39,6 +47,10 @@ const products: TProducts = [
 		countInStock: 5,
 		rating: 3,
 		numReviews: 12,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 	{
 		_id: '4',
@@ -52,6 +64,10 @@ const products: TProducts = [
 		countInStock: 11,
 		rating: 5,
 		numReviews: 12,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 	{
 		_id: '5',
@@ -65,6 +81,10 @@ const products: TProducts = [
 		countInStock: 7,
 		rating: 3.5,
 		numReviews: 10,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 	{
 		_id: '6',
@@ -78,6 +98,10 @@ const products: TProducts = [
 		countInStock: 0,
 		rating: 4,
 		numReviews: 12,
+		userRef: '',
+		reviews: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
 ];
 

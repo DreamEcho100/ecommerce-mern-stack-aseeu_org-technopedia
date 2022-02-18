@@ -144,7 +144,11 @@ const UserEditScreen = (props: Props) => {
 								</Message>
 							)}
 
-							<Button type='submit' variant='primary'>
+							<Button
+								type='submit'
+								variant='primary'
+								disabled={isLoadingUpdateSelectedUser}
+							>
 								Update
 							</Button>
 						</Form>

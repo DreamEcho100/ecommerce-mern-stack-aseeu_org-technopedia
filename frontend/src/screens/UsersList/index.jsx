@@ -5,14 +5,15 @@ import { Table, Button } from 'react-bootstrap';
 
 import { useMainStoreSelector } from 'src/store';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-
 // import { LinkContainer } from 'react-router-bootstrap'
 // import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
 import { adminDeleteUser, adminGetUsersList } from 'src/store/actions/user';
 
-const UserListScreen = () => {
+import Message from 'src/components/UI/Message';
+import Loader from 'src/components/UI/Loader';
+import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+
+const UsersListScreen = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -76,12 +77,10 @@ const UserListScreen = () => {
 								<td>
 									{/* <CustomLinkContainer to={`/user/${user._id}/edit`}>
                   </CustomLinkContainer> */}
-									<Button
-										onClick={() => navigate(`/admin/user/${user._id}/edit`)}
-										variant='light'
-										className='btn-sm'
-									>
-										<i className='fas fa-edit'></i>
+									<Button variant='light' className='btn-sm'>
+										<CustomLinkContainer to={`/admin/user/${user._id}/edit`}>
+											<i className='fas fa-edit'></i>
+										</CustomLinkContainer>
 									</Button>
 									<Button
 										variant='danger'
@@ -100,4 +99,4 @@ const UserListScreen = () => {
 	);
 };
 
-export default UserListScreen;
+export default UsersListScreen;

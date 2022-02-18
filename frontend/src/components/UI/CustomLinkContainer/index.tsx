@@ -2,6 +2,14 @@ import { MouseEvent, ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import { Nav, NavDropdown } from 'react-bootstrap';
 
+const AnchorLink = ({
+	children,
+	...props
+}: {
+	children: ReactNode;
+	[key: string]: any;
+}) => <a {...props}>{children}</a>;
+
 interface IProps {
 	children: ReactNode; // JSX.Element;
 	to: string;
@@ -14,7 +22,7 @@ const CustomLinkContainer = ({
 	children,
 	to,
 	navigateExtraProps,
-	elementType = 'NavLink',
+	elementType,
 	props = {},
 }: IProps) => {
 	const navigate = useNavigate();
@@ -24,16 +32,19 @@ const CustomLinkContainer = ({
 		NavDropdownItem: NavDropdown.Item,
 	};
 
-	const Element = ElementsMap[elementType];
+	const Element = elementType ? ElementsMap[elementType] : AnchorLink;
 
 	return (
 		<Element
+			{...props}
 			href={`${to}`}
 			onClick={(event: MouseEvent<HTMLButtonElement>) => {
 				event.preventDefault();
 				navigate(`${to}`, navigateExtraProps);
+				if (props.onClick) {
+					props.onClick(event);
+				}
 			}}
-			{...props}
 		>
 			{children}
 		</Element>

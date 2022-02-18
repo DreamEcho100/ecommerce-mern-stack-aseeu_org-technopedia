@@ -8,7 +8,7 @@ interface IReview {
 interface IReviewDocument extends IReview, Document {}
 
 interface IProduct {
-	user: typeof Schema.Types.ObjectId;
+	userRef: typeof Schema.Types.ObjectId;
 	name: string;
 	image: string;
 	brand: string;
@@ -36,7 +36,7 @@ const reviewSchema: Schema<IReviewDocument> = new Schema(
 
 const productSchema: Schema<IProductDocument> = new Schema(
 	{
-		user: {
+		userRef: {
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User',

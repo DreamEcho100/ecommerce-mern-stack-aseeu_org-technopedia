@@ -44,7 +44,7 @@ const Header = (props: Props): JSX.Element => {
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ml-auto'>
-							<CustomLinkContainer to='/cart'>
+							<CustomLinkContainer to='/cart' elementType='NavLink'>
 								<i className='fas fa-shopping-cart'></i> Cart
 							</CustomLinkContainer>
 
@@ -61,7 +61,7 @@ const Header = (props: Props): JSX.Element => {
 									</NavDropdown.Item>
 								</NavDropdown>
 							) : (
-								<CustomLinkContainer to='/login'>
+								<CustomLinkContainer to='/login' elementType='NavLink'>
 									<i className='fas fa-user'></i> Sign In
 								</CustomLinkContainer>
 							)}

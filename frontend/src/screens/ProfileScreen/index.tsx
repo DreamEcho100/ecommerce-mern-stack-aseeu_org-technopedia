@@ -140,7 +140,12 @@ const ProfileScreen = (props: Props): JSX.Element => {
 						</Message>
 					)}
 
-					<Button className='my-3' type='submit' variant='primary'>
+					<Button
+						className='my-3'
+						type='submit'
+						variant='primary'
+						disabled={requests.updateUserProfile.isLoading}
+					>
 						Update
 					</Button>
 				</Form>

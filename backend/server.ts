@@ -9,12 +9,15 @@ import { errorHandlerMiddleware, notFoundMiddleware } from './middleware/error';
 import productsRoutes from './routes/products';
 import usersRoutes from './routes/users';
 import ordersRoutes from './routes/orders';
+import uploadRoutes from './routes/upload';
 
 config();
 connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+console.log('process.env.FRONT_END_ROOT_URL', process.env.FRONT_END_ROOT_URL);
 
 const corsOptions = {
 	origin: [
@@ -32,14 +35,16 @@ app.use(express.json());
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/orders', ordersRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 app.get('/api/config/paypal', (req: Request, res: Response) => {
 	res.json(process.env.PAYPAL_CLIENT_ID);
 });
 
-// app.get('/', (req: Request, res: Response) => {
-// 	res.send('API is running!');
-// });
+app.use(
+	'/uploads/images',
+	express.static(path.join(process.cwd(), '/uploads/images'))
+);
 
 // const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {

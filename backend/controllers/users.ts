@@ -182,10 +182,10 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 	// 	throw new Error('User not found');
 	// }
 	const userDeleted = await UserModel.findByIdAndDelete(req.params.id);
-	if (!userDeleted) {
+	if (!userDeleted || !userDeleted._id) {
 		res.status(404);
 		throw new Error('User not found');
-	} else res.json({ succuss: true, message: 'user removed' });
+	} else res.json({ succuss: true });
 });
 
 // @desc    Get user by ID

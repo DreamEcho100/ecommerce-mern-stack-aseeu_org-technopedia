@@ -1,9 +1,24 @@
 import express from 'express';
+
+import { adminMiddleware, protectMiddleware } from '../middleware/auth';
+import {
+	createProduct,
+	deleteProduct,
+	getProductById,
+	getProducts,
+	updateProduct,
+} from '../controllers/products';
+
 const productsRoutes = express.Router();
-import { getProductById, getProducts } from '../controllers/products';
 
-productsRoutes.route('/').get(getProducts);
-
-productsRoutes.route('/:id').get(getProductById);
+productsRoutes
+	.route('/')
+	.get(getProducts)
+	.post(protectMiddleware, adminMiddleware, createProduct);
+productsRoutes
+	.route('/:id')
+	.get(getProductById)
+	.delete(protectMiddleware, adminMiddleware, deleteProduct)
+	.put(protectMiddleware, adminMiddleware, updateProduct);
 
 export default productsRoutes;

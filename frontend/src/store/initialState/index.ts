@@ -85,6 +85,21 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 							isLoading: false,
 							success: false,
 						},
+						deleteProduct: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
+						createProduct: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
+						updateProduct: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
 					},
 				},
 		  }
@@ -94,6 +109,7 @@ export const returnProductDetailsInitialState =
 	(): IStoreProductDetailsState => ({
 		product: {
 			_id: '',
+			userRef: '',
 			name: '',
 			image: '',
 			description: '',
@@ -103,6 +119,9 @@ export const returnProductDetailsInitialState =
 			countInStock: 0,
 			rating: 0,
 			numReviews: 0,
+			reviews: [],
+			createdAt: new Date(),
+			updatedAt: new Date(),
 		},
 		isLoading: true,
 		error: '',
