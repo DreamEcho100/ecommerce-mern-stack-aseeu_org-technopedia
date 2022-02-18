@@ -13,10 +13,10 @@ import {
 	USER_UPDATE_PROFILE_REQUEST_PENDING,
 	USER_UPDATE_PROFILE_REQUEST_SUCCESS,
 	USER_UPDATE_PROFILE_REQUEST_FAIL,
-	// USER_IS_NOT_ADMIN,
 	ADMIN_USERS_LIST_REQUEST_PENDING,
 	ADMIN_USERS_LIST_REQUEST_SUCCESS,
 	ADMIN_USERS_LIST_REQUEST_FAIL,
+	ADMIN_USERS_LIST_REQUEST_RESET,
 	ADMIN_DELETE_USER_REQUEST_PENDING,
 	ADMIN_DELETE_USER_REQUEST_SUCCESS,
 	ADMIN_DELETE_USER_REQUEST_FAIL,
@@ -39,6 +39,7 @@ import {
 	ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
 	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
 	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
 } from 'src/lib/core/constants';
 import { IProduct, IUser } from 'src/react-app-env';
 import {
@@ -59,6 +60,8 @@ import {
 	TAdminCreateProductRequestReset,
 	TAdminUpdateProduct,
 	TAdminUpdateProductRequestReset,
+	TAdminUpdateSelectedUserInfoRequestReset,
+	TAdminGetUsersListReset,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -287,6 +290,13 @@ export const adminGetUsersList: TAdminGetUsersList =
 		}
 	};
 
+export const adminGetUsersListReset: TAdminGetUsersListReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_USERS_LIST_REQUEST_RESET,
+		});
+	};
+
 export const adminDeleteUser: TAdminDeleteUser =
 	(_id) => async (dispatch, getState) => {
 		try {
@@ -427,6 +437,13 @@ export const adminUpdateSelectedUserInfo: TAdminUpdateSelectedUserInfo =
 				console.error(error.message);
 			}
 		}
+	};
+
+export const adminUpdateSelectedUserInfoRequestReset: TAdminUpdateSelectedUserInfoRequestReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
+		});
 	};
 
 export const adminDeleteProduct: TAdminDeleteProduct =

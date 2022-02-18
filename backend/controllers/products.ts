@@ -46,10 +46,13 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/Admin
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 	const product = await ProductModel.findByIdAndDelete(req.params.id);
-	if (!product || !product._id) {
+
+	if (product?._id) {
+		res.json({ success: true });
+	} else {
 		res.status(404);
 		throw new Error('Product not found');
-	} else res.json({ success: true });
+	}
 });
 
 // @desc    Create a product
@@ -96,8 +99,13 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 		numReviews: 0,
 	});
 
-	const createdProduct = await product.save();
-	res.status(201).json(createdProduct);
+	if (product?._id) {
+		const createdProduct = await product.save();
+		res.status(201).json(createdProduct);
+	} else {
+		res.status(404);
+		throw new Error('Product not found');
+	}
 });
 
 // @desc    Update a product
@@ -150,7 +158,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 	const product = await ProductModel.findById(req.params.id);
 
-	if (product) {
+	if (product?._id) {
 		product.name = name;
 		product.price = price;
 		product.description = description;

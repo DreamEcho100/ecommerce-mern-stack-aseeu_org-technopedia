@@ -7,7 +7,11 @@ import { useMainStoreSelector } from 'src/store';
 
 // import { LinkContainer } from 'react-router-bootstrap'
 // import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
-import { adminDeleteUser, adminGetUsersList } from 'src/store/actions/user';
+import {
+	adminDeleteUser,
+	adminGetUsersList,
+	adminGetUsersListReset,
+} from 'src/store/actions/user';
 
 import Message from 'src/components/UI/Message';
 import Loader from 'src/components/UI/Loader';
@@ -30,6 +34,10 @@ const UsersListScreen = () => {
 			dispatch(adminDeleteUser(_id));
 		}
 	};
+
+	useEffect(() => {
+		dispatch(adminGetUsersListReset());
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (userInfo?.isAdmin) {

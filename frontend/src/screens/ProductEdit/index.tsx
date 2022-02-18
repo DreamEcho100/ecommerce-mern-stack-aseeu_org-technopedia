@@ -23,7 +23,7 @@ import { IProduct } from 'src/react-app-env';
 import { updateProductToList } from 'src/store/actions/productsList';
 import {
 	adminUpdateProduct,
-	// adminUpdateProductRequestReset,
+	adminUpdateProductRequestReset,
 } from 'src/store/actions/user';
 import { BACK_END_ROOT_URL } from 'src/config';
 
@@ -141,6 +141,10 @@ const ProductEditScreen = (props: Props) => {
 	};
 
 	useEffect(() => {
+		dispatch(adminUpdateProductRequestReset());
+	}, [dispatch]);
+
+	useEffect(() => {
 		if (!userInfo || !userInfo.isAdmin) {
 			navigate('/login');
 			return;
@@ -149,6 +153,7 @@ const ProductEditScreen = (props: Props) => {
 			navigate('/');
 			return;
 		}
+
 		if (!product || !product.name || product._id !== productId) {
 			dispatch(handleProductDetails(productId));
 		} else {

@@ -8,6 +8,7 @@ import { useMainStoreSelector } from 'src/store';
 import {
 	adminGetSelectedUserInfo,
 	adminUpdateSelectedUserInfo,
+	adminUpdateSelectedUserInfoRequestReset,
 } from 'src/store/actions/user';
 
 import Message from 'src/components/UI/Message';
@@ -35,10 +36,15 @@ const UserEditScreen = (props: Props) => {
 	const actions = admin?.actions;
 
 	useEffect(() => {
+		dispatch(adminUpdateSelectedUserInfoRequestReset());
+	}, [dispatch]);
+
+	useEffect(() => {
 		if (!userId) {
 			navigate('/');
 			return;
 		}
+
 		if (!selectedUser || !selectedUser.name || selectedUser._id !== userId) {
 			dispatch(adminGetSelectedUserInfo(userId));
 		} else {

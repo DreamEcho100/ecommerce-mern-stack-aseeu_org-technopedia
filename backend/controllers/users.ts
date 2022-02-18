@@ -194,7 +194,7 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 const getUserById = asyncHandler(async (req, res) => {
 	const user = await UserModel.findById(req.params.id).select('-password');
 
-	if (user) {
+	if (user?._id) {
 		res.json(user);
 	} else {
 		res.status(404);
@@ -257,16 +257,16 @@ const updateUser = asyncHandler(async (req, res) => {
 		}
 	);
 
-	if (!updatedUser) {
-		res.status(404);
-		throw new Error(`User with ${req.params.id} not found.`);
-	} else {
+	if (updatedUser?._id) {
 		res.json({
 			_id: updatedUser._id,
 			name: updatedUser.name,
 			email: updatedUser.email,
 			isAdmin: updatedUser.isAdmin,
 		});
+	} else {
+		res.status(404);
+		throw new Error(`User with ${req.params.id} not found.`);
 	}
 });
 

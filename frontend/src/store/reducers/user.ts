@@ -40,6 +40,7 @@ import {
 	ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
 	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
 	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
 } from 'src/lib/core/constants';
 import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
 import {
@@ -523,6 +524,30 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				},
 			};
 		}
+		case ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			if (!currentState.actions.requests.updateSelectedUser.success)
+				return currentState;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						updateSelectedUser: {
+							...currentAdminInit.actions.requests.updateSelectedUser,
+						},
+					},
+				},
+			};
+		}
 
 		case ADMIN_DELETE_PRODUCT_REQUEST_PENDING: {
 			if (!action.payload.isAdmin) return state;
@@ -601,6 +626,9 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 			const currentAdminInit = adminInit(true);
 
 			if (!currentAdminInit) return state;
+
+			if (!currentState.actions.requests.deleteProduct.success)
+				return currentState;
 
 			return {
 				...currentState,
@@ -694,6 +722,9 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 
 			if (!currentAdminInit) return state;
 
+			if (!currentState.actions.requests.createProduct.success)
+				return currentState;
+
 			return {
 				...currentState,
 				actions: {
@@ -785,6 +816,9 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 			const currentAdminInit = adminInit(true);
 
 			if (!currentAdminInit) return state;
+
+			if (!currentState.actions.requests.updateProduct.success)
+				return currentState;
 
 			return {
 				...currentState,

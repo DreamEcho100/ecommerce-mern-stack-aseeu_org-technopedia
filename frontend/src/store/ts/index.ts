@@ -87,6 +87,8 @@ import {
 	ORDERS_LIST_REQUEST_FAIL,
 	ORDERS_LIST_RESET,
 	USER_IS_NOT_ADMIN,
+	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
+	ADMIN_USERS_LIST_REQUEST_RESET,
 } from 'src/lib/core/constants';
 import { TRootState } from 'src/store';
 
@@ -197,9 +199,10 @@ interface IAdminUsersListRequestFailAction {
 	type: typeof ADMIN_USERS_LIST_REQUEST_FAIL;
 	payload: { error: string };
 }
-// interface IAdminUserListResetAction {
-// 	type: typeof ADMIN_USERS_LIST_RESET;
-// }
+interface IAdminUsersListRequestResetAction {
+	type: typeof ADMIN_USERS_LIST_REQUEST_RESET;
+}
+
 interface IUserIsNotAdmin {
 	type: typeof USER_IS_NOT_ADMIN;
 }
@@ -239,6 +242,9 @@ interface IAdminUpdateSelectedUserRequestSuccussAction {
 interface IAdminUpdateSelectedUserRequestFailAction {
 	type: typeof ADMIN_UPDATE_SELECTED_USER_REQUEST_FAIL;
 	payload: { error: string };
+}
+interface IAdminUpdateSelectedUserRequestResetAction {
+	type: typeof ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET;
 }
 
 interface IAdminDeleteProductRequestPendingAction {
@@ -294,7 +300,7 @@ export type IUsersListAction =
 	| IAdminUsersListRequestPendingAction
 	| IAdminUsersListRequestSuccussAction
 	| IAdminUsersListRequestFailAction
-	// | IAdminUserListResetAction
+	| IAdminUsersListRequestResetAction
 	| IUserIsNotAdmin
 	| IAdminDeleteUserRequestPendingAction
 	| IAdminDeleteUserRequestSuccussAction
@@ -305,6 +311,7 @@ export type IUsersListAction =
 	| IAdminUpdateSelectedUserRequestPendingAction
 	| IAdminUpdateSelectedUserRequestSuccussAction
 	| IAdminUpdateSelectedUserRequestFailAction
+	| IAdminUpdateSelectedUserRequestResetAction
 	| IAdminDeleteProductRequestPendingAction
 	| IAdminDeleteProductRequestSuccussAction
 	| IAdminDeleteProductRequestFailAction
@@ -331,6 +338,9 @@ export type TAdminGetUsersList = () => (
 	dispatch: IAdminDispatch,
 	getState: () => TRootState
 ) => Promise<void>;
+export type TAdminGetUsersListReset = () => (
+	dispatch: IAdminDispatch
+) => void;
 export type TAdminDeleteUser = (
 	_id: IUser['_id']
 ) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
@@ -341,6 +351,9 @@ export type TAdminUpdateSelectedUserInfo = (
 	_id: string,
 	updatedData: IUpdatedData
 ) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
+export type TAdminUpdateSelectedUserInfoRequestReset = () => (
+	dispatch: IAdminDispatch
+) => void;
 export type TAdminDeleteProduct = (
 	_id?: IProduct['_id']
 ) => (

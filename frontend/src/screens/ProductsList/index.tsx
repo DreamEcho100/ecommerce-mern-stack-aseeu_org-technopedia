@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
 import { Table, Button, Row, Col } from 'react-bootstrap';
@@ -49,12 +49,18 @@ const ProductsListScreen = (props: Props) => {
 	const requestsDeleteProduct = actions?.requests.deleteProduct;
 	const requestsCreateProduct = actions?.requests.createProduct;
 
-	const resetRequestsIfError = () => {
+	const resetRequestsIfError = useCallback(() => {
 		if (requestsDeleteProduct?.error || requestsDeleteProduct?.success)
 			dispatch(adminDeleteProductRequestReset());
 		if (requestsCreateProduct?.error || requestsCreateProduct?.success)
 			dispatch(adminCreateProductRequestReset());
-	};
+	}, [
+		dispatch,
+		requestsCreateProduct?.error,
+		requestsCreateProduct?.success,
+		requestsDeleteProduct?.error,
+		requestsDeleteProduct?.success,
+	]);
 
 	const deleteHandler = async (_id: string) => {
 		if (window.confirm('Are you sure')) {
@@ -79,6 +85,10 @@ const ProductsListScreen = (props: Props) => {
 			// dispatch(adminCreateProductRequestReset());
 		}
 	};
+
+	useEffect(() => {
+		dispatch(adminCreateProductRequestReset());
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (userInfo?.isAdmin) {

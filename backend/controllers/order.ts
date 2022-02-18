@@ -94,4 +94,54 @@ const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 	res.json(orders);
 });
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };
+// @desc    Get orders
+// @route   GET /api/orders
+// @access  Private/Admin
+const getOrders = asyncHandler(async (req: Request, res: Response) => {
+	try {
+		const orders = await OrderModel.find({});
+		res.json(orders);
+	} catch (error) {
+		if (error instanceof Error) console.error(`Error: ${error.message}`); // .red.underline;
+		res.status(404).json({
+			message:
+				error instanceof Error ? console.error(`Error: ${error.message}`) : '',
+		});
+	}
+});
+
+// @desc    Delete order to paid
+// @route   GET /api/orders/:id/pay
+// @access  Private/Admin
+const updateOrderToDelivered = asyncHandler(
+	async (req: Request, res: Response) => {
+		const orderUpdated = await OrderModel.findByIdAndUpdate(
+			req.params.id,
+			{
+				isDelivered: true,
+				DeliveredAt: Date.now(),
+			},
+			{
+				new: true,
+			}
+		);
+
+		console.log('orderUpdated', orderUpdated);
+
+		if (orderUpdated?._id) {
+			res.json(orderUpdated);
+		} else {
+			res.status(404);
+			throw new Error('Order not found');
+		}
+	}
+);
+
+export {
+	addOrderItems,
+	getOrderById,
+	updateOrderToPaid,
+	getMyOrders,
+	getOrders,
+	updateOrderToDelivered,
+};
