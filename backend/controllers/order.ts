@@ -111,7 +111,7 @@ const getOrders = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // @desc    Delete order to paid
-// @route   GET /api/orders/:id/pay
+// @route   GET /api/orders/:id/delivery
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(
 	async (req: Request, res: Response) => {

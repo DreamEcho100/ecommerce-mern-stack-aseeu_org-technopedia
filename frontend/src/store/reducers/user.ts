@@ -41,6 +41,13 @@ import {
 	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
 	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
+	ADMIN_GET_ORDERS_LIST_REQUEST_PENDING,
+	ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS,
+	ADMIN_GET_ORDERS_LIST_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_PENDING,
+	ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
+	ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_RESET,
 } from 'src/lib/core/constants';
 import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
 import {
@@ -833,6 +840,190 @@ export const adminReducer: IAdminReducer = (state = adminInit(), action) => {
 				},
 			};
 		}
+
+		case ADMIN_GET_ORDERS_LIST_REQUEST_PENDING: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getOrdersList: {
+							...currentAdminInit.actions.requests.getOrdersList,
+							isLoading: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { ordersList } = action.payload;
+
+			return {
+				...currentState,
+				ordersList,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getOrdersList: {
+							...currentAdminInit.actions.requests.getOrdersList,
+							isLoading: false,
+							// success: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_GET_ORDERS_LIST_REQUEST_FAIL: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { error } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						getOrdersList: {
+							...currentAdminInit.actions.requests.getOrdersList,
+							isLoading: false,
+							error,
+						},
+					},
+				},
+			};
+		}
+
+		case ADMIN_ORDER_DELIVERY_REQUEST_PENDING: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						orderDelivery: {
+							...currentAdminInit.actions.requests.orderDelivery,
+							isLoading: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS: {
+			if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { _id } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					ordersList: currentState.ordersList.map((order) =>
+						order._id === _id
+							? {
+									...order,
+									isDelivered: true,
+									deliveredAt: Date.now(),
+							  }
+							: order
+					),
+					requests: {
+						...currentState.actions.requests,
+						orderDelivery: {
+							...currentAdminInit.actions.requests.orderDelivery,
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_ORDER_DELIVERY_REQUEST_FAIL: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			const { error } = action.payload;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						orderDelivery: {
+							...currentAdminInit.actions.requests.orderDelivery,
+							isLoading: false,
+							error,
+						},
+					},
+				},
+			};
+		}
+		case ADMIN_ORDER_DELIVERY_REQUEST_RESET: {
+			// if (!action.payload.isAdmin) return state;
+
+			const currentState = adminCurrentState(true, state);
+			const currentAdminInit = adminInit(true);
+
+			if (!currentAdminInit) return state;
+
+			if (!currentState.actions.requests.orderDelivery.success)
+				return currentState;
+
+			return {
+				...currentState,
+				actions: {
+					...currentState.actions,
+					requests: {
+						...currentState.actions.requests,
+						orderDelivery: {
+							...currentAdminInit.actions.requests.orderDelivery,
+						},
+					},
+				},
+			};
+		}
+		// ADMIN_ORDER_DELIVERY_REQUEST_PENDING
+		// ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS
+		// ADMIN_ORDER_DELIVERY_REQUEST_FAIL
+		// ADMIN_ORDER_DELIVERY_REQUEST_RESET
 
 		case USER_IS_NOT_ADMIN: {
 			return null;

@@ -64,6 +64,7 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 	isAdmin
 		? {
 				usersList: [],
+				ordersList: [],
 				actions: {
 					requests: {
 						deleteUser: {
@@ -96,6 +97,16 @@ export const returnAdminInitialState: TReturnAdminInitialState = (
 							success: false,
 						},
 						updateProduct: {
+							error: '',
+							isLoading: false,
+							success: false,
+						},
+						getOrdersList: {
+							error: '',
+							isLoading: true,
+							// success: false,
+						},
+						orderDelivery: {
 							error: '',
 							isLoading: false,
 							success: false,

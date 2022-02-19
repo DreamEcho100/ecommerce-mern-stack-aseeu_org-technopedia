@@ -40,8 +40,15 @@ import {
 	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
 	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
+	ADMIN_GET_ORDERS_LIST_REQUEST_PENDING,
+	ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS,
+	ADMIN_GET_ORDERS_LIST_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_PENDING,
+	ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
+	ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_RESET,
 } from 'src/lib/core/constants';
-import { IProduct, IUser } from 'src/react-app-env';
+import { IOrder, IProduct, IUser } from 'src/react-app-env';
 import {
 	THandleUserLogin,
 	THandleUserLogout,
@@ -62,6 +69,9 @@ import {
 	TAdminUpdateProductRequestReset,
 	TAdminUpdateSelectedUserInfoRequestReset,
 	TAdminGetUsersListReset,
+	TAdminGetOrdersList,
+	TAdminOrderDeliveredRequest,
+	TAdminOrderDeliveredRequestReset,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { handleActionThrowError } from 'src/lib/core/error';
@@ -625,10 +635,100 @@ export const adminUpdateProductRequestReset: TAdminUpdateProductRequestReset =
 			type: ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
 		});
 	};
-// ADMIN_UPDATE_PRODUCT_REQUEST_PENDING,
-// ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
-// ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
-// ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+
+export const adminGetOrdersList: TAdminGetOrdersList =
+	() => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_GET_ORDERS_LIST_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const ordersList: IOrder[] = await fetch(
+				`${BACK_END_ROOT_URL}/api/orders`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
+
+			// delete userUpdatedInfo.password;
+
+			if (!Array.isArray(ordersList) || !ordersList)
+				handleActionThrowError<typeof ordersList>(ordersList);
+
+			dispatch({
+				type: ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, ordersList },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_GET_ORDERS_LIST_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+
+export const adminOrderDeliveredRequest: TAdminOrderDeliveredRequest =
+	(_id) => async (dispatch, getState) => {
+		try {
+			const {
+				user: { info },
+			} = getState();
+
+			dispatch({
+				type: ADMIN_ORDER_DELIVERY_REQUEST_PENDING,
+				payload: { isAdmin: !!info?.isAdmin },
+			});
+
+			if (!info || !info._id) throw new Error('User info not found!');
+
+			const ordersList: IOrder = await fetch(
+				`${BACK_END_ROOT_URL}/api/orders/${_id}/delivery`,
+				{
+					method: 'PUT',
+					headers: {
+						Authorization: `Bearer ${info.token}`,
+					},
+				}
+			).then((response) => response.json());
+
+			// delete userUpdatedInfo.password;
+
+			if (!ordersList || !ordersList._id)
+				handleActionThrowError<typeof ordersList>(ordersList);
+
+			dispatch({
+				type: ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
+				payload: { isAdmin: !!info?.isAdmin, _id },
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				dispatch({
+					type: ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
+					payload: { error: error.message },
+				});
+				console.error(error.message);
+			}
+		}
+	};
+export const adminOrderDeliveredRequestReset: TAdminOrderDeliveredRequestReset =
+	() => (dispatch) => {
+		dispatch({
+			type: ADMIN_ORDER_DELIVERY_REQUEST_RESET,
+		});
+	};
 
 export const isUserAdmin: TIsUserAdmin = (isAdmin) => (dispatch) => {
 	dispatch({

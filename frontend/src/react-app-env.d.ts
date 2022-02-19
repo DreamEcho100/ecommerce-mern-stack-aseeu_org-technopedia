@@ -14,49 +14,6 @@ export interface IUser extends IBasicUser {
 	token: string;
 }
 
-export interface IAdmin {
-	usersList: IUser[];
-	selectedUser?: IBasicUser;
-	actions: {
-		requests: {
-			deleteUser: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			usersList: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			getSelectedUser: {
-				isLoading: boolean;
-				error: string;
-			};
-			updateSelectedUser: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			deleteProduct: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			createProduct: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			updateProduct: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-		};
-	};
-}
-
 export interface INewProductData {
 	name: string;
 	image: string;
@@ -117,6 +74,60 @@ export interface IOrder {
 	isDelivered: boolean;
 	deliveredAt?: Date;
 	createdAt: TDate;
+}
+
+export interface IAdmin {
+	usersList: IUser[];
+	ordersList: IOrder[];
+	selectedUser?: IBasicUser;
+	actions: {
+		requests: {
+			deleteUser: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			usersList: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			getSelectedUser: {
+				isLoading: boolean;
+				error: string;
+			};
+			updateSelectedUser: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			deleteProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			createProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			updateProduct: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			getOrdersList: {
+				isLoading: boolean;
+				error: string;
+				// success: boolean;
+			};
+			orderDelivery: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+		};
+	};
 }
 
 export interface IOrderPay {

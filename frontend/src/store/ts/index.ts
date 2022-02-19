@@ -52,6 +52,13 @@ import {
 	ADMIN_UPDATE_PRODUCT_REQUEST_SUCCESS,
 	ADMIN_UPDATE_PRODUCT_REQUEST_FAIL,
 	ADMIN_UPDATE_PRODUCT_REQUEST_RESET,
+	ADMIN_GET_ORDERS_LIST_REQUEST_PENDING,
+	ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS,
+	ADMIN_GET_ORDERS_LIST_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_PENDING,
+	ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
+	ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
+	ADMIN_ORDER_DELIVERY_REQUEST_RESET,
 	//
 	PRODUCTS_LIST_REQUEST_FAIL,
 	PRODUCTS_LIST_REQUEST_SUCCESS,
@@ -295,6 +302,35 @@ interface IAdminUpdateProductRequestResetAction {
 	type: typeof ADMIN_UPDATE_PRODUCT_REQUEST_RESET;
 }
 
+interface IAdminGetOrdersListRequestPendingAction {
+	type: typeof ADMIN_GET_ORDERS_LIST_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminGetOrdersListRequestSuccussAction {
+	type: typeof ADMIN_GET_ORDERS_LIST_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; ordersList: IOrder[] };
+}
+interface IAdminGetOrdersListRequestFailAction {
+	type: typeof ADMIN_GET_ORDERS_LIST_REQUEST_FAIL;
+	payload: { error: string };
+}
+
+interface IAdminOrderDeliveryRequestPendingAction {
+	type: typeof ADMIN_ORDER_DELIVERY_REQUEST_PENDING;
+	payload: { isAdmin: boolean };
+}
+interface IAdminOrderDeliveryRequestSuccussAction {
+	type: typeof ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS;
+	payload: { isAdmin: boolean; _id: IOrder['_id'] };
+}
+interface IAdminOrderDeliveryRequestFailAction {
+	type: typeof ADMIN_ORDER_DELIVERY_REQUEST_FAIL;
+	payload: { error: string };
+}
+interface IAdminOrderDeliveryRequestRestAction {
+	type: typeof ADMIN_ORDER_DELIVERY_REQUEST_RESET;
+}
+
 export type IUsersListAction =
 	| IIsUserAdminAction
 	| IAdminUsersListRequestPendingAction
@@ -323,7 +359,14 @@ export type IUsersListAction =
 	| IAdminUpdateProductRequestPendingAction
 	| IAdminUpdateProductRequestSuccussAction
 	| IAdminUpdateProductRequestFailAction
-	| IAdminUpdateProductRequestResetAction;
+	| IAdminUpdateProductRequestResetAction
+	| IAdminGetOrdersListRequestPendingAction
+	| IAdminGetOrdersListRequestSuccussAction
+	| IAdminGetOrdersListRequestFailAction
+	| IAdminOrderDeliveryRequestPendingAction
+	| IAdminOrderDeliveryRequestSuccussAction
+	| IAdminOrderDeliveryRequestFailAction
+	| IAdminOrderDeliveryRequestRestAction;
 
 export type IAdminReducer = Reducer<TStoreAdminState, IUsersListAction>;
 
@@ -338,9 +381,7 @@ export type TAdminGetUsersList = () => (
 	dispatch: IAdminDispatch,
 	getState: () => TRootState
 ) => Promise<void>;
-export type TAdminGetUsersListReset = () => (
-	dispatch: IAdminDispatch
-) => void;
+export type TAdminGetUsersListReset = () => (dispatch: IAdminDispatch) => void;
 export type TAdminDeleteUser = (
 	_id: IUser['_id']
 ) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void>;
@@ -388,6 +429,19 @@ export type TAdminUpdateProduct = (
 	getState: () => TRootState
 ) => Promise<void | IProduct['_id']>;
 export type TAdminUpdateProductRequestReset = () => (
+	dispatch: IAdminDispatch
+) => void;
+export type TAdminGetOrdersList = () => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void>;
+export type TAdminOrderDeliveredRequest = (
+	_id: IOrder['_id']
+) => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void>;
+export type TAdminOrderDeliveredRequestReset = () => (
 	dispatch: IAdminDispatch
 ) => void;
 
