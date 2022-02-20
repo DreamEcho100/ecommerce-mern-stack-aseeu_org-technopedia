@@ -10,6 +10,7 @@ import {
 	ORDER_PAY_REQUEST_SUCCESS,
 	ORDER_PAY_REQUEST_FAIL,
 	ORDER_PAY_RESET,
+	UPDATE_ORDER_DETAILS,
 	ORDERS_LIST_REQUEST_PENDING,
 	ORDERS_LIST_REQUEST_SUCCESS,
 	ORDERS_LIST_REQUEST_FAIL,
@@ -23,10 +24,12 @@ import {
 	TOrdersListReset,
 	TPayOrderAfterPayment,
 	TPayOrderReset,
+	TUpdateOrderDetails,
 } from 'src/store/ts';
 import { BACK_END_ROOT_URL } from 'src/config';
 import { IOrder, IOrderPay } from 'src/react-app-env';
 import { handleActionThrowError } from 'src/lib/core/error';
+import { itemsInObject } from 'src/lib/utils/object';
 
 export const createOrder: ICreateOrder =
 	(orderCreate) => async (dispatch, getState) => {
@@ -165,6 +168,31 @@ export const payOrderReset: TPayOrderReset = () => (dispatch) => {
 		type: ORDER_PAY_RESET,
 	});
 };
+
+export const updateOrderDetails: TUpdateOrderDetails =
+	(dataToUpdate) => (dispatch) => {
+		const { existingItems, atLeastOneItemExist } = itemsInObject(dataToUpdate, [
+			'userRef',
+			'shippingAddress',
+			'paymentMethod',
+			'itemsPrice',
+			'shippingPrice',
+			'taxPrice',
+			'totalPrice',
+			'isPaid',
+			'paidAt',
+			'isDelivered',
+			'deliveredAt',
+			'createdAt',
+		]);
+
+		if (!atLeastOneItemExist) return;
+
+		dispatch({
+			type: UPDATE_ORDER_DETAILS,
+			payload: { dataToUpdate: existingItems as IOrder },
+		});
+	};
 
 export const getOrdersList: TGetOrdersList =
 	() => async (dispatch, getState) => {

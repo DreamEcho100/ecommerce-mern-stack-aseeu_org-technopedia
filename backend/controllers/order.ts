@@ -46,10 +46,10 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
-	const order = await OrderModel.findById(req.params.id).populate(
-		'userRef',
-		'name email'
-	);
+	const order = await OrderModel.findById(req.params.id).populate({
+		path: 'userRef',
+		select: 'name email',
+	});
 
 	if (order) {
 		res.json(order);
@@ -90,7 +90,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 	const orders = await OrderModel.find({
 		userRef: req.user._id as unknown as typeof Schema.Types.ObjectId,
-	});
+	}).populate([{ path: 'userRef', select: 'name email' }]);
 	res.json(orders);
 });
 
@@ -99,7 +99,10 @@ const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
 	try {
-		const orders = await OrderModel.find({});
+		const orders = await OrderModel.find({}).populate({
+			path: 'userRef',
+			select: 'name email',
+		});
 		res.json(orders);
 	} catch (error) {
 		if (error instanceof Error) console.error(`Error: ${error.message}`); // .red.underline;
@@ -119,14 +122,12 @@ const updateOrderToDelivered = asyncHandler(
 			req.params.id,
 			{
 				isDelivered: true,
-				DeliveredAt: Date.now(),
+				deliveredAt: Date.now(),
 			},
 			{
 				new: true,
 			}
 		);
-
-		console.log('orderUpdated', orderUpdated);
 
 		if (orderUpdated?._id) {
 			res.json(orderUpdated);

@@ -85,6 +85,7 @@ import {
 	ORDER_DETAILS_REQUEST_SUCCESS,
 	ORDER_DETAILS_REQUEST_FAIL,
 	ORDER_DETAILS_RESET,
+	UPDATE_ORDER_DETAILS,
 	ORDER_PAY_REQUEST_PENDING,
 	ORDER_PAY_REQUEST_SUCCESS,
 	ORDER_PAY_REQUEST_FAIL,
@@ -437,10 +438,7 @@ export type TAdminGetOrdersList = () => (
 ) => Promise<void>;
 export type TAdminOrderDeliveredRequest = (
 	_id: IOrder['_id']
-) => (
-	dispatch: IAdminDispatch,
-	getState: () => TRootState
-) => Promise<void>;
+) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void | IOrder['_id']>;
 export type TAdminOrderDeliveredRequestReset = () => (
 	dispatch: IAdminDispatch
 ) => void;
@@ -728,12 +726,19 @@ interface IOrderDetailsRequestFailAction {
 interface IOrderDetailsResetAction {
 	type: typeof ORDER_DETAILS_RESET;
 }
+interface IUpdateOrderDetailsAction {
+	type: typeof UPDATE_ORDER_DETAILS;
+	payload: {
+		dataToUpdate: IOrder;
+	};
+}
 
 export type TOrderDetailsAction =
 	| IOrderDetailsRequestAction
 	| IOrderDetailsRequestSuccessAction
 	| IOrderDetailsRequestFailAction
-	| IOrderDetailsResetAction;
+	| IOrderDetailsResetAction
+	| IUpdateOrderDetailsAction;
 
 export type TOrderDetailsReducer = Reducer<
 	IStoreOrderDetailsState,
@@ -750,8 +755,25 @@ export type TOrderDetailsReset = () => (
 	dispatch: TOrderDetailsDispatch
 ) => void;
 
+export type TUpdateOrderDetails = (
+	dataToUpdate: {
+		userRef?: IOrder['userRef'];
+		shippingAddress?: IOrder['shippingAddress'];
+		paymentMethod?: IOrder['paymentMethod'];
+		itemsPrice?: IOrder['itemsPrice'];
+		shippingPrice?: IOrder['shippingPrice'];
+		taxPrice?: IOrder['taxPrice'];
+		totalPrice?: IOrder['totalPrice'];
+		isPaid?: IOrder['isPaid'];
+		paidAt?: IOrder['paidAt'];
+		isDelivered?: IOrder['isDelivered'];
+		deliveredAt?: IOrder['deliveredAt'];
+		createdAt?: IOrder['createdAt'];
+	}
+) => (dispatch: TOrderDetailsDispatch, getState: () => TRootState) => void;
+
 /* ************************ */
-/***** ORDER DETAILS *****/
+/***** ORDER PAY *****/
 /* ************************ */
 export interface IStoreOrderPayState {
 	data?: IOrderPay;

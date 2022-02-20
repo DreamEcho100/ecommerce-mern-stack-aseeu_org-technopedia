@@ -70,9 +70,9 @@ export interface IOrder {
 	taxPrice: string;
 	totalPrice: string;
 	isPaid: boolean;
-	paidAt?: Date;
+	paidAt?: TDate;
 	isDelivered: boolean;
-	deliveredAt?: Date;
+	deliveredAt?: TDate;
 	createdAt: TDate;
 }
 

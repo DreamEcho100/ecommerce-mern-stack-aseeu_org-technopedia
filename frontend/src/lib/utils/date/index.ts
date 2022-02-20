@@ -198,15 +198,20 @@ const addZeroToStringStartIfLessThanLimit: TAddZeroToStringStartIfLessThanLimit 
 	};
 
 export const formatDate: TFormatDate = (providedDate, options) => {
-	const date = providedDate ? new Date(providedDate) : new Date();
+	// const providedDate = providedDate ? new Date(providedDate) : new Date();
 	const result = options
 		? addZeroToStringStartIfLessThanLimit(
-				date.toLocaleDateString(options.locales, options.format),
+				providedDate.toLocaleDateString(options.locales, options.format),
 				2
 		  )
-		: addZeroToStringStartIfLessThanLimit(date.toLocaleDateString(), 2);
+		: addZeroToStringStartIfLessThanLimit(providedDate.toLocaleDateString(), 2);
 
 	const tempArray: string[] = result.split(', ');
+
+	if (tempArray.length === 1)
+		return {
+			date: tempArray[0],
+		};
 	// const tempArray2: string[] = [];
 
 	const fullTimeString: string = tempArray[tempArray.length - 1];

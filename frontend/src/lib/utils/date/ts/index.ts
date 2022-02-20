@@ -49,11 +49,11 @@ export interface TFormatDateOptions {
 	format?: Intl.DateTimeFormatOptions;
 }
 export type TFormatDate = (
-	providedDate: string | number | Date,
+	providedDate: Date,
 	options?: TFormatDateOptions
 ) => {
 	date: string;
-	time: string;
+	time?: string;
 	timeZoneName?: string;
 };
 

@@ -3,7 +3,7 @@ import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { IUser, TDate } from 'src/react-app-env';
+import { IUser } from 'src/react-app-env';
 import { useMainStoreSelector } from 'src/store';
 import { getUserDetails, updateUserProfile } from 'src/store/actions/user';
 import { getOrdersList } from 'src/store/actions/order';
@@ -11,7 +11,7 @@ import { getOrdersList } from 'src/store/actions/order';
 import Message from 'src/components/UI/Message';
 import Loader from 'src/components/UI/Loader';
 import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
-import { formatDate } from 'src/lib/utils/date';
+import { handleFormatDate } from 'src/lib/core/date';
 // import { LinkContainer } from 'react-router-bootstrap';
 
 interface Props {}
@@ -49,11 +49,6 @@ const ProfileScreen = (props: Props): JSX.Element => {
 		} else {
 			dispatch(updateUserProfile({ _id: userInfo._id, name, email, password }));
 		}
-	};
-
-	const handleFormattedDate = (dateHolder: TDate) => {
-		const { date, time } = formatDate(dateHolder);
-		return `${date}, ${time}`;
 	};
 
 	useEffect(() => {
@@ -172,18 +167,18 @@ const ProfileScreen = (props: Props): JSX.Element => {
 							{ordersListData.map((order) => (
 								<tr key={order._id}>
 									<td>{order._id}</td>
-									<td>{handleFormattedDate(order.createdAt)}</td>
+									<td>{handleFormatDate(order.createdAt)}</td>
 									<td>{order.totalPrice}</td>
 									<td>
 										{order.isPaid && order.paidAt ? (
-											handleFormattedDate(order.paidAt)
+											handleFormatDate(order.paidAt)
 										) : (
 											<i className='fas fa-times' style={{ color: 'red' }}></i>
 										)}
 									</td>
 									<td>
 										{order.isDelivered && order.deliveredAt ? (
-											handleFormattedDate(order.deliveredAt)
+											handleFormatDate(order.deliveredAt)
 										) : (
 											<i className='fas fa-times' style={{ color: 'red' }}></i>
 										)}

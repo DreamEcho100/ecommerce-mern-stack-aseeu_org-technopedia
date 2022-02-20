@@ -2,14 +2,7 @@ import { useState, useEffect } from 'react';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-	// Button,
-	Row,
-	Col,
-	ListGroup,
-	Image,
-	Card,
-} from 'react-bootstrap';
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 
 import { BACK_END_ROOT_URL } from 'src/config';
 import { useMainStoreSelector } from 'src/store';
@@ -18,8 +11,14 @@ import {
 	getOrderDetails,
 	payOrderAfterPayment,
 	payOrderReset,
+	updateOrderDetails,
 } from 'src/store/actions/order';
 import { resetCart } from 'src/store/actions/cart';
+import { handleFormatDate } from 'src/lib/core/date';
+import {
+	adminOrderDeliveredRequest,
+	adminOrderDeliveredRequestReset,
+} from 'src/store/actions/user';
 
 import Message from 'src/components/UI/Message';
 import Loader from 'src/components/UI/Loader';
@@ -35,6 +34,14 @@ const OrderScreen = () => {
 	const { isLoading: loadingPay, success: successPay } = orderPay;
 
 	const [sdkReady, setSdkReady] = useState(false);
+
+	const adminData = useMainStoreSelector().admin;
+	const userInfo = useMainStoreSelector().user?.info;
+
+	const updateOrderDelivery = adminData?.actions.requests.orderDelivery;
+	const updateOrderDeliveryIsLoading = updateOrderDelivery?.isLoading;
+	const updateOrderDeliveryError = updateOrderDelivery?.error;
+	const updateOrderDeliverySuccess = updateOrderDelivery?.success;
 
 	const successPaymentHandler = ({
 		id,
@@ -59,6 +66,28 @@ const OrderScreen = () => {
 		dispatch(payOrderAfterPayment(orderId, paymentResult));
 		dispatch(resetCart());
 	};
+
+	const updateOrderDetailsHandler = async () => {
+		if (!orderDetails.data?._id) return;
+
+		// const updatedOrder = await dispatch(
+		// 	adminOrderDeliveredRequest(orderDetails.data._id)
+		// );
+
+		if (await dispatch(adminOrderDeliveredRequest(orderDetails.data._id))) {
+			// if (updatedOrder?._id) {
+			dispatch(
+				updateOrderDetails({
+					isDelivered: true,
+					deliveredAt: Date.now(),
+				})
+			);
+		}
+	};
+
+	useEffect(() => {
+		dispatch(adminOrderDeliveredRequestReset());
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!orderId) return;
@@ -86,6 +115,7 @@ const OrderScreen = () => {
 
 		if (
 			orderId &&
+			// !orderDetails.error &&
 			(!order || !order._id || order._id !== orderId || successPay)
 		) {
 			dispatch(payOrderReset());
@@ -131,7 +161,7 @@ const OrderScreen = () => {
 							</p>
 							{order?.isDelivered ? (
 								<Message variant='success'>
-									Delivered on {order?.deliveredAt}
+									Delivered on: {handleFormatDate(order.deliveredAt)}
 								</Message>
 							) : (
 								<Message variant='danger'>Not Delivered</Message>
@@ -145,7 +175,9 @@ const OrderScreen = () => {
 								{order?.paymentMethod}
 							</p>
 							{order?.isPaid ? (
-								<Message variant='success'>Paid on {order?.paidAt}</Message>
+								<Message variant='success'>
+									Paid on: {handleFormatDate(order.paidAt)}
+								</Message>
 							) : (
 								<Message variant='danger'>Not Paid</Message>
 							)}
@@ -224,6 +256,40 @@ const OrderScreen = () => {
 											onSuccess={successPaymentHandler}
 										/>
 									)}
+								</ListGroup.Item>
+							)}
+
+							{userInfo?.isAdmin &&
+								order &&
+								order.isPaid &&
+								!order.isDelivered && (
+									<ListGroup.Item>
+										{!updateOrderDeliveryIsLoading ? (
+											<>
+												<Button
+													type='button'
+													className='btn btn-block btn-warning'
+													onClick={updateOrderDetailsHandler}
+												>
+													Mark As Delivered
+												</Button>
+												{updateOrderDeliveryError && (
+													<Message variant='danger'>
+														{updateOrderDeliveryError}
+													</Message>
+												)}
+											</>
+										) : (
+											<Loader />
+										)}
+									</ListGroup.Item>
+								)}
+
+							{updateOrderDeliverySuccess && (
+								<ListGroup.Item>
+									<Message variant='success'>
+										Updated order to be delivered successfully!
+									</Message>
 								</ListGroup.Item>
 							)}
 						</ListGroup>

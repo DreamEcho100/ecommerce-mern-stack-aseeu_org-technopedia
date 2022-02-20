@@ -14,6 +14,7 @@ import {
 	ORDERS_LIST_REQUEST_SUCCESS,
 	ORDERS_LIST_REQUEST_FAIL,
 	ORDERS_LIST_RESET,
+	UPDATE_ORDER_DETAILS,
 } from 'src/lib/core/constants';
 import {
 	TOrderDetailsReducer,
@@ -104,6 +105,19 @@ export const orderDetailsReducer: TOrderDetailsReducer = (
 		case ORDER_DETAILS_RESET: {
 			return orderDetailsInit();
 		}
+
+		case UPDATE_ORDER_DETAILS: {
+			const { dataToUpdate } = action.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					...dataToUpdate,
+				},
+			};
+		}
+
 		default: {
 			return state;
 		}

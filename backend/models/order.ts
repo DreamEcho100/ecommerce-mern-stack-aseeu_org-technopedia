@@ -37,7 +37,7 @@ interface IOrder {
 	isPaid: boolean;
 	paidAt?: TDate;
 	isDelivered: boolean;
-	DeliveredAt?: TDate;
+	deliveredAt?: TDate;
 }
 interface IOrderDocument extends IOrder, Document {}
 interface IOrderModel extends Model<IOrderDocument> {}
@@ -111,7 +111,7 @@ const orderSchema: Schema<IOrderDocument> = new Schema(
 			required: true,
 			default: false,
 		},
-		DeliveredAt: {
+		deliveredAt: {
 			type: Date,
 		},
 	},

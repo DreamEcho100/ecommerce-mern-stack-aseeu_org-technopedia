@@ -713,6 +713,8 @@ export const adminOrderDeliveredRequest: TAdminOrderDeliveredRequest =
 				type: ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
 				payload: { isAdmin: !!info?.isAdmin, _id },
 			});
+
+			return _id;
 		} catch (error) {
 			if (error instanceof Error) {
 				dispatch({

@@ -70,7 +70,6 @@ const protect = asyncHandler(
 );
 
 const admin = (req: Request, res: Response, next: NextFunction) => {
-	console.log('req?.user', req?.user);
 	if (req?.user?.isAdmin) {
 		next();
 	} else {
