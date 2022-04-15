@@ -65,7 +65,6 @@ const protect = asyncHandler(
 			throw new Error(infoHolder.message);
 		}
 
-		console.log('req.headers.authorization', req.headers.authorization);
 		next();
 	}
 );
