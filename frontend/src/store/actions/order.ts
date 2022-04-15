@@ -15,7 +15,7 @@ import {
 	ORDERS_LIST_REQUEST_SUCCESS,
 	ORDERS_LIST_REQUEST_FAIL,
 	ORDERS_LIST_RESET,
-} from 'src/lib/core/constants';
+} from '@src/lib/core/constants';
 import {
 	ICreateOrder,
 	TGetOrderDetails,
@@ -25,11 +25,11 @@ import {
 	TPayOrderAfterPayment,
 	TPayOrderReset,
 	TUpdateOrderDetails,
-} from 'src/store/ts';
-import { BACK_END_ROOT_URL } from 'src/config';
-import { IOrder, IOrderPay } from 'src/react-app-env';
-import { handleActionThrowError } from 'src/lib/core/error';
-import { itemsInObject } from 'src/lib/utils/object';
+} from '@src/store/ts';
+import { BACK_END_ROOT_URL } from '@src/config';
+import { IOrder, IOrderPay } from '@src/vite-env';
+import { handleActionThrowError } from '@src/lib/core/error';
+import { itemsInObject } from '@src/lib/utils/object';
 
 export const createOrder: ICreateOrder =
 	(orderCreate) => async (dispatch, getState) => {

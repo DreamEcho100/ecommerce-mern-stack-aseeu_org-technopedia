@@ -10,7 +10,7 @@ import {
 	IOrderPay,
 	IAdmin,
 	INewProductData,
-} from 'src/react-app-env';
+} from '@src/vite-env';
 import {
 	USER_LOGIN_REQUEST_PENDING,
 	USER_LOGIN_REQUEST_SUCCESS,
@@ -97,8 +97,8 @@ import {
 	USER_IS_NOT_ADMIN,
 	ADMIN_UPDATE_SELECTED_USER_REQUEST_RESET,
 	ADMIN_USERS_LIST_REQUEST_RESET,
-} from 'src/lib/core/constants';
-import { TRootState } from 'src/store';
+} from '@src/lib/core/constants';
+import { TRootState } from '@src/store';
 
 /* ************************ */
 /***** USER *****/
@@ -438,7 +438,10 @@ export type TAdminGetOrdersList = () => (
 ) => Promise<void>;
 export type TAdminOrderDeliveredRequest = (
 	_id: IOrder['_id']
-) => (dispatch: IAdminDispatch, getState: () => TRootState) => Promise<void | IOrder['_id']>;
+) => (
+	dispatch: IAdminDispatch,
+	getState: () => TRootState
+) => Promise<void | IOrder['_id']>;
 export type TAdminOrderDeliveredRequestReset = () => (
 	dispatch: IAdminDispatch
 ) => void;
@@ -755,22 +758,20 @@ export type TOrderDetailsReset = () => (
 	dispatch: TOrderDetailsDispatch
 ) => void;
 
-export type TUpdateOrderDetails = (
-	dataToUpdate: {
-		userRef?: IOrder['userRef'];
-		shippingAddress?: IOrder['shippingAddress'];
-		paymentMethod?: IOrder['paymentMethod'];
-		itemsPrice?: IOrder['itemsPrice'];
-		shippingPrice?: IOrder['shippingPrice'];
-		taxPrice?: IOrder['taxPrice'];
-		totalPrice?: IOrder['totalPrice'];
-		isPaid?: IOrder['isPaid'];
-		paidAt?: IOrder['paidAt'];
-		isDelivered?: IOrder['isDelivered'];
-		deliveredAt?: IOrder['deliveredAt'];
-		createdAt?: IOrder['createdAt'];
-	}
-) => (dispatch: TOrderDetailsDispatch, getState: () => TRootState) => void;
+export type TUpdateOrderDetails = (dataToUpdate: {
+	userRef?: IOrder['userRef'];
+	shippingAddress?: IOrder['shippingAddress'];
+	paymentMethod?: IOrder['paymentMethod'];
+	itemsPrice?: IOrder['itemsPrice'];
+	shippingPrice?: IOrder['shippingPrice'];
+	taxPrice?: IOrder['taxPrice'];
+	totalPrice?: IOrder['totalPrice'];
+	isPaid?: IOrder['isPaid'];
+	paidAt?: IOrder['paidAt'];
+	isDelivered?: IOrder['isDelivered'];
+	deliveredAt?: IOrder['deliveredAt'];
+	createdAt?: IOrder['createdAt'];
+}) => (dispatch: TOrderDetailsDispatch, getState: () => TRootState) => void;
 
 /* ************************ */
 /***** ORDER PAY *****/

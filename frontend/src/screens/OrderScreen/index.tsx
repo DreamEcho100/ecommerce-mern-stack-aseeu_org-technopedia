@@ -4,24 +4,24 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 
-import { BACK_END_ROOT_URL } from 'src/config';
-import { useMainStoreSelector } from 'src/store';
-import { addDecimals } from 'src/lib/core/cart';
+import { BACK_END_ROOT_URL } from '@src/config';
+import { useMainStoreSelector } from '@src/store';
+import { addDecimals } from '@src/lib/core/cart';
 import {
 	getOrderDetails,
 	payOrderAfterPayment,
 	payOrderReset,
 	updateOrderDetails,
-} from 'src/store/actions/order';
-import { resetCart } from 'src/store/actions/cart';
-import { handleFormatDate } from 'src/lib/core/date';
+} from '@src/store/actions/order';
+import { resetCart } from '@src/store/actions/cart';
+import { handleFormatDate } from '@src/lib/core/date';
 import {
 	adminOrderDeliveredRequest,
 	adminOrderDeliveredRequestReset,
-} from 'src/store/actions/user';
+} from '@src/store/actions/user';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
 
 const OrderScreen = () => {
 	const orderId = useParams().id;

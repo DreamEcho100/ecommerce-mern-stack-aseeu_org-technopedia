@@ -3,19 +3,20 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Table, Button } from 'react-bootstrap';
 
-import { useMainStoreSelector } from 'src/store';
+import { IBasicUser } from '@src/vite-env';
+import { useMainStoreSelector } from '@src/store';
 
 // import { LinkContainer } from 'react-router-bootstrap'
-// import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+// import CustomLinkContainer from '@src/components/UI/CustomLinkContainer';
 import {
 	adminDeleteUser,
 	adminGetUsersList,
 	adminGetUsersListReset,
-} from 'src/store/actions/user';
+} from '@src/store/actions/user';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import CustomLinkContainer from '@src/components/UI/CustomLinkContainer';
 
 const UsersListScreen = () => {
 	const navigate = useNavigate();
@@ -29,7 +30,7 @@ const UsersListScreen = () => {
 	const usersList = adminData?.usersList;
 	const usersListRequest = adminData?.actions.requests.usersList;
 
-	const deleteHandler = (_id) => {
+	const deleteHandler = (_id: string) => {
 		if (window.confirm('Are you sure about deleting this user?')) {
 			dispatch(adminDeleteUser(_id));
 		}
@@ -47,7 +48,7 @@ const UsersListScreen = () => {
 		}
 	}, [dispatch, navigate, userInfo?.isAdmin]);
 
-	if (!adminData) {
+	if (!adminData || !usersListRequest || !usersList) {
 		navigate('/');
 		return <></>;
 	}
@@ -70,7 +71,7 @@ const UsersListScreen = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{usersList.map((user) => (
+						{usersList.map((user: IBasicUser) => (
 							<tr key={user._id}>
 								<td>{user._id}</td>
 								<td>{user.name}</td>

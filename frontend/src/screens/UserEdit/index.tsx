@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
-import { useMainStoreSelector } from 'src/store';
+import { useMainStoreSelector } from '@src/store';
 import {
 	adminGetSelectedUserInfo,
 	adminUpdateSelectedUserInfo,
 	adminUpdateSelectedUserInfoRequestReset,
-} from 'src/store/actions/user';
+} from '@src/store/actions/user';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import FormContainer from 'src/components/UI/FormContainer';
-import { IUser } from 'src/react-app-env';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import FormContainer from '@src/components/UI/FormContainer';
+import { IUser } from '@src/vite-env';
 
 type Props = {};
 

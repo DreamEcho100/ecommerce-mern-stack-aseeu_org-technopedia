@@ -13,19 +13,19 @@ import { useDispatch } from 'react-redux';
 import {
 	handleProductDetails,
 	updateProductDetails,
-} from 'src/store/actions/productDetails';
-import { useMainStoreSelector } from 'src/store';
+} from '@src/store/actions/productDetails';
+import { useMainStoreSelector } from '@src/store';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import FormContainer from 'src/components/UI/FormContainer';
-import { IProduct } from 'src/react-app-env';
-import { updateProductToList } from 'src/store/actions/productsList';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import FormContainer from '@src/components/UI/FormContainer';
+import { IProduct } from '@src/vite-env';
+import { updateProductToList } from '@src/store/actions/productsList';
 import {
 	adminUpdateProduct,
 	adminUpdateProductRequestReset,
-} from 'src/store/actions/user';
-import { BACK_END_ROOT_URL } from 'src/config';
+} from '@src/store/actions/user';
+import { BACK_END_ROOT_URL } from '@src/config';
 
 type Props = {};
 

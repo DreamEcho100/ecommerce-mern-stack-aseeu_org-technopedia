@@ -2,15 +2,15 @@ import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { useMainStoreSelector } from 'src/store';
+import { useMainStoreSelector } from '@src/store';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { IUser } from 'src/react-app-env';
-import { handleUserLogin } from 'src/store/actions/user';
+import { IUser } from '@src/vite-env';
+import { handleUserLogin } from '@src/store/actions/user';
 
-import Message from 'src/components/UI//Message';
-import Loader from 'src/components/UI//Loader';
-import FormContainer from 'src/components/UI//FormContainer';
+import Message from '@src/components/UI//Message';
+import Loader from '@src/components/UI//Loader';
+import FormContainer from '@src/components/UI//FormContainer';
 
 const LoginScreen = (): JSX.Element => {
 	const navigate = useNavigate();

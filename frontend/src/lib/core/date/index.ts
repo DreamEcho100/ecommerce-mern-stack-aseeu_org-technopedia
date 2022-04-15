@@ -1,5 +1,5 @@
-import { TDate } from 'src/react-app-env';
-import { formatDate } from 'src/lib/utils/date';
+import { TDate } from '@src/vite-env';
+import { formatDate } from '@src/lib/utils/date';
 
 export const handleFormatDate = (dateHolder?: TDate) => {
 	if (!dateHolder) return '??';

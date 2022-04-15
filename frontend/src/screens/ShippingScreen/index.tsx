@@ -3,11 +3,11 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useMainStoreSelector } from 'src/store';
-import { saveShippingAddress } from 'src/store/actions/cart';
+import { useMainStoreSelector } from '@src/store';
+import { saveShippingAddress } from '@src/store/actions/cart';
 
-import FormContainer from 'src/components/UI/FormContainer';
-import CheckoutSteps from 'src/components/UI/CheckoutSteps';
+import FormContainer from '@src/components/UI/FormContainer';
+import CheckoutSteps from '@src/components/UI/CheckoutSteps';
 
 interface Props {}
 

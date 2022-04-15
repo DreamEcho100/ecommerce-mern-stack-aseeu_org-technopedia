@@ -1,4 +1,4 @@
-import { ICartItem } from 'src/react-app-env';
+import { ICartItem } from '@src/vite-env';
 
 export const addDecimals = (num: number): string => {
 	return (Math.round(num * 100) / 100).toFixed(2);

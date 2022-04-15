@@ -5,16 +5,16 @@ import {
 	DELETE_PRODUCT_FROM_LIST,
 	ADD_PRODUCT_TO_LIST,
 	UPDATE_PRODUCT_IN_LIST,
-} from 'src/lib/core/constants';
-import { TProducts } from 'src/react-app-env';
+} from '@src/lib/core/constants';
+import { TProducts } from '@src/vite-env';
 import {
 	TAddProductToList,
 	TDeleteProductFromList,
 	THandleListProducts,
 	TUpdateProductToList,
 	// TUpdateProductFromList
-} from 'src/store/ts';
-import { BACK_END_ROOT_URL } from 'src/config';
+} from '@src/store/ts';
+import { BACK_END_ROOT_URL } from '@src/config';
 
 export const handleListProducts: THandleListProducts =
 	() => async (dispatch) => {

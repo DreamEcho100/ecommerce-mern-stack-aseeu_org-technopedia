@@ -15,19 +15,19 @@ import {
 	ORDERS_LIST_REQUEST_FAIL,
 	ORDERS_LIST_RESET,
 	UPDATE_ORDER_DETAILS,
-} from 'src/lib/core/constants';
+} from '@src/lib/core/constants';
 import {
 	TOrderDetailsReducer,
 	TStoreOrderCreateCartItemsReducer,
 	TOrderPayReducer,
 	TOrdersListReducer,
-} from 'src/store/ts';
+} from '@src/store/ts';
 import {
 	returnOrderCreateInitialState as orderCreateInit,
 	returnOrderDetailsInitialState as orderDetailsInit,
 	returnOrderPayInitialState as orderPayInit,
 	returnOrdersListInitialState as ordersListInit,
-} from 'src/store/initialState';
+} from '@src/store/initialState';
 
 export const orderCreateReducer: TStoreOrderCreateCartItemsReducer = (
 	state = orderCreateInit(),

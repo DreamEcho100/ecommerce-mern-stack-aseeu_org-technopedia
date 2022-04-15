@@ -1,7 +1,7 @@
 // import React from 'react';
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { useMainStoreSelector } from 'src/store';
+import { useMainStoreSelector } from '@src/store';
 import { Link } from 'react-router-dom';
 import {
 	Container,
@@ -14,14 +14,14 @@ import {
 	Form,
 } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { handleProductDetails } from 'src/store/actions/productDetails';
+import { handleProductDetails } from '@src/store/actions/productDetails';
 // import { useHistory } from 'react-router-dom';
 
 import classes from './styles.module.css';
 
-import Rating from 'src/components/UI/Rating';
-import Loader from 'src/components/UI/Loader';
-import Message from 'src/components/UI/Message';
+import Rating from '@src/components/UI/Rating';
+import Loader from '@src/components/UI/Loader';
+import Message from '@src/components/UI/Message';
 
 interface Props {}
 

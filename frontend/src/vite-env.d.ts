@@ -1,4 +1,4 @@
-/// <reference types="react-scripts" />
+/// <reference types="vite/client" />
 
 export type TDate = string | number | Date;
 

@@ -10,8 +10,8 @@ import { useDispatch } from 'react-redux';
 
 import './App.css';
 
-import { isUserAdmin } from 'src/store/actions/user';
-import { useMainStoreSelector } from 'src/store';
+import { isUserAdmin } from '@src/store/actions/user';
+import { useMainStoreSelector } from '@src/store';
 
 import MainLayout from './components/Layout/MainLayout';
 import LoginScreen from './screens/LoginScreen';

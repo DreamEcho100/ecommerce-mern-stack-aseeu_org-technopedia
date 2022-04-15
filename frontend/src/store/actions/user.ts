@@ -1,4 +1,4 @@
-import ls from 'src/lib/utils/storage/localStorage';
+import ls from '@src/lib/utils/storage/localStorage';
 import {
 	USER_LOGIN_REQUEST_PENDING,
 	USER_LOGIN_REQUEST_SUCCESS,
@@ -47,8 +47,8 @@ import {
 	ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
 	ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
 	ADMIN_ORDER_DELIVERY_REQUEST_RESET,
-} from 'src/lib/core/constants';
-import { IOrder, IProduct, IUser } from 'src/react-app-env';
+} from '@src/lib/core/constants';
+import { IOrder, IProduct, IUser } from '@src/vite-env';
 import {
 	THandleUserLogin,
 	THandleUserLogout,
@@ -72,9 +72,9 @@ import {
 	TAdminGetOrdersList,
 	TAdminOrderDeliveredRequest,
 	TAdminOrderDeliveredRequestReset,
-} from 'src/store/ts';
-import { BACK_END_ROOT_URL } from 'src/config';
-import { handleActionThrowError } from 'src/lib/core/error';
+} from '@src/store/ts';
+import { BACK_END_ROOT_URL } from '@src/config';
+import { handleActionThrowError } from '@src/lib/core/error';
 
 export const handleUserLogin: THandleUserLogin =
 	(email, password) => async (dispatch) => {

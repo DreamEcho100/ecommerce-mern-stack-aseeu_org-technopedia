@@ -3,10 +3,10 @@ import {
 	PRODUCT_DETAILS_REQUEST_SUCCESS,
 	PRODUCT_DETAILS_REQUEST_PENDING,
 	UPDATE_PRODUCT_DETAILS,
-} from 'src/lib/core/constants';
-import { IProduct } from 'src/react-app-env';
-import { THandleProductDetails, TUpdateProductDetails } from 'src/store/ts';
-import { BACK_END_ROOT_URL } from 'src/config';
+} from '@src/lib/core/constants';
+import { IProduct } from '@src/vite-env';
+import { THandleProductDetails, TUpdateProductDetails } from '@src/store/ts';
+import { BACK_END_ROOT_URL } from '@src/config';
 
 export const handleProductDetails: THandleProductDetails =
 	(id) => async (dispatch) => {

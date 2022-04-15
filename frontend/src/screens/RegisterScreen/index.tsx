@@ -3,13 +3,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
-import { IUser } from 'src/react-app-env';
-import { handleUserRegister } from 'src/store/actions/user';
-import { useMainStoreSelector } from 'src/store';
+import { IUser } from '@src/vite-env';
+import { handleUserRegister } from '@src/store/actions/user';
+import { useMainStoreSelector } from '@src/store';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import FormContainer from 'src/components/UI/FormContainer';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import FormContainer from '@src/components/UI/FormContainer';
 
 interface Props {}
 

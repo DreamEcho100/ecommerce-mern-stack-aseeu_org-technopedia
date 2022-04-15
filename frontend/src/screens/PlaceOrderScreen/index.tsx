@@ -5,12 +5,12 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { useMainStoreSelector } from 'src/store';
-import { createOrder } from 'src/store/actions/order';
-import { resetCart } from 'src/store/actions/cart';
+import { useMainStoreSelector } from '@src/store';
+import { createOrder } from '@src/store/actions/order';
+import { resetCart } from '@src/store/actions/cart';
 
-import Message from 'src/components/UI/Message';
-import CheckoutSteps from 'src/components/UI/CheckoutSteps';
+import Message from '@src/components/UI/Message';
+import CheckoutSteps from '@src/components/UI/CheckoutSteps';
 
 const PlaceOrderScreen = () => {
 	const dispatch = useDispatch();

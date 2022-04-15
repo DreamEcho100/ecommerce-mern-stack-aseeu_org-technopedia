@@ -4,13 +4,13 @@ import {
 	CART_SAVE_PAYMENT_METHOD,
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_RESET,
-} from 'src/lib/core/constants';
-import { TCartReducer } from 'src/store/ts';
+} from '@src/lib/core/constants';
+import { TCartReducer } from '@src/store/ts';
 import {
 	handleReturnCartReducerInitialState,
 	returnCartInitialState as cartInit,
-} from 'src/store/initialState';
-import { handleCartItemsCalcs } from 'src/lib/core/cart';
+} from '@src/store/initialState';
+import { handleCartItemsCalcs } from '@src/lib/core/cart';
 
 const cartReducer: TCartReducer = (
 	state = handleReturnCartReducerInitialState(),

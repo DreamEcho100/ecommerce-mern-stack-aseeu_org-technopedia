@@ -1,4 +1,4 @@
-import { TProducts } from './react-app-env';
+import { TProducts } from './vite-env';
 
 const products: TProducts = [
 	{

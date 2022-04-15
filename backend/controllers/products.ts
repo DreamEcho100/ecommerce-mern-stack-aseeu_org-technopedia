@@ -1,3 +1,4 @@
+import { Schema } from 'mongoose';
 import { Request, Response } from 'express';
 import ProductModel from '../models/product';
 import asyncHandler from 'express-async-handler';
@@ -165,7 +166,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.image = image;
 		product.brand = brand;
 		product.category = category;
-		product.countInStock = countInStock;
+		product.countInStock = countInStock || 0;
+		product.userRef = req.user._id as unknown as typeof Schema.Types.ObjectId;
 
 		const updatedProduct = await product.save();
 		res.json(updatedProduct);

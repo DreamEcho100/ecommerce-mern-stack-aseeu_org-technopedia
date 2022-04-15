@@ -3,9 +3,9 @@ import {
 	PRODUCT_DETAILS_REQUEST_SUCCESS,
 	PRODUCT_DETAILS_REQUEST_FAIL,
 	UPDATE_PRODUCT_DETAILS,
-} from 'src/lib/core/constants';
-import { TStoreProductDetailsReducer } from 'src/store/ts';
-import { returnProductDetailsInitialState } from 'src/store/initialState';
+} from '@src/lib/core/constants';
+import { TStoreProductDetailsReducer } from '@src/store/ts';
+import { returnProductDetailsInitialState } from '@src/store/initialState';
 
 const productDetailsInit = returnProductDetailsInitialState;
 

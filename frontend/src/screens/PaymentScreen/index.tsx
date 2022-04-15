@@ -3,12 +3,12 @@ import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { savePaymentMethod } from 'src/store/actions/cart';
-import { useMainStoreSelector } from 'src/store';
-import { TPaymentMethod } from 'src/react-app-env';
+import { savePaymentMethod } from '@src/store/actions/cart';
+import { useMainStoreSelector } from '@src/store';
+import { TPaymentMethod } from '@src/vite-env';
 
-import FormContainer from 'src/components/UI/FormContainer';
-import CheckoutSteps from 'src/components/UI/CheckoutSteps';
+import FormContainer from '@src/components/UI/FormContainer';
+import CheckoutSteps from '@src/components/UI/CheckoutSteps';
 
 const PaymentScreen = () => {
 	const navigate = useNavigate();

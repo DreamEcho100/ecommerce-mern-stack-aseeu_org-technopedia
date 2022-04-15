@@ -48,12 +48,10 @@ app.use(
 
 // const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(process.cwd(), '/frontend/build')));
+	app.use(express.static(path.join(process.cwd(), '/frontend/dist')));
 
 	app.get('*', (req: Request, res: Response) => {
-		res.sendFile(
-			path.resolve(process.cwd(), 'frontend', 'build', 'index.html')
-		);
+		res.sendFile(path.resolve(process.cwd(), 'frontend', 'dist', 'index.html'));
 	});
 } else {
 	app.get('/', (req: Request, res: Response) => {

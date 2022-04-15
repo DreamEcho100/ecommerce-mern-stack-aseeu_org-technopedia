@@ -4,18 +4,18 @@ import {
 	CART_SAVE_SHIPPING_ADDRESS,
 	CART_SAVE_PAYMENT_METHOD,
 	CART_RESET,
-} from 'src/lib/core/constants';
+} from '@src/lib/core/constants';
 import {
 	IResetCart,
 	ISavePaymentMethod,
 	TAddToCart,
 	TRemoveFromCart,
 	TSaveShippingAddress,
-} from 'src/store/ts';
-import ls from 'src/lib/utils/storage/localStorage';
-import { BACK_END_ROOT_URL } from 'src/config';
-import { IProduct } from 'src/react-app-env';
-import { returnCartInitialState } from 'src/store/initialState';
+} from '@src/store/ts';
+import ls from '@src/lib/utils/storage/localStorage';
+import { BACK_END_ROOT_URL } from '@src/config';
+import { IProduct } from '@src/vite-env';
+import { returnCartInitialState } from '@src/store/initialState';
 
 export const addToCart: TAddToCart =
 	(_id, quantity) => async (dispatch, getState) => {

@@ -2,7 +2,7 @@
 import { /* Link */ NavLink } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 
-import { IProduct } from 'src/react-app-env';
+import { IProduct } from '@src/vite-env';
 import Rating from '../Rating';
 
 interface Props {

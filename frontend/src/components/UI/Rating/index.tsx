@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProduct } from 'src/react-app-env';
+import { IProduct } from '@src/vite-env';
 
 interface Props {
 	value: IProduct['rating'];

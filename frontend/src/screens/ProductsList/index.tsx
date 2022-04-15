@@ -1,25 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+import CustomLinkContainer from '@src/components/UI/CustomLinkContainer';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
-import { useMainStoreSelector } from 'src/store';
+import { useMainStoreSelector } from '@src/store';
 import {
 	addProductToList,
 	deleteProductFromList,
 	handleListProducts,
-} from 'src/store/actions/productsList';
+} from '@src/store/actions/productsList';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
 import {
 	adminCreateProduct,
 	adminCreateProductRequestReset,
 	adminDeleteProduct,
 	adminDeleteProductRequestReset,
-} from 'src/store/actions/user';
-import { INewProductData, IProduct } from 'src/react-app-env';
+} from '@src/store/actions/user';
+import { INewProductData, IProduct } from '@src/vite-env';
 
 type Props = {};
 

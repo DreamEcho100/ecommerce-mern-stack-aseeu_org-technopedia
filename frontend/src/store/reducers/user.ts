@@ -48,14 +48,14 @@ import {
 	ADMIN_ORDER_DELIVERY_REQUEST_SUCCESS,
 	ADMIN_ORDER_DELIVERY_REQUEST_FAIL,
 	ADMIN_ORDER_DELIVERY_REQUEST_RESET,
-} from 'src/lib/core/constants';
-import { IAdminReducer, TStoreAdminState, IUserReducer } from 'src/store/ts';
+} from '@src/lib/core/constants';
+import { IAdminReducer, TStoreAdminState, IUserReducer } from '@src/store/ts';
 import {
 	returnUserInitialState as userInit,
 	returnAdminInitialState as adminInit,
 	handleReturningUserReducerInitialState,
-} from 'src/store/initialState';
-import { IAdmin, IBasicUser } from 'src/react-app-env';
+} from '@src/store/initialState';
+import { IAdmin, IBasicUser } from '@src/vite-env';
 
 export const userReducer: IUserReducer = (
 	state = handleReturningUserReducerInitialState(),

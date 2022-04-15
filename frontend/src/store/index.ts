@@ -5,7 +5,7 @@ import { createTrackedSelector } from 'react-tracked';
 import { useSelector } from 'react-redux';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
-import reducers from 'src/store/reducers';
+import reducers from '@src/store/reducers';
 import storeInitialState from './initialState';
 
 const rootReducer = combineReducers(reducers);

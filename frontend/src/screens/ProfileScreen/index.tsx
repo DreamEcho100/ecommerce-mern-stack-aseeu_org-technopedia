@@ -3,15 +3,15 @@ import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { IUser } from 'src/react-app-env';
-import { useMainStoreSelector } from 'src/store';
-import { getUserDetails, updateUserProfile } from 'src/store/actions/user';
-import { getOrdersList } from 'src/store/actions/order';
+import { IUser } from '@src/vite-env';
+import { useMainStoreSelector } from '@src/store';
+import { getUserDetails, updateUserProfile } from '@src/store/actions/user';
+import { getOrdersList } from '@src/store/actions/order';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
-import { handleFormatDate } from 'src/lib/core/date';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import CustomLinkContainer from '@src/components/UI/CustomLinkContainer';
+import { handleFormatDate } from '@src/lib/core/date';
 // import { LinkContainer } from 'react-router-bootstrap';
 
 interface Props {}

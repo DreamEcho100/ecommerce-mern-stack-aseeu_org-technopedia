@@ -4,9 +4,9 @@ import {
 	PRODUCTS_LIST_REQUEST_PENDING,
 	DELETE_PRODUCT_FROM_LIST,
 	ADD_PRODUCT_TO_LIST,
-} from 'src/lib/core/constants';
-import { TStoreProductsListReducer } from 'src/store/ts';
-import { returnProductListInitialState } from 'src/store/initialState';
+} from '@src/lib/core/constants';
+import { TStoreProductsListReducer } from '@src/store/ts';
+import { returnProductListInitialState } from '@src/store/initialState';
 
 const productListReducer: TStoreProductsListReducer = (
 	state = returnProductListInitialState(),

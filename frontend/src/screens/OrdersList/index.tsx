@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Table, Button } from 'react-bootstrap';
 
-import { useMainStoreSelector } from 'src/store';
-import { adminGetOrdersList } from 'src/store/actions/user';
-import { handleFormatDate } from 'src/lib/core/date';
+import { useMainStoreSelector } from '@src/store';
+import { adminGetOrdersList } from '@src/store/actions/user';
+import { handleFormatDate } from '@src/lib/core/date';
 
-import Message from 'src/components/UI/Message';
-import Loader from 'src/components/UI/Loader';
-import CustomLinkContainer from 'src/components/UI/CustomLinkContainer';
+import Message from '@src/components/UI/Message';
+import Loader from '@src/components/UI/Loader';
+import CustomLinkContainer from '@src/components/UI/CustomLinkContainer';
 
 const OrdersListScreen = () => {
 	const navigate = useNavigate();
