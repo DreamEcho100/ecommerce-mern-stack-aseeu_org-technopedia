@@ -5,9 +5,11 @@ import asyncHandler from 'express-async-handler';
 import { itemsInObject } from '../utils/Object';
 // import expressAsyncHandler from '../utils/core/express-async-handler';
 
-// @desc    Get products
-// @route   GET /api/products
-// @access  Public
+/**
+ * @desc    Get products
+ * @route   `GET` `/api/products`
+ * @access  Public
+ */
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
 	try {
 		const products = await ProductModel.find({});
@@ -21,9 +23,11 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Get product by id
-// @route   GET /api/products/:id
-// @access  Public
+/**
+ * @desc    Get product by id
+ * @route   `GET` `/api/products/:id`
+ * @access  Public
+ */
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
 	try {
 		const product = await ProductModel.findById(req.params.id);
@@ -42,9 +46,11 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Private/Admin
+/**
+ * @desc    Delete a product
+ * @route   `DELETE` `/api/products/:id`
+ * @access  Private/Admin
+ */
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 	const product = await ProductModel.findByIdAndDelete(req.params.id);
 
@@ -56,9 +62,11 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
+/**
+ * @desc    Create a product
+ * @route   `POST` `/api/products`
+ * @access  Private/Admin
+ */
 const createProduct = asyncHandler(async (req: Request, res: Response) => {
 	const productData = {} as {
 		name: string;
@@ -109,9 +117,11 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
+/**
+ * @desc    Update a product
+ * @route   `PUT` `/api/products/:id`
+ * @access  Private/Admin
+ */
 const updateProduct = asyncHandler(async (req, res) => {
 	const { existingItems, atLeastOneItemExist } = itemsInObject<{
 		name?: string;

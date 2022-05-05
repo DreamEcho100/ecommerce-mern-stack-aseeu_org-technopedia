@@ -7,9 +7,11 @@ import asyncHandler from 'express-async-handler';
 import hashPassword from '../utils/hashPassword';
 // import expressAsyncHandler from '../utils/core/express-async-handler';
 
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
+/**
+ * @desc    Auth user & get token
+ * @route   `POST` `/api/users/login`
+ * @access  Public
+ */
 const authUser = asyncHandler(async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
@@ -29,9 +31,11 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Register a new user
-// @route   POST /api/users
-// @access  Public
+/**
+ * @desc    Register a new user
+ * @route   `POST` `/api/users`
+ * @access  Public
+ */
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
 	const { name, email, password } = req.body;
 
@@ -62,9 +66,11 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
+/**
+ * @desc    Get user profile
+ * @route   `GET` `/api/users/profile`
+ * @access  Private
+ */
 const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
 	// if (!req.user || !req.user._id) throw new Error('User not found');
 
@@ -83,9 +89,11 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
+/**
+ * @desc    Update user profile
+ * @route   `PUT` `/api/users/profile`
+ * @access  Private
+ */
 const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 	// res.send('successful calling')
 	// if (!req.user || !req.user._id) throw new Error('User not found');
@@ -159,17 +167,21 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private
+/**
+ * @desc    Get all users
+ * @route   `GET` `/api/users`
+ * @access  Private
+ */
 const getUsers = asyncHandler(async (req: Request, res: Response) => {
 	const users = await UserModel.find({});
 	res.json(users);
 });
 
-// @desc    Admin delete user with id
-// @route   DELETE /api/users/:id
-// @access  Private/admin
+/**
+ * @desc    Admin delete user with id
+ * @route   `DELETE` `/api/users/:id`
+ * @access  Private/admin
+ */
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 	// const user = await UserModel.findById(req.params.id);
 	// // findByIdAndDelete vs findByIdAndRemove
@@ -188,9 +200,11 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 	} else res.json({ succuss: true });
 });
 
-// @desc    Get user by ID
-// @route   GET /api/users/:id
-// @access  Private/Admin
+/**
+ * @desc    Get user by ID
+ * @route   `GET` `/api/users/:id`
+ * @access  Private/Admin
+ */
 const getUserById = asyncHandler(async (req, res) => {
 	const user = await UserModel.findById(req.params.id).select('-password');
 
@@ -202,9 +216,11 @@ const getUserById = asyncHandler(async (req, res) => {
 	}
 });
 
-// @desc    Update user
-// @route   PUT /api/users/:id
-// @access  Private/Admin
+/**
+ * @desc    Update user
+ * @route   `PUT` `/api/users/:id`
+ * @access  Private/Admin
+ */
 const updateUser = asyncHandler(async (req, res) => {
 	// const user = await UserModel.findById(req.params.id);
 
