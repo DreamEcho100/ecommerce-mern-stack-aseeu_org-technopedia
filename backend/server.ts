@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import helmet from 'helmet';
 import cors from 'cors';
 import path from 'path';
 // import colors from 'colors';
@@ -30,6 +31,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(helmet());
 app.use(express.json());
 
 app.use('/api/products', productsRoutes);

@@ -206,7 +206,7 @@ body.dark {
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-thumb {
-	background-color: var(--main-special-bg-color-5);
+	background-color: var(--main-font-color-2);
 	border-radius: 1rem;
 }
 /*.special-scrollbar*/
